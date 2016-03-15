@@ -5,7 +5,13 @@
 #include "Player.h"
 #include "World.h"
 
-void setExits(){
+Exit::Exit()
+{
+	source = new Room;
+	destiny = new Room;
+}
 
-
+Exit:: ~Exit(){
+	delete[] source;
+	delete[] destiny;
 }
