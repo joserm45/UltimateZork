@@ -5,6 +5,7 @@
 class World {
 private:
 	Room* rooms = nullptr;
+	Exit* exits;
 public:
 	void CreateWorld();
 

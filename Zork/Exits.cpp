@@ -4,3 +4,8 @@
 #include "Exits.h"
 #include "Player.h"
 #include "World.h"
+
+void setExits(){
+
+
+}

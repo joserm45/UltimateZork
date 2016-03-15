@@ -6,6 +6,6 @@ class Player{
 
 	void MovePlayer();
 };
-
+Player player;
 
 #endif

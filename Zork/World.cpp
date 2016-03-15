@@ -9,13 +9,13 @@
 World::World(){
 
 	rooms = new Room[11];
-	player = new player[1];
+	players = new player[1];
 	exits = new exit[44];
 }
 
 void CreateWorld(Room* rooms){
 
-	strcpy(rooms[5].name, "Reception Room");
+	strcpy(rooms*[5].name, "Reception Room");
 	strcpy(rooms[0].description, " Extended room with a big counter on the midle");
 	strcpy(rooms[1].name, "WC's");
 	strcpy(rooms[1].description, "Reception Room");
@@ -39,4 +39,10 @@ void CreateWorld(Room* rooms){
 	strcpy(rooms[10].description, "Reception Room");
 	strcpy(rooms[11].name, "Reception Room");
 	strcpy(rooms[11].description, "Reception Room");
+}
+World::~World(){
+
+	delete [] rooms;
+	delete [] player;
+	delete [] exit;
 }
