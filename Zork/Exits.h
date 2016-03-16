@@ -5,7 +5,7 @@
 
 
 
-enum dir{ North, South, East, West };
+enum dir{ north, south, east, west };
 
 class Exit{
 public:

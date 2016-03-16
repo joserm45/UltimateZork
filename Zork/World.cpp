@@ -1,15 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "World.h"
+
+#define _CTR_SECURE_NO_WARNINGS
 
 World::World(){
 
-	rooms = new Room[11];
-	player = new Player;
-	exits = new Exit[44];
+	rooms = new Room[10];
+	players = new Player;
+	exits = new Exit[22];
 	//player -> player = this;
 }
+
 
 void World::CreateWorld(){
 
@@ -38,11 +42,11 @@ void World::CreateWorld(){
 
 	
 
-	player->posPlayer = &rooms[0];
+	players->posPlayer = &rooms[0];
 
 	exits[0].source = &rooms[0];
 	exits[0].destiny = &rooms[1];
-	exits[0].direction = East;
+	exits[0].direction = east;
 	exits[0].openDoor = false;
 	strcpy_s(exits[0].name, "WC's");
 	strcpy_s(exits[0].description, "ddddddd");
@@ -50,7 +54,7 @@ void World::CreateWorld(){
 
 	exits[1].source = &rooms[0];
 	exits[1].destiny = &rooms[2];
-	exits[1].direction = West;
+	exits[1].direction = west;
 	exits[1].openDoor = false;
 	strcpy_s(exits[1].name, "Living room");
 	strcpy_s(exits[1].description, "kk");
@@ -58,7 +62,7 @@ void World::CreateWorld(){
 
 	exits[19].source = &rooms[1];
 	exits[19].destiny = &rooms[3];
-	exits[19].direction = East;
+	exits[19].direction = east;
 	exits[19].openDoor = true;
 	strcpy_s(exits[19].name, "Control Room");
 	strcpy_s(exits[19].description, "pp");
@@ -66,7 +70,7 @@ void World::CreateWorld(){
 
 	exits[2].source = &rooms[1];
 	exits[2].destiny = &rooms[0];
-	exits[2].direction = West;
+	exits[2].direction = west;
 	exits[2].openDoor = false;
 	strcpy_s(exits[2].name, "Reception room");
 	strcpy_s(exits[2].description, "fddd");
@@ -74,7 +78,7 @@ void World::CreateWorld(){
 
 	exits[3].source = &rooms[3];
 	exits[3].destiny = &rooms[1];
-	exits[3].direction = South;
+	exits[3].direction = south;
 	exits[3].openDoor = false;
 	strcpy_s(exits[3].name, "WC's");
 	strcpy_s(exits[3].description, "jjjj");
@@ -82,21 +86,21 @@ void World::CreateWorld(){
 
 	exits[4].source = &rooms[3];
 	exits[4].destiny = &rooms[4];
-	exits[4].direction = East;
+	exits[4].direction = east;
 	exits[4].openDoor = false;
 	strcpy_s(exits[4].name, "Hotel");
 	strcpy_s(exits[4].description, "gg");
 
 	exits[5].source = &rooms[3];
 	exits[5].destiny = &rooms[5];
-	exits[5].direction = North;
+	exits[5].direction = north;
 	exits[5].openDoor = true;
 	strcpy_s(exits[5].name, "Secret room");
 	strcpy_s(exits[5].description, "ddfs");
 
 	exits[6].source = &rooms[4];
 	exits[6].destiny = &rooms[3];
-	exits[6].direction = West;
+	exits[6].direction = west;
 	exits[6].openDoor = true;
 	strcpy_s(exits[6].name, "Control room");
 	strcpy_s(exits[6].description, "ddfs");
@@ -104,7 +108,7 @@ void World::CreateWorld(){
 
 	exits[7].source = &rooms[5];
 	exits[7].destiny = &rooms[3];
-	exits[7].direction = East;
+	exits[7].direction = east;
 	exits[7].openDoor = false;
 	strcpy_s(exits[7].name, "Control room");
 	strcpy_s(exits[7].description, "yeee");
@@ -112,49 +116,49 @@ void World::CreateWorld(){
 
 	exits[8].source = &rooms[5];
 	exits[8].destiny = &rooms[6];
-	exits[8].direction = South;
+	exits[8].direction = south;
 	exits[8].openDoor = false;
 	strcpy_s(exits[8].name, "Cave");
 	strcpy_s(exits[8].description, "ddfs");
 
 	exits[9].source = &rooms[5];
 	exits[9].destiny = &rooms[8];
-	exits[9].direction = West;
+	exits[9].direction = west;
 	exits[9].openDoor = true;
 	strcpy_s(exits[9].name, "Disco room");
 	strcpy_s(exits[9].description, "ddfs");
 
 	exits[10].source = &rooms[6];
 	exits[10].destiny = &rooms[5];
-	exits[10].direction = North;
+	exits[10].direction = north;
 	exits[10].openDoor = true;
 	strcpy_s(exits[10].name, "Secret room");
 	strcpy_s(exits[10].description, "ddfs");
 
 	exits[11].source = &rooms[6];
 	exits[11].destiny = &rooms[7];
-	exits[11].direction = South;
+	exits[11].direction = south;
 	exits[11].openDoor = true;
 	strcpy_s(exits[11].name, "Forest");
 	strcpy_s(exits[11].description, "ddfs");
 
 	exits[20].source = &rooms[7];
 	exits[20].destiny = &rooms[6];
-	exits[20].direction = North;
+	exits[20].direction = north;
 	exits[20].openDoor = true;
 	strcpy_s(exits[20].name, "Cave");
 	strcpy_s(exits[20].description, "ddfs");
 
 	exits[12].source = &rooms[8];
 	exits[12].destiny = &rooms[5];
-	exits[12].direction = East;
+	exits[12].direction = east;
 	exits[12].openDoor = true;
 	strcpy_s(exits[12].name, "Secret room");
 	strcpy_s(exits[12].description, "ddfs");
 
 	exits[13].source = &rooms[8];
 	exits[13].destiny = &rooms[9];
-	exits[13].direction = South;
+	exits[13].direction = south;
 	exits[13].openDoor = false;
 	strcpy_s(exits[13].name, "Bunker");
 	strcpy_s(exits[13].description, "ddfs");
@@ -162,7 +166,7 @@ void World::CreateWorld(){
 
 	exits[14].source = &rooms[8];
 	exits[14].destiny = &rooms[2];
-	exits[14].direction = West;
+	exits[14].direction = west;
 	exits[14].openDoor = true;
 	strcpy_s(exits[14].name, "Living room");
 	strcpy_s(exits[14].description, "ddfs");
@@ -170,7 +174,7 @@ void World::CreateWorld(){
 
 	exits[15].source = &rooms[9];
 	exits[15].destiny = &rooms[8];
-	exits[15].direction = North;
+	exits[15].direction = north;
 	exits[15].openDoor = false;
 	strcpy_s(exits[15].name, "Disco room");
 	strcpy_s(exits[15].description, "ddfs");
@@ -178,7 +182,7 @@ void World::CreateWorld(){
 
 	exits[16].source = &rooms[2];
 	exits[16].destiny = &rooms[0];
-	exits[16].direction = East;
+	exits[16].direction = east;
 	exits[16].openDoor = true;
 	strcpy_s(exits[16].name, "Reception room");
 	strcpy_s(exits[16].description, "ddfs");
@@ -186,7 +190,7 @@ void World::CreateWorld(){
 
 	exits[21].source = &rooms[2];
 	exits[21].destiny = &rooms[8];
-	exits[21].direction = North;
+	exits[21].direction = north;
 	exits[21].openDoor = true;
 	strcpy_s(exits[21].name, "Disco room");
 	strcpy_s(exits[21].description, "ddfs");
@@ -194,7 +198,7 @@ void World::CreateWorld(){
 
 	exits[17].source = &rooms[2];
 	exits[17].destiny = &rooms[10];
-	exits[17].direction = West;
+	exits[17].direction = west;
 	exits[17].openDoor = false;
 	strcpy_s(exits[17].name, "Terrace");
 	strcpy_s(exits[17].description, "ddfs");
@@ -202,7 +206,7 @@ void World::CreateWorld(){
 
 	exits[18].source = &rooms[10];
 	exits[18].destiny = &rooms[2];
-	exits[18].direction = South;
+	exits[18].direction = south;
 	exits[18].openDoor = true;
 	strcpy_s(exits[18].name, "Living room");
 	strcpy_s(exits[18].description, "ddfs");
@@ -223,30 +227,175 @@ void World::CreateWorld(){
 	Terrace->setExits(NULL, Living Room, NULL, NULL);*/
 }
 
-char Command(){
+bool Command(){
 	char command[15];
 	char command1;
-	char *first[10];
+	char first[10];
 	char second[10];
+	char *safe;
 	char q;
+
 	printf("Write a command:\n ");
-	scanf_s("%c",&command1);
-
-	if (command1 == 'n' || command1 == 's' || command1 == 'e' || command1 == 'w'){
-		 player->MovePlayer(command1);
-	  
-	}
-	if (strcmp("n",command) == 0){
-
+	scanf_s("%c", &command1);
+	if (strcmp("\0", command) == 0){
+		printf("Write a command!\n");
+		return  true;
 	}
 
+	//COMMANDS TO GO:
+	if (strcmp(first, "go") == 0){
+	else if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0{
+		players->MovePlayer(World* world, north);
+	}
+	else if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0{
+		players->MovePlayer(World* world, south);
+
+	}
+	else if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0{
+		players->MovePlayer(World* world, east);
+
+	}
+	else if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0{
+		players->MovePlayer(World* world, west);
+
+	}
+
+}
+	//COMMAND LOOK DIRECTION.
+
+
+	if (strcmp(first, "look") == 0){
+		if (strcmp(second, "void") == 0){
+			players->Look();
+		}
+		if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
+			players->LookCommand(world* world, north);
+		}
+		if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
+			players->LookCommand(world* world, south);
+		}
+		if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
+			players->LookCommand(world* world, east);
+		}
+		if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
+			players->LookCommand(world* world, west);
+		}
+	}
 	
 
-	return q;
+	//COMMANDS MOVEMENT
+
+	else if (strcmp(first, "north") == 0 || strcmp(fisrt, "n") == 0){
+		players->MovePlayer(World* world, north);
+	}
+	else if (strcmp(first, "south") == 0 || strcmp(fisrt, "s") == 0){
+		players->MovePlayer(World* world, south);
+	}
+	else if (strcmp(first, "east") == 0 || strcmp(fisrt, "e") == 0){
+		players->MovePlayer(World* world, east);
+	}
+	else if (strcmp(first, "west") == 0 || strcmp(fisrt, "w") == 0){
+		players->MovePlayer(World* world, west);
+	}
+	//COMMANDS TO GO:
+	else if (strcmp(first, "go") == 0){
+		if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0{
+			players->MovePlayer(World* world, north);
+		}
+		if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0{
+			players->MovePlayer(World* world, south);
+
+		}
+		if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0{
+			players->MovePlayer(World* world, east);
+
+		}
+		if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0{
+			players->MovePlayer(World* world, west);
+
+		}
+	}
+
+	//COMMAND LOOK DIRECTION.
+
+
+	else if (strcmp(first, "look") == 0){
+		if (strcmp(second, "void") == 0){
+			players->Look();
+		}
+		if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
+			players->LookCommand(world* world, north);
+		}
+		if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
+			players->LookCommand(world* world, south);
+		}
+		if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
+			players->LookCommand(world* world, east);
+		}
+		if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
+			players->LookCommand(world* world, west);
+		}
+	}
+	//COMMAND OPEN DOOR
+
+	else if (strcmp(first, "open") == 0){
+		if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
+			players->OpenDoor(World* world, north);
+		}
+		if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
+			players->OpenDoor(World* world, south);
+		}
+		if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
+			players->OpenDoor(World* world, east);
+		}
+		if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
+			players->OpenDoor(World* world, west);
+		}
+	}
+
+	//COMMAND CLOSE DOOR
+
+	else if (strcmp(first, "close") == 0){
+		if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
+			players->CloseDoor(World* world, north);
+		}
+		if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
+			players->CloseDoor(World* world, south);
+		}
+		if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
+			players->CloseDoor(World* world, east);
+		}
+		if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
+			players->CloseDoor(World* world, west);
+		}
+	}
+
+	// COMMAND HELP
+
+	else if (strcmp(first, "help") == 0){
+		players->Help();
+	}
+
+	//QUIT GAMME
+	else if (strcmp(first, "q") == 0 || strcmp(first, "q") == 0{
+		return false;
+	}
+	//NO ONE COMMAND
+
+	
+		printf("I don't understand that command. \n");
+	
+
+	return true;
 }
+
+
+
+
+
 World::~World(){
 
-	delete [] rooms;
-	delete  player;
-	delete [] exits;
+	delete[] rooms;
+	delete  players;
+	delete[] exits;
 }

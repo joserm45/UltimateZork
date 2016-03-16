@@ -11,14 +11,14 @@ class Player{
 	public:
 	
 		Room* posPlayer;
-		Room* history;
+		
 
 	void Look()const;
 	void LookCommand(World* world, dir adress);
 	void MovePlayer(World* world, dir adress);
 	void OpenDoor(World* world, dir adress);
 	void CloseDoor(World* world, dir adress);
-	
+	void Help()const;
 };
 
 

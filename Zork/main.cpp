@@ -4,16 +4,17 @@
 
 
 int main(){
-	
+	bool final = true;
 	World* world = new World;
+	world->CreateWorld();
 	do{
 
-	char Command();
+		final = world->Command();
 		
-	} while ( command != 'q');
+	} while ( final == true);
 	
 		
-	
+	delete world;
 	system("pause");
 	return 0;
 }

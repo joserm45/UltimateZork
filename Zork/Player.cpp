@@ -6,7 +6,7 @@
 
 
 void Player::Look()const{
-	printf("%s\n", history->description);
+	printf("%s\n", posPlayer->description);
 
 }
 
@@ -76,4 +76,7 @@ void Player::Look()const{
 					}
 				}
 			}
+		}
+		void Player::Help()const{
+			printf("You can move around the room with the keyboard keys (n/s/w/e) or with the words north, south, east , west. Also you can write go and the words north,south,east,west. If you write look you can see our room, but if you write look north you will see the north room.\n To finish the commands you can close and open the doors with the same method of the command look, and quit the game pressing the 'q'.\n ");
 		}

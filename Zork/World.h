@@ -9,10 +9,10 @@ class World {
 public:
 	Room* rooms = nullptr;
 	Exit* exits= nullptr;
-	Player* player = nullptr;	
+	Player* players = nullptr;	
 
 	void CreateWorld();
-	char Command();
+	bool Command();
 
 	World();
 	
