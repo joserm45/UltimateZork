@@ -2,17 +2,17 @@
 #define Zork_World
 
 #include "Rooms.h"
-#include "Exits.h"
 #include "Player.h"
-
+#include "Exits.h"
 
 class World {
-private:
+public:
 	Room* rooms = nullptr;
 	Exit* exits= nullptr;
-	Player* player = nullptr;
-public:
+	Player* player = nullptr;	
+
 	void CreateWorld();
+	char Command();
 
 	World();
 	

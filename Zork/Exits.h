@@ -2,8 +2,8 @@
 #define Zork_Exit
 
 #include "Rooms.h"
-#include "Exits.h"
-#include "World.h"
+
+
 
 enum dir{ North, South, East, West };
 
@@ -13,11 +13,11 @@ public:
 	char description[300];
 	Room* source;
 	Room* destiny;
-	bool open = false;
+	bool openDoor = false;
 	dir direction;
 
 	Exit();
-	~Exit();
+	
 };
 
 #endif

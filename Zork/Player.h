@@ -1,19 +1,24 @@
 #ifndef Zork_Player
 #define Zork_Player
 
-
 #include "Rooms.h"
 #include "Exits.h"
 
 
+class World;
+
 class Player{
 	public:
-		World* player;
+	
 		Room* posPlayer;
-		Room *history;
-public:
+		Room* history;
+
 	void Look()const;
-	void MovePlayer(char);
+	void LookCommand(World* world, dir adress);
+	void MovePlayer(World* world, dir adress);
+	void OpenDoor(World* world, dir adress);
+	void CloseDoor(World* world, dir adress);
+	
 };
 
 
