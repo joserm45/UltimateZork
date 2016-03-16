@@ -21,6 +21,8 @@ void Player::Look()const{
 					if (world->exits[i].openDoor == true) {
 						printf("%s \n %s", world->exits[i].destiny->name, world->exits[i].destiny->description);
 						posPlayer = world->exits[i].destiny;
+						//something wrong there.. ='(
+					
 					}
 					else{
 						printf("\n The door is closed...\n");
@@ -31,9 +33,9 @@ void Player::Look()const{
 
 				}
 				else{
-					printf("You can't go there\n Write a new command:");
+					printf("You can't go there.\n Write a new command:");
 					
-				
+					break;
 				}
 			}
 		}
@@ -41,11 +43,11 @@ void Player::Look()const{
 			int i = 0;
 			for (i = 0; i < 21; i++){
 				if (world->exits[i].source == posPlayer && world->exits[i].direction == adress){
-					printf("%s \n ", world->exits[i].description);
+					printf("%s \n %s \n ", world->exits[i].name, world->exits[i].description);
 
 				}
 				else{
-					printf("There is a wall\n");
+					printf("There is a wall there.\n");
 				}
 			}
 		}
@@ -56,10 +58,10 @@ void Player::Look()const{
 				if (world->exits[i].source == posPlayer && world->exits[i].direction == adress){
 					if (world->exits[i].openDoor==false){
 						world->exits[i].openDoor = true;
-						printf("You opened the door\n");
+						printf("You opened the door.\n");
 					}
 					else{
-						printf("The door is already opened\n");
+						printf("The door is already opened.\n");
 					}
 				}
 			}
@@ -71,11 +73,11 @@ void Player::Look()const{
 				if (world->exits[i].source == posPlayer && world->exits[i].direction == adress){
 					if (world->exits[i].openDoor == true){
 						world->exits[i].openDoor = false;
-						printf("The door is closed\n");
+						printf("The door is closed.\n");
 
 					}
 					else{
-						printf("The door is already closed\n");
+						printf("The door is already closed.\n");
 					}
 				}
 			}

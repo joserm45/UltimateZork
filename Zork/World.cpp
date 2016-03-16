@@ -14,7 +14,7 @@
 
 World::World(){
 
-	rooms = new Room[10];
+	rooms = new Room[11];
 	players = new Player;
 	exits = new Exit[22];
 	//player -> player = this;
@@ -30,21 +30,21 @@ void World::CreateWorld(){
 	strcpy_s(rooms[2].name, "Living Room");
 	strcpy_s(rooms[2].description, "You can see a lot of papers on the floor.");
 	strcpy_s(rooms[3].name, "Control room");
-	strcpy_s(rooms[3].description, "Reception Room");
+	strcpy_s(rooms[3].description, "You can not see well, but you can perceive brokens machines on the floor, and many broken radios...\n");
 	strcpy_s(rooms[4].name, "Window building");
-	strcpy_s(rooms[4].description, "Reception Room");
+	strcpy_s(rooms[4].description, "After this jump are so exhausted need to repose for a moment.\n");
 	strcpy_s(rooms[5].name, "Secret room");
-	strcpy_s(rooms[5].description, "Reception Room");
+	strcpy_s(rooms[5].description, "You didn't see nothing interesting but a big air comes frome some part...\n");
 	strcpy_s(rooms[6].name, "Cave");
-	strcpy_s(rooms[6].description, "Reception Room");
+	strcpy_s(rooms[6].description, "A barrier is colapsing the way, will need something strong to move it.");
 	strcpy_s(rooms[7].name, "Final boss");
-	strcpy_s(rooms[7].description, "Reception Room");
+	strcpy_s(rooms[7].description, "The king Zombie was waitting you, now he will make you pay with the death...\n");
 	strcpy_s(rooms[8].name, "Disco room");
-	strcpy_s(rooms[8].description, "Reception Room");
+	strcpy_s(rooms[8].description, "An innocent place to meet with people... All things are on the float even the top of a ventilation shaft\n");
 	strcpy_s(rooms[9].name, "Bunker");
-	strcpy_s(rooms[9].description, "Reception Room");
+	strcpy_s(rooms[9].description, "It seems a good place to endure, but you will not survive with out food.\n");
 	strcpy_s(rooms[10].name, "Terrace");
-	strcpy_s(rooms[10].description, "Reception Room");
+	strcpy_s(rooms[10].description, "A big place with a landing symbol in the middle.\n");
 
 	
 
@@ -55,7 +55,7 @@ void World::CreateWorld(){
 	exits[0].direction = east;
 	exits[0].openDoor = false;
 	strcpy_s(exits[0].name, "WC's");
-	strcpy_s(exits[0].description, "ddddddd");
+	strcpy_s(exits[0].description, "A terrifyng noise comes from that direction...\n");
 
 
 	exits[1].source = &rooms[0];
@@ -63,7 +63,7 @@ void World::CreateWorld(){
 	exits[1].direction = west;
 	exits[1].openDoor = false;
 	strcpy_s(exits[1].name, "Living room");
-	strcpy_s(exits[1].description, "kk");
+	strcpy_s(exits[1].description, "You don't see nothing strange.\n");
 
 
 	exits[19].source = &rooms[1];
@@ -71,7 +71,7 @@ void World::CreateWorld(){
 	exits[19].direction = east;
 	exits[19].openDoor = true;
 	strcpy_s(exits[19].name, "Control Room");
-	strcpy_s(exits[19].description, "pp");
+	strcpy_s(exits[19].description, "Only see rubish around the floor.\n");
 
 
 	exits[2].source = &rooms[1];
@@ -79,7 +79,7 @@ void World::CreateWorld(){
 	exits[2].direction = west;
 	exits[2].openDoor = false;
 	strcpy_s(exits[2].name, "Reception room");
-	strcpy_s(exits[2].description, "fddd");
+	strcpy_s(exits[2].description, "It seems like a big room where you can find things...\n");
 
 
 	exits[3].source = &rooms[3];
@@ -87,7 +87,7 @@ void World::CreateWorld(){
 	exits[3].direction = south;
 	exits[3].openDoor = false;
 	strcpy_s(exits[3].name, "WC's");
-	strcpy_s(exits[3].description, "jjjj");
+	strcpy_s(exits[3].description, "A terrifyng noise comes from that direction...\n");
 
 
 	exits[4].source = &rooms[3];
@@ -95,21 +95,21 @@ void World::CreateWorld(){
 	exits[4].direction = east;
 	exits[4].openDoor = false;
 	strcpy_s(exits[4].name, "Hotel");
-	strcpy_s(exits[4].description, "gg");
+	strcpy_s(exits[4].description, "You need to do a big jump to arrive.\n");
 
 	exits[5].source = &rooms[3];
 	exits[5].destiny = &rooms[5];
 	exits[5].direction = north;
 	exits[5].openDoor = true;
 	strcpy_s(exits[5].name, "Secret room");
-	strcpy_s(exits[5].description, "ddfs");
+	strcpy_s(exits[5].description, "You feel a frozen air coming from it.\n");
 
 	exits[6].source = &rooms[4];
 	exits[6].destiny = &rooms[3];
 	exits[6].direction = west;
 	exits[6].openDoor = true;
 	strcpy_s(exits[6].name, "Control room");
-	strcpy_s(exits[6].description, "ddfs");
+	strcpy_s(exits[6].description, "Only see rubish around the floor.\n");
 
 
 	exits[7].source = &rooms[5];
@@ -117,7 +117,7 @@ void World::CreateWorld(){
 	exits[7].direction = east;
 	exits[7].openDoor = false;
 	strcpy_s(exits[7].name, "Control room");
-	strcpy_s(exits[7].description, "yeee");
+	strcpy_s(exits[7].description, "Only see rubish around the floor.\n");
 
 
 	exits[8].source = &rooms[5];
@@ -125,49 +125,49 @@ void World::CreateWorld(){
 	exits[8].direction = south;
 	exits[8].openDoor = false;
 	strcpy_s(exits[8].name, "Cave");
-	strcpy_s(exits[8].description, "ddfs");
+	strcpy_s(exits[8].description, "You can see a big barrier on the final.\n");
 
 	exits[9].source = &rooms[5];
 	exits[9].destiny = &rooms[8];
 	exits[9].direction = west;
 	exits[9].openDoor = true;
 	strcpy_s(exits[9].name, "Disco room");
-	strcpy_s(exits[9].description, "ddfs");
+	strcpy_s(exits[9].description, "It seems to have been unturned to search  something there...\n");
 
 	exits[10].source = &rooms[6];
 	exits[10].destiny = &rooms[5];
 	exits[10].direction = north;
 	exits[10].openDoor = true;
 	strcpy_s(exits[10].name, "Secret room");
-	strcpy_s(exits[10].description, "ddfs");
+	strcpy_s(exits[10].description, "You feel a frozen air coming from it.\n");
 
 	exits[11].source = &rooms[6];
 	exits[11].destiny = &rooms[7];
 	exits[11].direction = south;
 	exits[11].openDoor = true;
 	strcpy_s(exits[11].name, "Forest");
-	strcpy_s(exits[11].description, "ddfs");
+	strcpy_s(exits[11].description, "A big shadow figure is moving in the distance...\n");
 
 	exits[20].source = &rooms[7];
 	exits[20].destiny = &rooms[6];
 	exits[20].direction = north;
 	exits[20].openDoor = true;
 	strcpy_s(exits[20].name, "Cave");
-	strcpy_s(exits[20].description, "ddfs");
+	strcpy_s(exits[20].description, "You can see a big barrier on the final.\n");
 
 	exits[12].source = &rooms[8];
 	exits[12].destiny = &rooms[5];
 	exits[12].direction = east;
 	exits[12].openDoor = true;
 	strcpy_s(exits[12].name, "Secret room");
-	strcpy_s(exits[12].description, "ddfs");
+	strcpy_s(exits[12].description, "You feel a frozen air coming from it.\n");
 
 	exits[13].source = &rooms[8];
 	exits[13].destiny = &rooms[9];
 	exits[13].direction = south;
 	exits[13].openDoor = false;
 	strcpy_s(exits[13].name, "Bunker");
-	strcpy_s(exits[13].description, "ddfs");
+	strcpy_s(exits[13].description, "It looks like resistant...\n");
 
 
 	exits[14].source = &rooms[8];
@@ -175,7 +175,7 @@ void World::CreateWorld(){
 	exits[14].direction = west;
 	exits[14].openDoor = true;
 	strcpy_s(exits[14].name, "Living room");
-	strcpy_s(exits[14].description, "ddfs");
+	strcpy_s(exits[14].description, "You don't see nothing strange.\n");
 
 
 	exits[15].source = &rooms[9];
@@ -183,7 +183,7 @@ void World::CreateWorld(){
 	exits[15].direction = north;
 	exits[15].openDoor = false;
 	strcpy_s(exits[15].name, "Disco room");
-	strcpy_s(exits[15].description, "ddfs");
+	strcpy_s(exits[15].description, "It seems to have been unturned to search  something there...\n");
 
 
 	exits[16].source = &rooms[2];
@@ -191,7 +191,7 @@ void World::CreateWorld(){
 	exits[16].direction = east;
 	exits[16].openDoor = true;
 	strcpy_s(exits[16].name, "Reception room");
-	strcpy_s(exits[16].description, "ddfs");
+	strcpy_s(exits[16].description, "It seems like a big room where you can find things...\n");
 
 
 	exits[21].source = &rooms[2];
@@ -199,7 +199,7 @@ void World::CreateWorld(){
 	exits[21].direction = north;
 	exits[21].openDoor = true;
 	strcpy_s(exits[21].name, "Disco room");
-	strcpy_s(exits[21].description, "ddfs");
+	strcpy_s(exits[21].description, "It seems to have been unturned to search  something there...\n");
 
 
 	exits[17].source = &rooms[2];
@@ -207,7 +207,7 @@ void World::CreateWorld(){
 	exits[17].direction = west;
 	exits[17].openDoor = false;
 	strcpy_s(exits[17].name, "Terrace");
-	strcpy_s(exits[17].description, "ddfs");
+	strcpy_s(exits[17].description, "It seems a good exit with an helicopter...\n");
 
 
 	exits[18].source = &rooms[10];
@@ -215,7 +215,7 @@ void World::CreateWorld(){
 	exits[18].direction = south;
 	exits[18].openDoor = true;
 	strcpy_s(exits[18].name, "Living room");
-	strcpy_s(exits[18].description, "ddfs");
+	strcpy_s(exits[18].description, "You don't see nothing strange.\n");
 
 	//21 Exits
 
@@ -241,6 +241,7 @@ bool World::Command(){
 	char* safe;
 	char* safe2;
 	char* trash;
+
 	fflush(stdin);
 	strcpy_s(second, "void");
 	
@@ -253,8 +254,9 @@ bool World::Command(){
 
 	strcpy_s(first, strtok_s(command, " ", &safe));
 	if (strcmp(safe, "") != 0){
-		strcpy_s(second, strtok_s(NULL, " ", &safe2));
+		strcpy_s(second, strtok_s(safe, "\0", &trash));
 	}
+system("cls");
 	
 
 	//COMMAND LOOK DIRECTION.
@@ -264,7 +266,7 @@ bool World::Command(){
 		if (strcmp(second, "void") == 0){
 			players->Look();
 		}
-		else if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
+		else if (strcmp(safe, "north") == 0 || strcmp(second, "n") == 0){
 			players->LookCommand(this, north);
 		}
 		else if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
