@@ -4,14 +4,20 @@
 
 
 int main(){
-	bool final = true;
+	
 	World* world = new World;
 	world->CreateWorld();
+	bool final = true;
+	printf("Welcome to my Zork!!\n%s \n ", world->rooms[0].name);
+	printf("%s \n ", world->rooms[0].description);
+	printf(" Write a comand to move(n/s/e/w):");
 	do{
+		world->Command();
+	}
 
-		final = world->Command();
-		
-	} while ( final == true);
+	while (final == true);
+	
+	
 	
 		
 	delete world;

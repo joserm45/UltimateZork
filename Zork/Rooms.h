@@ -5,8 +5,8 @@
 class Room{
 public:
 
-	char name[30];
-	char description[300];
+	char name[50];
+	char description[500];
 	
 };
 

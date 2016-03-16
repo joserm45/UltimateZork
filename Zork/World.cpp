@@ -2,7 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "Exits.h"
+
+
 #include "World.h"
+#include "Player.h"
+#include "Rooms.h"
+#include "Exits.h"
 
 #define _CTR_SECURE_NO_WARNINGS
 
@@ -17,10 +23,10 @@ World::World(){
 
 void World::CreateWorld(){
 
-	strcpy_s(rooms[0].name, "Reception Room");
-	strcpy_s(rooms[0].description, " Extended room with a big counter on the midle");
+	strcpy_s(rooms[0].name, "Reception Room:");
+	strcpy_s(rooms[0].description, "In the middle of the room there is a large broken counter. You can also see a lot of wires on the ground, as if it had been something strange.");
 	strcpy_s(rooms[1].name, "WC's");
-	strcpy_s(rooms[1].description, "Reception Room");
+	strcpy_s(rooms[1].description, "a slight breathing is heard in the room. It seems that something scary this about to happen.");
 	strcpy_s(rooms[2].name, "Living Room");
 	strcpy_s(rooms[2].description, "You can see a lot of papers on the floor.");
 	strcpy_s(rooms[3].name, "Control room");
@@ -227,40 +233,30 @@ void World::CreateWorld(){
 	Terrace->setExits(NULL, Living Room, NULL, NULL);*/
 }
 
-bool Command(){
-	char command[15];
+bool World::Command(){
+	char command[20];
 	char command1;
-	char first[10];
-	char second[10];
-	char *safe;
-	char q;
-
-	printf("Write a command:\n ");
-	scanf_s("%c", &command1);
+	char first[15];
+	char second[15];
+	char* safe;
+	char* safe2;
+	char* trash;
+	fflush(stdin);
+	strcpy_s(second, "void");
+	
+	gets_s(command);
 	if (strcmp("\0", command) == 0){
 		printf("Write a command!\n");
 		return  true;
 	}
+	
 
-	//COMMANDS TO GO:
-	if (strcmp(first, "go") == 0){
-	else if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0{
-		players->MovePlayer(World* world, north);
+	strcpy_s(first, strtok_s(command, " ", &safe));
+	if (strcmp(safe, "") != 0){
+		strcpy_s(second, strtok_s(NULL, " ", &safe2));
 	}
-	else if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0{
-		players->MovePlayer(World* world, south);
+	
 
-	}
-	else if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0{
-		players->MovePlayer(World* world, east);
-
-	}
-	else if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0{
-		players->MovePlayer(World* world, west);
-
-	}
-
-}
 	//COMMAND LOOK DIRECTION.
 
 
@@ -268,125 +264,112 @@ bool Command(){
 		if (strcmp(second, "void") == 0){
 			players->Look();
 		}
-		if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
-			players->LookCommand(world* world, north);
+		else if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
+			players->LookCommand(this, north);
 		}
-		if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-			players->LookCommand(world* world, south);
+		else if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
+			players->LookCommand(this, south);
 		}
-		if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-			players->LookCommand(world* world, east);
+		else if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
+			players->LookCommand(this, east);
 		}
-		if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-			players->LookCommand(world* world, west);
+		else if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
+			players->LookCommand(this, west);
 		}
+
 	}
+
+
+		//COMMANDS MOVEMENT
+
+		else if (strcmp(first, "north") == 0 || strcmp(first, "n") == 0){
+			players->MovePlayer(this, north);
+		}
+		else if (strcmp(first, "south") == 0 || strcmp(first, "s") == 0){
+			players->MovePlayer(this, south);
+		}
+		else if (strcmp(first, "east") == 0 || strcmp(first, "e") == 0){
+			players->MovePlayer(this, east);
+		}
+		else if (strcmp(first, "west") == 0 || strcmp(first, "w") == 0){
+			players->MovePlayer(this, west);
+		}
+
+		//COMMANDS TO GO:
+
+		else if (strcmp(first, "go") == 0){
+			if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
+				players->MovePlayer(this, north);
+			}
+			if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
+				players->MovePlayer(this, south);
+
+			}
+			if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
+				players->MovePlayer(this, east);
+
+			}
+			if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
+				players->MovePlayer(this, west);
+
+			}
+		}
+		
+
+
+
+		//COMMAND OPEN DOOR
+
+		else if (strcmp(first, "open") == 0){
+			if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
+				players->OpenDoor(this, north);
+			}
+			if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
+				players->OpenDoor(this, south);
+			}
+			if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
+				players->OpenDoor(this, east);
+			}
+			if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
+				players->OpenDoor(this, west);
+			}
+		}
+
+		//COMMAND CLOSE DOOR
+
+		else if (strcmp(first, "close") == 0){
+			if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
+				players->CloseDoor(this, north);
+			}
+			if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
+				players->CloseDoor(this, south);
+			}
+			if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
+				players->CloseDoor(this, east);
+			}
+			if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
+				players->CloseDoor(this, west);
+			}
+		}
+
+		// COMMAND HELP
+
+		else if (strcmp(first, "help") == 0){
+			players->Help();
+		}
+
+		//QUIT GAMME
+		else if (strcmp(first, "quit") == 0 || strcmp(first, "q") == 0){
+			return false;
+		}
+		//NO ONE COMMAND
 	
+	else{
+			printf("I don't understand that command. \n");
+		}
 
-	//COMMANDS MOVEMENT
-
-	else if (strcmp(first, "north") == 0 || strcmp(fisrt, "n") == 0){
-		players->MovePlayer(World* world, north);
-	}
-	else if (strcmp(first, "south") == 0 || strcmp(fisrt, "s") == 0){
-		players->MovePlayer(World* world, south);
-	}
-	else if (strcmp(first, "east") == 0 || strcmp(fisrt, "e") == 0){
-		players->MovePlayer(World* world, east);
-	}
-	else if (strcmp(first, "west") == 0 || strcmp(fisrt, "w") == 0){
-		players->MovePlayer(World* world, west);
-	}
-	//COMMANDS TO GO:
-	else if (strcmp(first, "go") == 0){
-		if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0{
-			players->MovePlayer(World* world, north);
-		}
-		if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0{
-			players->MovePlayer(World* world, south);
-
-		}
-		if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0{
-			players->MovePlayer(World* world, east);
-
-		}
-		if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0{
-			players->MovePlayer(World* world, west);
-
-		}
-	}
-
-	//COMMAND LOOK DIRECTION.
-
-
-	else if (strcmp(first, "look") == 0){
-		if (strcmp(second, "void") == 0){
-			players->Look();
-		}
-		if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
-			players->LookCommand(world* world, north);
-		}
-		if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-			players->LookCommand(world* world, south);
-		}
-		if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-			players->LookCommand(world* world, east);
-		}
-		if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-			players->LookCommand(world* world, west);
-		}
-	}
-	//COMMAND OPEN DOOR
-
-	else if (strcmp(first, "open") == 0){
-		if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
-			players->OpenDoor(World* world, north);
-		}
-		if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-			players->OpenDoor(World* world, south);
-		}
-		if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-			players->OpenDoor(World* world, east);
-		}
-		if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-			players->OpenDoor(World* world, west);
-		}
-	}
-
-	//COMMAND CLOSE DOOR
-
-	else if (strcmp(first, "close") == 0){
-		if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
-			players->CloseDoor(World* world, north);
-		}
-		if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-			players->CloseDoor(World* world, south);
-		}
-		if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-			players->CloseDoor(World* world, east);
-		}
-		if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-			players->CloseDoor(World* world, west);
-		}
-	}
-
-	// COMMAND HELP
-
-	else if (strcmp(first, "help") == 0){
-		players->Help();
-	}
-
-	//QUIT GAMME
-	else if (strcmp(first, "q") == 0 || strcmp(first, "q") == 0{
-		return false;
-	}
-	//NO ONE COMMAND
-
+		return true;
 	
-		printf("I don't understand that command. \n");
-	
-
-	return true;
 }
 
 
