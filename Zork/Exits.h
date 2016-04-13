@@ -19,7 +19,8 @@ public:
 	dir direction;
 
 	Exit();
-	
+	Exit(const char* name, const char* desc);
+	~Exit();
 };
 
 #endif

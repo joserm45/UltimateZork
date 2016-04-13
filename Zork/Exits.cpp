@@ -13,3 +13,8 @@ Exit::Exit()
 }
 
 
+Exit::Exit(const char* new_name, const char* desc) : Entity(new_name,desc)
+{
+	
+}
+Exit::~Exit(){}

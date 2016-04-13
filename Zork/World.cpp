@@ -48,11 +48,11 @@ void World::CreateWorld(){
 	rooms[7].name= "Final boss";
 	rooms[7].description = "The king Zombie was waitting you, now he will make you pay with the death...\n";
 	rooms[8].name= "Disco room";
-	rooms[8].description, "An innocent place to meet with people... All things are on the float even the top of a ventilation shaft\n";
+	rooms[8].description= "An innocent place to meet with people... All things are on the float even the top of a ventilation shaft\n";
 	rooms[9].name= "Bunker";
-	rooms[9].description, "It seems a good place to endure, but you will not survive with out food.\n";
+	rooms[9].description= "It seems a good place to endure, but you will not survive with out food.\n";
 	rooms[10].name= "Terrace";
-	rooms[10].description, "A big place with a landing symbol in the middle.\n";
+	rooms[10].description= "A big place with a landing symbol in the middle.\n";
 
 	
 

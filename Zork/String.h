@@ -32,7 +32,7 @@ public:
 	//Operators
 	void operator = (const  mString& other);
 	
-	void operator = (  char* other);
+	void operator = (const char* other);
 
 	void operator +=(const  mString& other);
 

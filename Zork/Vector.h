@@ -29,7 +29,11 @@ public:
 		}
 
 	}
+	TYPE* operator [] (int)
+	{
 
+		return buffer[int];
+	}
 	void push_back(const TYPE& element)
 	{
 		TYPE* temp = nullptr;

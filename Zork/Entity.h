@@ -15,6 +15,7 @@ public:
 public:
 
 	Entity();
+	Entity(const char* name, const char* desc);
 	~Entity();
 //	Entity(const char*name, const char* description);
 	//my_name(name), my_destiny(description);

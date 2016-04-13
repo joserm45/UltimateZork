@@ -58,7 +58,7 @@ void mString::operator = (const  mString& other)
 	strcpy_s(buffer, capacity + 1, other.buffer);
 
 }
-void mString::operator=( char* other)
+void mString::operator=(const char* other)
 {
 	int	new_lenght = strlen(other);
 	if (capacity < new_lenght)
