@@ -7,6 +7,7 @@
 
 Exit::Exit()
 {
+
 	source = new Room;
 	destiny = new Room;
 }

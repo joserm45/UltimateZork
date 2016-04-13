@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "Vector.h"
 #include "Exits.h"
 
 
@@ -14,15 +14,20 @@
 
 World::World(){
 
-	rooms = new Room[11];
-	players = new Player;
-	exits = new Exit[22];
+
+	Vector <Room*> rooms;
+	Vector <Player*> players;
+	Vector <Exit*> exits;
+	//rooms = new Room[11];
+	//players = new Player;
+	//exits = new Exit[22];
 	//player -> player = this;
 }
 
 
 void World::CreateWorld(){
-
+	rooms = new Room;
+	rooms.push_back(new Room("Reception Room:", "In the middle of the room there is a large broken counter. You can also see a lot of wires on the ground, as if it had been something strange."));
 	strcpy_s(rooms[0].name, "Reception Room:");
 	strcpy_s(rooms[0].description, "In the middle of the room there is a large broken counter. You can also see a lot of wires on the ground, as if it had been something strange.");
 	strcpy_s(rooms[1].name, "WC's");
