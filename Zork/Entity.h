@@ -1,21 +1,23 @@
+#ifndef _ENTITY_H_
+#define _ENTITY_H_
+
 #include <stdio.h>
-#include "Exits.h"
-#include "Player.h"
-#include "Rooms.h"
-#include "Item.h"
+
 #include "String.h"
 
 class Entity{
 
 public:
 
-	char name;
-	char description;
+    mString name;
+	mString description;
 
-private:
-	Entity(const char*name, const char* description);
-	my_name(name), my_destiny(description);
+public:
+
+	Entity();
+	~Entity();
+//	Entity(const char*name, const char* description);
+	//my_name(name), my_destiny(description);
 
 };
-
-
+#endif

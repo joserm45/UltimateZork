@@ -1,6 +1,13 @@
 #include "String.h"
 #include <stdlib.h>
 #include <stdio.h>
+
+mString::mString()
+{
+	buffer = new char[10];
+	capacity = 9;
+}
+
 mString::mString(char* str)
 	{
 
@@ -50,6 +57,18 @@ void mString::operator = (const  mString& other)
 	}
 	strcpy_s(buffer, capacity + 1, other.buffer);
 
+}
+void mString::operator=( char* other)
+{
+	int	new_lenght = strlen(other);
+	if (capacity < new_lenght)
+	{
+		capacity = new_lenght;
+		delete[]buffer;
+		buffer = new char[capacity + 1];
+	}
+
+	strcpy_s(buffer,capacity+1,other);
 }
 
 void mString::operator +=(const  mString& other)

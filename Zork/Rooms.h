@@ -1,12 +1,13 @@
 #ifndef Zork_Rooms
 #define Zork_Rooms
 
+#include "String.h"
+#include "Entity.h"
 
-class Room{
+class Room: public Entity{
 public:
 
-	char name[50];
-	char description[500];
+	
 	
 };
 

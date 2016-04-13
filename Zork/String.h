@@ -1,5 +1,9 @@
+#ifndef _STRING_H_
+
+#define _STRING_H_
 #include <string.h>
 #include <stdio.h>
+
 
 class mString{
 
@@ -8,6 +12,9 @@ private:
 	unsigned int capacity;
 
 public:
+
+	mString();
+
 	mString(char *str);//constructor
 
 
@@ -24,6 +31,8 @@ public:
 	
 	//Operators
 	void operator = (const  mString& other);
+	
+	void operator = (  char* other);
 
 	void operator +=(const  mString& other);
 
@@ -34,3 +43,4 @@ public:
 	~mString();
 
 };
+#endif

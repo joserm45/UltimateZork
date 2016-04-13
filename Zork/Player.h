@@ -1,10 +1,8 @@
 #ifndef Zork_Player
 #define Zork_Player
 
-#include "Rooms.h"
-#include "Exits.h"
-
-
+class Room;
+enum dir;
 class World;
 
 class Player{
