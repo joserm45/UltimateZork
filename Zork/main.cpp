@@ -3,6 +3,7 @@
 #include "World.h"
 
 
+
 int main(){
 	
 	World* world = new World;
@@ -11,8 +12,9 @@ int main(){
 	printf("Welcome to my Zork!!\n%s \n ", world->rooms[0].name);
 	printf("%s \n ", world->rooms[0].description);
 	printf(" Write a comand to move(n/s/e/w):");
+	
 	do{
-
+		
 		final = world->Command();
 	}
 

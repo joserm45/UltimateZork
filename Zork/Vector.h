@@ -17,6 +17,13 @@ public:
 		buffer = new TYPE[capacity];
 
 	}
+	Vector(unsigned int size)
+	{
+
+		capacity = size;
+		buffer = new TYPE[capacity];
+
+	}
 	Vector(const Vector& other)
 	{
 
@@ -29,11 +36,18 @@ public:
 		}
 
 	}
-	TYPE* operator [] (int)
+	TYPE operator [] (unsigned int index) const
 	{
-
-		return buffer[int];
+		assert(index < num_elements);
+		return buffer[index];
 	}
+
+	TYPE& operator [] (unsigned int index) 
+	{
+		assert(index < num_elements);
+		return buffer[index];
+	}
+
 	void push_back(const TYPE& element)
 	{
 		TYPE* temp = nullptr;
@@ -73,7 +87,7 @@ public:
 			num_elements++;
 		}
 		temp = new TYPE[capacity];
-		for (unsigned int i = num_elements; i >= 0; i - *-)
+		for (unsigned int i = num_elements; i >= 0; i --)
 		{
 
 
@@ -84,6 +98,28 @@ public:
 
 		buffer[0] = element;
 		num_elements++;
+
+	}
+
+	
+	bool pop_back(TYPE& value)
+	{
+		if (value.num_elements > 0){
+			value.num_elements--;
+			return true;
+		}
+		return false;
+	}
+	
+	TYPE Pop_Back()
+	{
+		if (num_elements > 0)
+		{
+
+			num_elements--;
+
+			return buffer[num_elements];
+		}
 
 	}
 

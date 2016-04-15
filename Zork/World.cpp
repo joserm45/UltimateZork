@@ -17,7 +17,7 @@
 World::World(){
 
 
-//	Vector <Room*> rooms;
+	//Vector <Room*> rooms;
 //	Vector <Player*> players;
 //	Vector <Exit*> exits;
 	rooms = new Room[11];
@@ -28,7 +28,7 @@ World::World(){
 
 
 void World::CreateWorld(){
-	//rooms = new Room;
+//	rooms = new Room;
 //	rooms.push_back(new Room("Reception Room:", "In the middle of the room there is a large broken counter. You can also see a lot of wires on the ground, as if it had been something strange."));
 	rooms[0].name = "Reception Room:";
 
