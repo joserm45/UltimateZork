@@ -54,12 +54,25 @@ public:
 		buffer[num_elements++] = element;
 
 	}
-	void pop_back()
+	bool pop_back(TYPE& value)
+	{
+		if (value.num_elements > 0){
+			value.num_elements--;
+			return true;
+		}
+		return false;
+	}
+
+	TYPE Pop_Back()
 	{
 		if (num_elements > 0)
 		{
+
 			num_elements--;
+
+			return buffer[num_elements];
 		}
+
 	}
 		void push_front(const TYPE& element)
 		{
