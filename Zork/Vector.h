@@ -39,7 +39,7 @@ public:
 		TYPE* temp = nullptr;
 		if (capacity == num_elements)
 		{
-			capacity *= 2;
+			capacity += 8;
 			temp = new TYPE[capacity];
 
 			for (unsigned int i = 0; i < num_elements; i++)
@@ -54,50 +54,86 @@ public:
 		buffer[num_elements++] = element;
 
 	}
-
-	void push_front(const TYPE& element)
+	void pop_back()
 	{
-		TYPE* temp = nullptr;
-		if (capacity == num_elements)
+		if (num_elements > 0)
 		{
-			capacity *= 2;
-			temp = new TYPE[capacity];
-
-			for (unsigned int i = 0; i < num_elements; i++)
+			num_elements--;
+		}
+	}
+		void push_front(const TYPE& element)
+		{
+			TYPE* temp = nullptr;
+			if (capacity == num_elements)
 			{
-				temp[i] = buffer[i];
+				capacity *= 2;
+				temp = new TYPE[capacity];
+
+				for (unsigned int i = 0; i < num_elements; i++)
+				{
+					temp[i] = buffer[i];
+				}
+
+				delete[]buffer;
+				buffer = temp;
+				num_elements++;
+			}
+			temp = new TYPE[capacity];
+			for (unsigned int i = num_elements - 1; i >= 0; i--)
+			{
+
+
+				temp[i] = buffer[i - 1];
+
+
 			}
 
-			delete[]buffer;
-			buffer = temp;
+			buffer[0] = element;
 			num_elements++;
+
 		}
-		temp = new TYPE[capacity];
-		for (unsigned int i = num_elements; i >= 0; i - *-)
+
+		bool empty() const
 		{
-
-
-			temp[i] = buffer[i - 1];
-
-
+			return buffer[0] == '\0';
 		}
 
-		buffer[0] = element;
-		num_elements++;
 
-	}
 
-	void PrintVector()const
-	{
-		for (unsigned int i = 1; i < num_elements; i++)
+		void size()const
 		{
-			printf("%i", buffer[i]);
+			return num_elements;
 		}
-	}
-	~Vector()
-	{
-		printf("Destruction");
-		delete[] buffer;
-	}
 
-};
+		const TYPE& operator[](const unsigned int &index)const
+		{
+			assert(indez >= 0 && index < num_elements)
+				return buffer[index];
+
+
+		}
+		const TYPE operator[](const unsigned int &index)const
+		{
+			assert(indez >= 0 && index < num_elements)
+				return buffer[index];
+		}
+
+		void PrintVector()const
+		{
+			for (unsigned int i = 1; i < num_elements; i++)
+			{
+				printf("%i", buffer[i]);
+			}
+		}
+
+		void clear()
+		{
+			num_elements = 0;
+		}
+		~Vector()
+		{
+			printf("Destruction");
+			delete[] buffer;
+		}
+
+	};
