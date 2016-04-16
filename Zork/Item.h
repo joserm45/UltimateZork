@@ -2,18 +2,20 @@
 #define Zork_Item
 
 #include "Entity.h"
-#include "Rooms.h"
+#include "Vector.h"
 
 
 
 
-enum items{sword, gun, bag};
+
+enum item_type{sword, gun, bag};
 
 class Item : public Entity{
 
 public:
-
-	items item;
+	
+	Vector <Item*> items;
+	
 	void Look()const;
 
 	Item();

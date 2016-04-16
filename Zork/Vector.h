@@ -1,3 +1,5 @@
+#ifndef _Vector_
+#define _Vector_
 #include <stdio.h>
 
 template <class TYPE>
@@ -29,11 +31,7 @@ public:
 		}
 
 	}
-	TYPE* operator [] (int)
-	{
 
-		return buffer[int];
-	}
 	void push_back(const TYPE& element)
 	{
 		TYPE* temp = nullptr;
@@ -76,31 +74,31 @@ public:
 	}
 		void push_front(const TYPE& element)
 		{
-			TYPE* temp = nullptr;
 			if (capacity == num_elements)
 			{
-				capacity *= 2;
+
+				TYPE* temp = nullptr;
+				capacity += 8;
 				temp = new TYPE[capacity];
 
-				for (unsigned int i = 0; i < num_elements; i++)
+				for (unsigned int i = num_elements; i > 0; i--)
 				{
-					temp[i] = buffer[i];
+					temp[i] = buffer[i - 1];
 				}
-
-				delete[]buffer;
+				delete[] buffer;
 				buffer = temp;
-				num_elements++;
 			}
-			temp = new TYPE[capacity];
-			for (unsigned int i = num_elements - 1; i >= 0; i--)
+			else
 			{
+				for (unsigned int i = num_elements; i > 0; i--)
+				{
 
 
-				temp[i] = buffer[i - 1];
+					buffer[i] = buffer[i - 1];
 
 
+				}
 			}
-
 			buffer[0] = element;
 			num_elements++;
 
@@ -108,26 +106,26 @@ public:
 
 		bool empty() const
 		{
-			return buffer[0] == '\0';
+			return num_elements == 0;
 		}
 
 
 
-		void size()const
+		int size()const
 		{
 			return num_elements;
 		}
 
 		const TYPE& operator[](const unsigned int &index)const
 		{
-			assert(indez >= 0 && index < num_elements)
+	//		assert(index >= 0 && index < num_elements)
 				return buffer[index];
 
 
 		}
-		const TYPE operator[](const unsigned int &index)const
+		 TYPE operator[](const unsigned int &index)
 		{
-			assert(indez >= 0 && index < num_elements)
+		//	assert(index >= 0 && index < num_elements)
 				return buffer[index];
 		}
 
@@ -150,3 +148,4 @@ public:
 		}
 
 	};
+#endif

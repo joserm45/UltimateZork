@@ -3,11 +3,18 @@
 
 #include "Player.h"
 #include "World.h"
+#include "Rooms.h"
+#include "Entity.h"
+#include "Exits.h"
+#include "Item.h"
 
 
 void Player::Look()const{
-	printf("%s \n %s", posPlayer->name.c_str(), posPlayer->description.c_str());
-
+	printf("%s \n %s \n", posPlayer->name.c_str(), posPlayer->description.c_str());
+	for (unsigned int i = 0; i < posPlayer->items.size(); i++)
+	{
+		printf("%s\n %s\n", posPlayer->items[i]->name.c_str(), posPlayer->items[i]->description.c_str());
+	}
 }
 
 
@@ -20,14 +27,14 @@ void Player::MovePlayer(World* world, dir adress){
 
 	for (i = 0; i < 21; i++)
 	{
-		if (world->exits[i].source == posPlayer && world->exits[i].direction == adress)
+		if (world->exits[i]->source == posPlayer && world->exits[i]->direction == adress)
 		{
 			exitFound = true;
 
-			if (world->exits[i].openDoor == true)
+			if (world->exits[i]->openDoor == true)
 			{
-				printf("%s \n %s", world->exits[i].destiny->name.c_str(), world->exits[i].destiny->description.c_str());
-				posPlayer = world->exits[i].destiny;
+				printf("%s \n %s \n", world->exits[i]->destiny->name.c_str(), world->exits[i]->destiny->description.c_str());
+				posPlayer = world->exits[i]->destiny;
 			}
 			else
 				printf("The door is closed...\n");
@@ -46,13 +53,13 @@ void Player::MovePlayer(World* world, dir adress){
 			int i = 0;
 			bool look_dir=false;
 			for (i = 0; i < 21; i++){
-				if (world->exits[i].source == posPlayer && world->exits[i].direction == adress)
+				if (world->exits[i]->source == posPlayer && world->exits[i]->direction == adress)
 				{
 
 					look_dir = true;
 
 
-					printf("%s \n %s \n ", world->exits[i].name.c_str(), world->exits[i].description.c_str());
+					printf("%s \n %s \n ", world->exits[i]->name.c_str(), world->exits[i]->description.c_str());
 
 				}
 				
@@ -67,9 +74,9 @@ void Player::MovePlayer(World* world, dir adress){
 		void Player::OpenDoor(World* world, dir adress){
 			int i = 0;
 			for (i = 0; i < 21; i++){
-				if (world->exits[i].source == posPlayer && world->exits[i].direction == adress){
-					if (world->exits[i].openDoor==false){
-						world->exits[i].openDoor = true;
+				if (world->exits[i]->source == posPlayer && world->exits[i]->direction == adress){
+					if (world->exits[i]->openDoor==false){
+						world->exits[i]->openDoor = true;
 						printf("You opened the door.\n");
 					}
 					else{
@@ -82,9 +89,9 @@ void Player::MovePlayer(World* world, dir adress){
 		void Player::CloseDoor(World* world, dir adress){
 			int i = 0;
 			for (i = 0; i < 21; i++){
-				if (world->exits[i].source == posPlayer && world->exits[i].direction == adress){
-					if (world->exits[i].openDoor == true){
-						world->exits[i].openDoor = false;
+				if (world->exits[i]->source == posPlayer && world->exits[i]->direction == adress){
+					if (world->exits[i]->openDoor == true){
+						world->exits[i]->openDoor = false;
 						printf("The door is closed.\n");
 
 					}

@@ -1,14 +1,15 @@
 #ifndef Zork_World
 #define Zork_World
-
-#include "Rooms.h"
-#include "Player.h"
-#include "Exits.h"
+#include "Vector.h"
+class Room;
+class Exit;
+class Player;
 
 class World {
 public:
-	Room* rooms = nullptr;
-	Exit* exits= nullptr;
+
+	Vector <Room*> rooms;
+	Vector <Exit*> exits;
 	Player* players = nullptr;	
 
 	void CreateWorld();
