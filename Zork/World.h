@@ -10,7 +10,8 @@ public:
 
 	Vector <Room*> rooms;
 	Vector <Exit*> exits;
-	Player* players = nullptr;	
+	Vector <Player*> players;
+//	Player* players = nullptr;	
 
 	void CreateWorld();
 	bool Command();

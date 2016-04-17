@@ -11,7 +11,7 @@ class Player{
 	public:
 	
 		Vector <Item*> items;
-		Item* equipped_left;
+	//	Item* equipped_left;
 		Item* equipped_right;
 		int max_slots;
 
@@ -20,6 +20,8 @@ class Player{
 		
 
 	void Look()const;
+	void Pick();
+
 	void LookCommand(World* world, dir adress);
 	void MovePlayer(World* world, dir adress);
 	void OpenDoor(World* world, dir adress);

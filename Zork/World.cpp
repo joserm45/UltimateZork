@@ -11,7 +11,7 @@
 #include "Rooms.h"
 #include "Exits.h"
 #include "Entity.h"
-
+#include "Vector.h"
 #define _CTR_SECURE_NO_WARNINGS
 
 World::World(){
@@ -21,7 +21,7 @@ World::World(){
 //	Vector <Player*> players;
 
 	//rooms = new Room[11];
-	players = new Player;
+//	players = new Player;
 	//exits = new Exit[22];
 	//player -> player = this;
 }
@@ -29,7 +29,8 @@ World::World(){
 
 void World::CreateWorld(){
 //	rooms = new Room;
-	Item* sword1 = new Item("Sword", "Sharppened");
+
+	Item* sword1 = new Item("Sword:", "Sharppened");
 	
 	
 	
@@ -41,28 +42,35 @@ void World::CreateWorld(){
 	rooms[0]->items.push_back(sword1);
 
 	 new_room = new Room("WC's", "A slight breathing is heard in the room. It seems that something scary this about to happen.");
-	rooms.push_back(new_room);
+	 rooms.push_back(new_room);
 	
-	 new_room = new Room("Living Room", "You can see a lot of papers on the floor.");
+	     new_room = new Room("Living Room", "You can see a lot of papers on the floor.");
 		 rooms.push_back(new_room);
-	
+
 		 new_room = new Room("Window building", "After this jump are so exhausted need to repose for a moment.");
 		 rooms.push_back(new_room);
+
 		 new_room = new Room("Secret room", "You didn't see nothing interesting but a big air comes frome some part...");
 		 rooms.push_back(new_room);
+
 		 new_room = new Room("Cave", "A barrier is colapsing the way, will need something strong to move it.");
 		 rooms.push_back(new_room);
+
 		 new_room = new Room("Final boss", "The Zombie king was waitting you, now he will make you pay with the death...");
 		 rooms.push_back(new_room);
+
 		 new_room = new Room("Disco room", "An innocent place to meet with people... All things are on the float even the top of a ventilation shaft");
 		 rooms.push_back(new_room);
+
 		 new_room = new Room("Bunker", "It seems a good place to endure, but you will not survive with out food.");
 		 rooms.push_back(new_room);
 		 new_room = new Room("Terrace", "A big place with a landing symbol in the middle.");
 		 rooms.push_back(new_room);
 
 
-	players->posPlayer = rooms[0];
+//players->posPlayer = rooms[0];
+		// Player* new_player = new Player;
+	//	 players.push_back( rooms[0]);
 
 	Exit* new_exit = new Exit( "WC's", "A terrifyng noise comes from that direction...");
 	exits.push_back(new_exit);
@@ -290,19 +298,19 @@ system("cls");
 
 	if (strcmp(first, "look") == 0){
 		if (strcmp(second, "void") == 0){
-			players->Look();
+			players[0]->Look();
 		}
 		else if (strcmp(safe, "north") == 0 || strcmp(second, "n") == 0){
-			players->LookCommand(this, north);
+			players[0]->LookCommand(this, north);
 		}
 		else if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-			players->LookCommand(this, south);
+			players[0]->LookCommand(this, south);
 		}
 		else if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-			players->LookCommand(this, east);
+			players[0]->LookCommand(this, east);
 		}
 		else if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-			players->LookCommand(this, west);
+			players[0]->LookCommand(this, west);
 		}
 
 	}
@@ -311,34 +319,34 @@ system("cls");
 		//COMMANDS MOVEMENT
 
 		else if (strcmp(first, "north") == 0 || strcmp(first, "n") == 0){
-			players->MovePlayer(this, north);
+			players[0]->MovePlayer(this, north);
 		}
 		else if (strcmp(first, "south") == 0 || strcmp(first, "s") == 0){
-			players->MovePlayer(this, south);
+			players[0]->MovePlayer(this, south);
 		}
 		else if (strcmp(first, "east") == 0 || strcmp(first, "e") == 0){
-			players->MovePlayer(this, east);
+			players[0]->MovePlayer(this, east);
 		}
 		else if (strcmp(first, "west") == 0 || strcmp(first, "w") == 0){
-			players->MovePlayer(this, west);
+			players[0]->MovePlayer(this, west);
 		}
 
 		//COMMANDS TO GO:
 
 		else if (strcmp(first, "go") == 0){
 			if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
-				players->MovePlayer(this, north);
+				players[0]->MovePlayer(this, north);
 			}
 			if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-				players->MovePlayer(this, south);
+				players[0]->MovePlayer(this, south);
 
 			}
 			if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-				players->MovePlayer(this, east);
+				players[0]->MovePlayer(this, east);
 
 			}
 			if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-				players->MovePlayer(this, west);
+				players[0]->MovePlayer(this, west);
 
 			}
 		}
@@ -350,16 +358,16 @@ system("cls");
 
 		else if (strcmp(first, "open") == 0){
 			if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
-				players->OpenDoor(this, north);
+				players[0]->OpenDoor(this, north);
 			}
 			if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-				players->OpenDoor(this, south);
+				players[0]->OpenDoor(this, south);
 			}
 			if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-				players->OpenDoor(this, east);
+				players[0]->OpenDoor(this, east);
 			}
 			if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-				players->OpenDoor(this, west);
+				players[0]->OpenDoor(this, west);
 			}
 		}
 
@@ -367,23 +375,23 @@ system("cls");
 
 		else if (strcmp(first, "close") == 0){
 			if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
-				players->CloseDoor(this, north);
+				players[0]->CloseDoor(this, north);
 			}
 			if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-				players->CloseDoor(this, south);
+				players[0]->CloseDoor(this, south);
 			}
 			if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-				players->CloseDoor(this, east);
+				players[0]->CloseDoor(this, east);
 			}
 			if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-				players->CloseDoor(this, west);
+				players[0]->CloseDoor(this, west);
 			}
 		}
 
 		// COMMAND HELP
 
 		else if (strcmp(first, "help") == 0){
-			players->Help();
+			players[0]->Help();
 		}
 
 		//QUIT GAMME
@@ -407,6 +415,6 @@ system("cls");
 World::~World(){
 
 //	delete[] rooms;
-	delete  players;
+//	delete  players;
 //	delete[] exits;
 }

@@ -47,6 +47,10 @@ void Player::MovePlayer(World* world, dir adress){
 		printf("You can't go there...\n");
 }
 
+void Player::Pick()
+{
+
+}
 
 		void Player::LookCommand(World* world, dir adress)
 		{

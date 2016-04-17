@@ -8,7 +8,7 @@
 
 
 
-enum item_type{sword, gun, bag};
+enum item_type{sword, gun, chest};
 
 class Item : public Entity{
 
