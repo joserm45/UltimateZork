@@ -12,16 +12,17 @@ class Player{
 	
 		Vector <Item*> items;
 	//	Item* equipped_left;
-		Item* equipped_right;
+		Item* equipped;
 		int max_slots;
 
 
-		Room* posPlayer;
+		Room* posPlayer = nullptr;
+
 		
 
 	void Look()const;
-	void Pick();
-
+	void Drop(const char* to_drop);
+	void Pick(const char* to_pick);
 	void LookCommand(World* world, dir adress);
 	void MovePlayer(World* world, dir adress);
 	void OpenDoor(World* world, dir adress);

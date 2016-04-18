@@ -1,6 +1,8 @@
 #include "String.h"
 #include <stdlib.h>
-#include <stdio.h>
+
+
+#include "Vector.h"
 
 mString::mString()
 {
@@ -11,7 +13,7 @@ mString::mString()
 mString::mString(char* str)
 	{
 
-		printf("\nConstructor");
+		
 
 		capacity = strlen(str);
 
@@ -103,9 +105,27 @@ bool mString::operator == (const char* other) const
 	return strcmp(buffer, other) == 0;
 }
 	
+void mString::tokenize( Vector <mString>& vec)
+{
+	
+	int size = strlen(buffer) + 1;
+	char* dup = new char[size];
+	char* safe;
+	strcpy_s(dup, size, buffer);
+	char* token = strtok_s(dup, " ", &safe);
+	while (token != NULL)
+	{
+		vec.push_back(token);
+		token = strtok_s(NULL, " ", &safe);
+	}
+	delete[]dup;
+
+}
+
+
 	mString::~mString()
 	{
-		printf("\nDestroyed");
+	
 		delete[]buffer;
 	}
 	//printf();

@@ -3,7 +3,7 @@
 #define _STRING_H_
 #include <string.h>
 #include <stdio.h>
-
+#include"Vector.h"
 
 class mString{
 
@@ -39,6 +39,8 @@ public:
 	bool operator == (const mString& other) const;
 	
 	bool operator == (const char* other) const;
+
+	void tokenize( Vector<mString>& vec);
 
 	~mString();
 

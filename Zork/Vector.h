@@ -72,80 +72,89 @@ public:
 		}
 
 	}
-		void push_front(const TYPE& element)
+	void push_front(const TYPE& element)
+	{
+		if (capacity == num_elements)
 		{
-			if (capacity == num_elements)
+
+			TYPE* temp = nullptr;
+			capacity += 8;
+			temp = new TYPE[capacity];
+
+			for (unsigned int i = num_elements; i > 0; i--)
 			{
-
-				TYPE* temp = nullptr;
-				capacity += 8;
-				temp = new TYPE[capacity];
-
-				for (unsigned int i = num_elements; i > 0; i--)
-				{
-					temp[i] = buffer[i - 1];
-				}
-				delete[] buffer;
-				buffer = temp;
+				temp[i] = buffer[i - 1];
 			}
-			else
-			{
-				for (unsigned int i = num_elements; i > 0; i--)
-				{
-
-
-					buffer[i] = buffer[i - 1];
-
-
-				}
-			}
-			buffer[0] = element;
-			num_elements++;
-
-		}
-
-		bool empty() const
-		{
-			return num_elements == 0;
-		}
-
-
-
-		int size()const
-		{
-			return num_elements;
-		}
-
-		const TYPE& operator[](const unsigned int &index)const
-		{
-	//		assert(index >= 0 && index < num_elements)
-				return buffer[index];
-
-
-		}
-		 TYPE operator[](const unsigned int &index)
-		{
-		//	assert(index >= 0 && index < num_elements)
-				return buffer[index];
-		}
-
-		void PrintVector()const
-		{
-			for (unsigned int i = 1; i < num_elements; i++)
-			{
-				printf("%i", buffer[i]);
-			}
-		}
-
-		void clear()
-		{
-			num_elements = 0;
-		}
-		~Vector()
-		{
-			printf("Destruction");
 			delete[] buffer;
+			buffer = temp;
 		}
+		else
+		{
+			for (unsigned int i = num_elements; i > 0; i--)
+			{
+				buffer[i] = buffer[i - 1];
+			}
+		}
+		buffer[0] = element;
+		num_elements++;
+	}
 
-	};
+	TYPE* Pick(int to_pick)
+	{
+		if (to_pick < num_elements)
+		{
+			TYPE* tmp = &buffer[to_pick];
+			for (unsigned int i = to_pick + 1; i < to_pick; i++)
+			{
+				buffer[i - 1] = buffer[i];
+			}
+			return tmp;
+		}
+			return NULL;
+	}
+
+	bool empty() const
+	{
+		return num_elements == 0;
+	}
+
+	unsigned int size()const
+	{
+		return num_elements;
+	}
+
+	const TYPE& operator[](const unsigned int &index)const
+	{
+//		assert(index >= 0 && index < num_elements)
+			return buffer[index];
+
+
+	}
+		TYPE operator[](const unsigned int &index)
+	{
+	//	assert(index >= 0 && index < num_elements)
+			return buffer[index];
+	}
+
+	void PrintVector()const
+	{
+		for (unsigned int i = 1; i < num_elements; i++)
+		{
+			printf("%i", buffer[i]);
+		}
+	}
+
+	void clear()
+	{
+		num_elements = 0;
+	}
+
+
+	~Vector()
+	{
+			
+		delete[] buffer;
+	}
+
+};
 #endif

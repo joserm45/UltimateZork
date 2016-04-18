@@ -19,7 +19,8 @@ World::World(){
 
 
 //	Vector <Player*> players;
-
+	Player*	new_players = new Player;
+	players.push_back(new_players);
 	//rooms = new Room[11];
 //	players = new Player;
 	//exits = new Exit[22];
@@ -30,9 +31,9 @@ World::World(){
 void World::CreateWorld(){
 //	rooms = new Room;
 
-	Item* sword1 = new Item("Sword:", "Sharppened");
+	Item* sword1 = new Item("sword", "Sharppened");
 	
-	
+	Item* gun= new Item("gun", "Can kill zombies!");
 	
 	
 
@@ -40,6 +41,7 @@ void World::CreateWorld(){
 	rooms.push_back(new_room);
 
 	rooms[0]->items.push_back(sword1);
+	rooms[0]->items.push_back(gun);
 
 	 new_room = new Room("WC's", "A slight breathing is heard in the room. It seems that something scary this about to happen.");
 	 rooms.push_back(new_room);
@@ -67,8 +69,9 @@ void World::CreateWorld(){
 		 new_room = new Room("Terrace", "A big place with a landing symbol in the middle.");
 		 rooms.push_back(new_room);
 
+		
+players[0]->posPlayer = rooms[0];
 
-//players->posPlayer = rooms[0];
 		// Player* new_player = new Player;
 	//	 players.push_back( rooms[0]);
 
@@ -269,135 +272,169 @@ void World::CreateWorld(){
 
 bool World::Command(){
 	char command[20];
-	char command1;
-	char first[15];
-	char second[15];
-	char* safe;
-	char* safe2;
-	char* trash;
+
 
 	fflush(stdin);
-	strcpy_s(second, "void");
-	
+
+
 	gets_s(command);
-	if (strcmp("\0", command) == 0){
+
+	Vector <mString> Input;
+	mString str1 = command;
+
+	str1.tokenize(Input);
+	if (Input.size() == 0)
+	{
 		printf("Write a command!\n");
-		return  true;
+	return true;
 	}
+	
 	
 
-	strcpy_s(first, strtok_s(command, " ", &safe));
-	if (strcmp(safe, "") != 0){
-		strcpy_s(second, strtok_s(safe, " ", &trash));
-	}
-system("cls");
+//	strcpy_s(first, strtok_s(command, " ", &safe));
+//	if (strcmp(safe, "") != 0){
+	//	strcpy_s(second, strtok_s(safe, " ", &trash));
+	//}
+	system("cls");
 	
 
 	//COMMAND LOOK DIRECTION.
 
-
-	if (strcmp(first, "look") == 0){
-		if (strcmp(second, "void") == 0){
-			players[0]->Look();
-		}
-		else if (strcmp(safe, "north") == 0 || strcmp(second, "n") == 0){
+	if (Input[0] == "look" && Input.size()==1)
+	{
+		players[0]->Look();
+	}
+	else if (Input[0] == "look" && Input.size() == 2)
+	{
+		if (Input[1] == "north" || Input[1] == "n")
+		{
 			players[0]->LookCommand(this, north);
 		}
-		else if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
+		else if (Input[1] == "south" || Input[1] == "s")
+		{
 			players[0]->LookCommand(this, south);
 		}
-		else if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
+		else if (Input[1] == "east" || Input[1] == "e")
+		{
 			players[0]->LookCommand(this, east);
 		}
-		else if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
+		else if (Input[1] == "west" || Input[1] == "w")
+		{
 			players[0]->LookCommand(this, west);
 		}
-
 	}
 
-
+	
 		//COMMANDS MOVEMENT
 
-		else if (strcmp(first, "north") == 0 || strcmp(first, "n") == 0){
-			players[0]->MovePlayer(this, north);
-		}
-		else if (strcmp(first, "south") == 0 || strcmp(first, "s") == 0){
-			players[0]->MovePlayer(this, south);
-		}
-		else if (strcmp(first, "east") == 0 || strcmp(first, "e") == 0){
-			players[0]->MovePlayer(this, east);
-		}
-		else if (strcmp(first, "west") == 0 || strcmp(first, "w") == 0){
-			players[0]->MovePlayer(this, west);
-		}
+	else if (Input[0] == "north" || Input[0] == "n")
+	{
+		players[0]->MovePlayer(this, north);
+	}
+	else if (Input[0] == "south" || Input[0] == "s")
+	{
+		players[0]->MovePlayer(this, south);
+	}
+	else if (Input[0] == "east" || Input[0] == "e")
+
+	{
+		players[0]->MovePlayer(this, east);
+	}
+	
+	else if (Input[0] == "west" || Input[0] == "w")
+	{
+		players[0]->MovePlayer(this, west);
+	}
 
 		//COMMANDS TO GO:
 
-		else if (strcmp(first, "go") == 0){
-			if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
-				players[0]->MovePlayer(this, north);
-			}
-			if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-				players[0]->MovePlayer(this, south);
+	else if (Input.size() == 2 && Input[0] == "go")
+	{
+		if (Input[1] == "north" || Input[1] == "n" )
+			players[0]->MovePlayer(this, north);
 
-			}
-			if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-				players[0]->MovePlayer(this, east);
+		else if (Input[1] == "south" || Input[1] == "s")
+			players[0]->MovePlayer(this, south);
 
-			}
-			if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-				players[0]->MovePlayer(this, west);
+		else if (Input[1] == "east" || Input[1] == "e")
+			players[0]->MovePlayer(this, east);
 
-			}
-		}
+		else if (Input[1] == "west" || Input[1] == "w")
+			players[0]->MovePlayer(this, west);
+
+	}
 		
-
-
 
 		//COMMAND OPEN DOOR
 
-		else if (strcmp(first, "open") == 0){
-			if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
-				players[0]->OpenDoor(this, north);
-			}
-			if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-				players[0]->OpenDoor(this, south);
-			}
-			if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-				players[0]->OpenDoor(this, east);
-			}
-			if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-				players[0]->OpenDoor(this, west);
-			}
-		}
+	else if (Input[0] == "open" && Input.size() == 2)
+	{
 
+		if (Input[1] == "north" || Input[1] == "n")
+		{
+			players[0]->OpenDoor(this, north);
+		}
+		else if (Input[1] == "south" || Input[1] == "s")
+		{
+			players[0]->OpenDoor(this, south);
+		}
+		else if (Input[1] == "east" || Input[1] == "e")
+		{
+			players[0]->OpenDoor(this, east);
+		}
+		else if (Input[1] == "west" || Input[1] == "w")
+		{
+			players[0]->OpenDoor(this, west);
+		}
+	}
+	
 		//COMMAND CLOSE DOOR
 
-		else if (strcmp(first, "close") == 0){
-			if (strcmp(second, "north") == 0 || strcmp(second, "n") == 0){
-				players[0]->CloseDoor(this, north);
-			}
-			if (strcmp(second, "south") == 0 || strcmp(second, "s") == 0){
-				players[0]->CloseDoor(this, south);
-			}
-			if (strcmp(second, "east") == 0 || strcmp(second, "e") == 0){
-				players[0]->CloseDoor(this, east);
-			}
-			if (strcmp(second, "west") == 0 || strcmp(second, "w") == 0){
-				players[0]->CloseDoor(this, west);
-			}
-		}
+	else if (Input[0] == "close" && Input.size() == 2)
+	{
 
+		if (Input[1] == "north" || Input[1] == "n")
+		{
+			players[0]->CloseDoor(this, north);
+		}
+		else if (Input[1] == "south" || Input[1] == "s")
+		{
+			players[0]->CloseDoor(this, south);
+		}
+		else if (Input[1] == "east" || Input[1] == "e")
+		{
+			players[0]->CloseDoor(this, east);
+		}
+		else if (Input[1] == "west" || Input[1] == "w")
+		{
+			players[0]->CloseDoor(this, west);
+		}
+	}
+	//COMMAND PICK
+
+	else if (Input[0] == "pick" && Input.size() == 2 )
+	{
+		players[0]->Pick(Input[1].c_str());
+	}
+
+	// COMAND DROP
+
+	else if (Input[0] == "drop" && Input.size() == 2)
+	{
+		players[0]->Drop(Input[1].c_str());
+	}
 		// COMMAND HELP
 
-		else if (strcmp(first, "help") == 0){
-			players[0]->Help();
-		}
+	else if (Input[0] == "help" && Input.size() == 1)
+	{
+		players[0]->Help();
+	}
 
 		//QUIT GAMME
-		else if (strcmp(first, "quit") == 0 || strcmp(first, "q") == 0){
+	else if (Input[0] == "quit" && Input.size() == 1)
+	{
 			return false;
-		}
+	}
 		//NO ONE COMMAND
 	
 	else{
