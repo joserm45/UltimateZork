@@ -17,26 +17,165 @@ void Player::Look()const{
 	}
 }
 
+void Player::DisplayInv()const
+{
+	if (items.size() == 0)
+	{
+		printf("You don't have any item!");
+	}
+	for (unsigned int i = 0; i < items.size(); i++)
+		printf("%s\n", items[i]->name);
+}
 
-void Player::Pick( const char* to_pick)
+void Player::equiped(const char* to_equip)
+{
+	for (unsigned int i =0; i < items.size();i++)
+
+	if (items[i]->name == to_equip)
+	{
+		equipped =* items.Pick(i);
+		atack = items[i]->atackweapon ;
+			printf("You got the %s with %i atack damage: ", to_equip, atack);
+	}
+	else printf("You can't do this: ");
+}
+
+void Player::unequiped(const char* to_equip)
+{
+	if (equipped == NULL)
+	{
+		printf("You don't have any thing! ");
+	}
+	for (unsigned int i = 0; i < items.size(); i++)
+
+	if (posPlayer->items[i]->name == to_equip)
+	{
+		printf("You unequiped the '%s': ", to_equip);
+		posPlayer->items.push_back(equipped);
+		equipped = NULL;
+	}
+}
+
+void Player::Put(mString to_put, mString to_into)
 {
 	bool found = false;
-
-	for (unsigned int i = 0; i < posPlayer->items.size(); i++)
+	bool found2 = false;
+	int temp;
+	int temp2;
+	if (to_into == "chest")
 	{
-		mString str4 = posPlayer->items[i]->name;
-		if (posPlayer->items[i]->name == to_pick )
+		for (unsigned int i = 0; i < posPlayer->items.size(); i++) // searching chest
 		{
-			found = true;
-		items.push_back(posPlayer->items[i]);
-		
-		posPlayer->items.Pick(i);
+			if (posPlayer->items[i]->name == to_into)
+			{
+				temp = i;
+				found = true;
+				break;
+			}
 		}
-		if (found == true)
-			break;
+
+		if (found == false)
+		{
+			printf("There is no item '%s' in the room: ", to_into.c_str());
+			return;
+		}
+
+		for (unsigned int i = 0; i < items.size(); i++)
+		{
+			if (items[i]->name == to_put)
+			{
+				found2 = true;
+				temp2 = i;
+				break;
+			}
+		}
+		if (found2 == false)
+		{
+			printf("There is no item '%s' in the room : ", to_put.c_str());
+			return;
+		}
+		printf("You put '%s into '%s'", to_put.c_str(), to_into.c_str());
+		posPlayer->items[temp]->items.push_back(items[temp2]);
+		items.Pick(temp2);
 	}
-	if (found == false)
-		printf("This item don't exist or isn't there!");
+	else
+		printf("You can't put this!");
+}
+void Player::Get(mString to_pick, mString to_from)
+{
+	bool found = false;
+	bool found2 = false;
+	int temp;
+	int temp2;
+	if (to_from == "chest")
+	{
+		for (unsigned int i = 0; i < posPlayer->items.size(); i++) // searching chest
+		{
+			if (posPlayer->items[i]->name == to_from)
+			{
+				temp = i;
+				found = true;
+				break;
+			}
+		}
+
+		if (found == false)
+		{
+			printf("There is no item '%s' in the room: ", to_from.c_str());
+			return;
+		}
+
+		for (unsigned int i = 0; i < items.size(); i++)
+		{
+			if (posPlayer->items[temp]->items[i]->name == to_pick)
+			{
+				found2 = true;
+				temp2 = i;
+
+				break;
+			}
+		}
+		if (found2 == false)
+		{
+			printf("There is no item '%s' in the room : ", to_pick.c_str());
+			return;
+		}
+		printf("You get '%s from '%s'", to_pick.c_str(), to_from.c_str());
+		items.push_back(posPlayer->items[temp]->items[temp2]);
+		posPlayer->items[temp]->items.Pick(temp2);
+
+	}
+	else
+		printf("You can't get items from there!");
+}
+
+void Player::Pick( const mString to_pick)
+{
+	bool found = false;
+	if (to_pick == "chest")
+	{
+		printf("You can't pick a chest!");
+		
+	}
+	else
+	{
+		for (unsigned int i = 0; i < posPlayer->items.size(); i++)
+		{
+			//mString str4 = posPlayer->items[i]->name;
+			if (posPlayer->items[i]->name == to_pick)
+			{
+				found = true;
+				items.push_back(posPlayer->items[i]);
+
+				posPlayer->items.Pick(i);
+				printf("You picked a %s: ", to_pick.c_str());
+			}
+			if (found == true)
+				break;
+		}
+		if (found == false)
+			printf("This item don't exist or isn't there!");
+	}
 }
 
 void Player::Drop(const char* to_drop)
@@ -53,6 +192,7 @@ void Player::Drop(const char* to_drop)
 			posPlayer->items.push_back(items[i]);
 
 			items.Pick(i);
+			printf("You dropped the %s: ", to_drop);
 		}
 		if (found == true)
 			break;

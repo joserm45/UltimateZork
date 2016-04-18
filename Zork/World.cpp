@@ -34,6 +34,9 @@ void World::CreateWorld(){
 	Item* sword1 = new Item("sword", "Sharppened");
 	
 	Item* gun= new Item("gun", "Can kill zombies!");
+	gun->atackweapon = 4;
+
+	Item* chest = new Item("chest", "Save items!");
 	
 	
 
@@ -42,7 +45,7 @@ void World::CreateWorld(){
 
 	rooms[0]->items.push_back(sword1);
 	rooms[0]->items.push_back(gun);
-
+	rooms[0]->items.push_back(chest);
 	 new_room = new Room("WC's", "A slight breathing is heard in the room. It seems that something scary this about to happen.");
 	 rooms.push_back(new_room);
 	
@@ -271,7 +274,7 @@ players[0]->posPlayer = rooms[0];
 }
 
 bool World::Command(){
-	char command[20];
+	char command[40];
 
 
 	fflush(stdin);
@@ -414,7 +417,7 @@ bool World::Command(){
 
 	else if (Input[0] == "pick" && Input.size() == 2 )
 	{
-		players[0]->Pick(Input[1].c_str());
+		players[0]->Pick(Input[1]);
 	}
 
 	// COMAND DROP
@@ -422,6 +425,34 @@ bool World::Command(){
 	else if (Input[0] == "drop" && Input.size() == 2)
 	{
 		players[0]->Drop(Input[1].c_str());
+	}
+	//INVENTORY
+	else if (Input[0] == "inventory" || Input[0] == "inv" || Input[0] == "i" && Input.size() == 1)
+	{
+		players[0]->DisplayInv();
+	}
+	//EQUIP
+	else if (Input[0] == "equip"  && Input.size() == 2)
+	{
+		players[0]->equiped(Input[1].c_str());
+	}
+	//UNEQUIP
+	else if (Input[0] == "unequip"  && Input.size() == 2)
+	{
+		players[0]->unequiped(Input[1].c_str());
+	}
+
+	// PUT SWORD INTO BOX
+
+	else if (Input[0] == "put" && Input[2] == "into"  && Input.size() == 4)
+	{
+		players[0]->Put(Input[1], Input[3]);
+	}
+	// get SWORD from BOX
+
+	else if (Input[0] == "get" && Input[2] == "from"  && Input.size() == 4)
+	{
+		players[0]->Get(Input[1], Input[3]);
 	}
 		// COMMAND HELP
 

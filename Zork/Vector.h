@@ -104,10 +104,11 @@ public:
 		if (to_pick < num_elements)
 		{
 			TYPE* tmp = &buffer[to_pick];
-			for (unsigned int i = to_pick + 1; i < to_pick; i++)
+			for (unsigned int i = to_pick + 1; i < num_elements; i++)
 			{
 				buffer[i - 1] = buffer[i];
 			}
+			num_elements--;
 			return tmp;
 		}
 			return NULL;
