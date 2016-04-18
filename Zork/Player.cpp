@@ -125,7 +125,7 @@ void Player::Get(mString to_pick, mString to_from)
 			return;
 		}
 
-		for (unsigned int i = 0; i < items.size(); i++)
+		for (unsigned int i = 0; i < posPlayer->items[temp]->items.size(); i++)
 		{
 			if (posPlayer->items[temp]->items[i]->name == to_pick)
 			{
