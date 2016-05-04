@@ -73,7 +73,7 @@ void World::CreateWorld(){
 		 rooms.push_back(new_room);
 
 		
-players[0]->posPlayer = rooms[0];
+		 players[0]->room_position = rooms[0];
 
 		// Player* new_player = new Player;
 	//	 players.push_back( rooms[0]);
@@ -332,21 +332,21 @@ bool World::Command(){
 
 	else if (Input[0] == "north" || Input[0] == "n")
 	{
-		players[0]->MovePlayer(this, north);
+		players[0]->Move(this, north);
 	}
 	else if (Input[0] == "south" || Input[0] == "s")
 	{
-		players[0]->MovePlayer(this, south);
+		players[0]->Move(this, south);
 	}
 	else if (Input[0] == "east" || Input[0] == "e")
 
 	{
-		players[0]->MovePlayer(this, east);
+		players[0]->Move(this, east);
 	}
 	
 	else if (Input[0] == "west" || Input[0] == "w")
 	{
-		players[0]->MovePlayer(this, west);
+		players[0]->Move(this, west);
 	}
 
 		//COMMANDS TO GO:
@@ -354,16 +354,16 @@ bool World::Command(){
 	else if (Input.size() == 2 && Input[0] == "go")
 	{
 		if (Input[1] == "north" || Input[1] == "n" )
-			players[0]->MovePlayer(this, north);
+			players[0]->Move(this, north);
 
 		else if (Input[1] == "south" || Input[1] == "s")
-			players[0]->MovePlayer(this, south);
+			players[0]->Move(this, south);
 
 		else if (Input[1] == "east" || Input[1] == "e")
-			players[0]->MovePlayer(this, east);
+			players[0]->Move(this, east);
 
 		else if (Input[1] == "west" || Input[1] == "w")
-			players[0]->MovePlayer(this, west);
+			players[0]->Move(this, west);
 
 	}
 		

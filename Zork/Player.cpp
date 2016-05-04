@@ -10,10 +10,10 @@
 
 
 void Player::Look()const{
-	printf("%s \n %s \n", posPlayer->name.c_str(), posPlayer->description.c_str());
-	for (unsigned int i = 0; i < posPlayer->items.size(); i++)
+	printf("%s \n %s \n", room_position->name.c_str(), room_position->description.c_str());
+	for (unsigned int i = 0; i < room_position->items.size(); i++)
 	{
-		printf("%s\n %s\n", posPlayer->items[i]->name.c_str(), posPlayer->items[i]->description.c_str());
+		printf("%s\n %s\n", room_position->items[i]->name.c_str(), room_position->items[i]->description.c_str());
 	}
 }
 
@@ -34,8 +34,8 @@ void Player::equiped(const char* to_equip)
 	if (items[i]->name == to_equip)
 	{
 		equipped =* items.Pick(i);
-		atack = items[i]->atackweapon ;
-			printf("You got the %s with %i atack damage: ", to_equip, atack);
+		attack = items[i]->atackweapon ;
+			printf("You got the %s with %i atack damage: ", to_equip, attack);
 	}
 	else printf("You can't do this: ");
 }
@@ -48,10 +48,10 @@ void Player::unequiped(const char* to_equip)
 	}
 	for (unsigned int i = 0; i < items.size(); i++)
 
-	if (posPlayer->items[i]->name == to_equip)
+	if (room_position->items[i]->name == to_equip)
 	{
 		printf("You unequiped the '%s': ", to_equip);
-		posPlayer->items.push_back(equipped);
+		room_position->items.push_back(equipped);
 		equipped = NULL;
 	}
 }
@@ -64,9 +64,9 @@ void Player::Put(mString to_put, mString to_into)
 	int temp2;
 	if (to_into == "chest")
 	{
-		for (unsigned int i = 0; i < posPlayer->items.size(); i++) // searching chest
+		for (unsigned int i = 0; i < room_position->items.size(); i++) // searching chest
 		{
-			if (posPlayer->items[i]->name == to_into)
+			if (room_position->items[i]->name == to_into)
 			{
 				temp = i;
 				found = true;
@@ -95,7 +95,7 @@ void Player::Put(mString to_put, mString to_into)
 			return;
 		}
 		printf("You put '%s into '%s'", to_put.c_str(), to_into.c_str());
-		posPlayer->items[temp]->items.push_back(items[temp2]);
+		room_position->items[temp]->items.push_back(items[temp2]);
 		items.Pick(temp2);
 	}
 	else
@@ -109,9 +109,9 @@ void Player::Get(mString to_pick, mString to_from)
 	int temp2;
 	if (to_from == "chest")
 	{
-		for (unsigned int i = 0; i < posPlayer->items.size(); i++) // searching chest
+		for (unsigned int i = 0; i < room_position->items.size(); i++) // searching chest
 		{
-			if (posPlayer->items[i]->name == to_from)
+			if (room_position->items[i]->name == to_from)
 			{
 				temp = i;
 				found = true;
@@ -125,9 +125,9 @@ void Player::Get(mString to_pick, mString to_from)
 			return;
 		}
 
-		for (unsigned int i = 0; i < posPlayer->items[temp]->items.size(); i++)
+		for (unsigned int i = 0; i < room_position->items[temp]->items.size(); i++)
 		{
-			if (posPlayer->items[temp]->items[i]->name == to_pick)
+			if (room_position->items[temp]->items[i]->name == to_pick)
 			{
 				found2 = true;
 				temp2 = i;
@@ -141,8 +141,8 @@ void Player::Get(mString to_pick, mString to_from)
 			return;
 		}
 		printf("You get '%s from '%s'", to_pick.c_str(), to_from.c_str());
-		items.push_back(posPlayer->items[temp]->items[temp2]);
-		posPlayer->items[temp]->items.Pick(temp2);
+		items.push_back(room_position->items[temp]->items[temp2]);
+		room_position->items[temp]->items.Pick(temp2);
 
 	}
 	else
@@ -159,15 +159,15 @@ void Player::Pick( const mString to_pick)
 	}
 	else
 	{
-		for (unsigned int i = 0; i < posPlayer->items.size(); i++)
+		for (unsigned int i = 0; i < room_position->items.size(); i++)
 		{
 			//mString str4 = posPlayer->items[i]->name;
-			if (posPlayer->items[i]->name == to_pick)
+			if (room_position->items[i]->name == to_pick)
 			{
 				found = true;
-				items.push_back(posPlayer->items[i]);
+				items.push_back(room_position->items[i]);
 
-				posPlayer->items.Pick(i);
+				room_position->items.Pick(i);
 				printf("You picked a %s: ", to_pick.c_str());
 			}
 			if (found == true)
@@ -189,7 +189,7 @@ void Player::Drop(const char* to_drop)
 		{
 			found = true;
 
-			posPlayer->items.push_back(items[i]);
+			room_position->items.push_back(items[i]);
 
 			items.Pick(i);
 			printf("You dropped the %s: ", to_drop);
@@ -201,32 +201,7 @@ void Player::Drop(const char* to_drop)
 		printf("This item don't exist or isn't there!");
 }
 
-void Player::MovePlayer(World* world, dir adress){
 
-	int i = 0;
-	bool exitFound;
-
-	for (i = 0; i < 21; i++)
-	{
-		if (world->exits[i]->source == posPlayer && world->exits[i]->direction == adress)
-		{
-			exitFound = true;
-
-			if (world->exits[i]->openDoor == true)
-			{
-				printf("%s \n %s \n", world->exits[i]->destiny->name.c_str(), world->exits[i]->destiny->description.c_str());
-				posPlayer = world->exits[i]->destiny;
-			}
-			else
-				printf("The door is closed...\n");
-			break;
-		}
-		
-		exitFound = false;
-	}
-	if (exitFound == false)
-		printf("You can't go there...\n");
-}
 
 
 
@@ -235,7 +210,7 @@ void Player::LookCommand(World* world, dir adress)
 	int i = 0;
 	bool look_dir=false;
 	for (i = 0; i < 21; i++){
-		if (world->exits[i]->source == posPlayer && world->exits[i]->direction == adress)
+		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress)
 		{
 
 			look_dir = true;
@@ -256,7 +231,7 @@ void Player::LookCommand(World* world, dir adress)
 void Player::OpenDoor(World* world, dir adress){
 	int i = 0;
 	for (i = 0; i < 21; i++){
-		if (world->exits[i]->source == posPlayer && world->exits[i]->direction == adress){
+		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress){
 			if (world->exits[i]->openDoor==false){
 				world->exits[i]->openDoor = true;
 				printf("You opened the door.\n");
@@ -271,7 +246,7 @@ void Player::OpenDoor(World* world, dir adress){
 void Player::CloseDoor(World* world, dir adress){
 	int i = 0;
 	for (i = 0; i < 21; i++){
-		if (world->exits[i]->source == posPlayer && world->exits[i]->direction == adress){
+		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress){
 			if (world->exits[i]->openDoor == true){
 				world->exits[i]->openDoor = false;
 				printf("The door is closed.\n");
@@ -284,5 +259,7 @@ void Player::CloseDoor(World* world, dir adress){
 	}
 }
 void Player::Help()const{
-	printf("You can move around the room with the keyboard keys (n/s/w/e) or with the words north, south, east , west. Also you can write go and the words north,south,east,west. If you write look you can see our room, but if you write look north you will see the north room.\n To finish the commands you can close and open the doors with the same method of the command look, and quit the game pressing the 'q'.\n ");
+	printf("You can move around the room with the keyboard keys (n/s/w/e) or with the words north, south, east , west.");
+	printf("Also you can write go and the words north,south,east,west. If you write look you can see our room, but if you write look north you will see the north room.\n ");
+	printf("To finish the commands you can close and open the doors with the same method of the command look, and quit the game pressing the 'q'.\n ");
 }

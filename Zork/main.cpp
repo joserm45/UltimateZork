@@ -17,8 +17,8 @@ int main(){
 	printf("%s \n ", world->rooms[0]->description);
 	printf(" Write a comand to move(n/s/e/w):");
 	
-	do{
-		
+	do
+	{		
 		final = world->Command();
 	}
 
