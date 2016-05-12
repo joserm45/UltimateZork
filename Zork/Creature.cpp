@@ -16,6 +16,7 @@ void Creature::Move(World* world, dir adress)
 	int i = 0;
 	bool exitFound;
 
+
 	for (i = 0; i < 21; i++)
 	{
 		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress)
@@ -24,18 +25,45 @@ void Creature::Move(World* world, dir adress)
 
 			if (world->exits[i]->openDoor == true)
 			{
-				printf("%s \n %s \n", world->exits[i]->destiny->name.c_str(), world->exits[i]->destiny->description.c_str());
+				if (type == PLAYER)
+				{
+					printf("%s \n %s \n", world->exits[i]->destiny->name.c_str(), world->exits[i]->destiny->description.c_str());
+				}
+				if (type == ZOMBIE)
+				{
+					printf("Zombie has moved to:%s  \n", world->exits[i]->Get_adress_char(adress));
+				}
 				room_position = world->exits[i]->destiny;
 			}
 			else
-				printf("The door is closed...\n");
-			break;
+			{
+				if (type == PLAYER)
+				{
+					printf("The door is closed...\n");
+				}
+				if (type == ZOMBIE)
+				{
+					printf("Zombie has smashed a door trying to going:%s  \n", world->exits[0]->Get_adress_char(adress));
+				}
+
+				break;
+			}
 		}
 
 		exitFound = false;
 	}
 	if (exitFound == false)
-		printf("You can't go there...\n");
+	{
+		if (type == PLAYER)
+		{
+			printf("You can't go there...\n");
+		}
+		if (type == ZOMBIE)
+		{
+			printf("Zombie has smashed a wall trying to going:%s  \n", world->exits[0]->Get_adress_char(adress));
+		}
+		
+	}
 }
 Creature::~Creature()
 {

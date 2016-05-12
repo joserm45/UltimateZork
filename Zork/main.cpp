@@ -19,7 +19,7 @@ int main(){
 	
 	do
 	{		
-		final = world->Command();
+		final = world->Update();
 	}
 
 	while (final == true);

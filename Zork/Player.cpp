@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include "Creature.h"
 
 #include "Player.h"
 #include "World.h"
@@ -8,6 +8,13 @@
 #include "Exits.h"
 #include "Item.h"
 
+Player:: Player() : Creature ("Mikel", "Young and beautiful man", 30,2,NULL,coins,NULL)
+{
+
+}
+Player::Player(Item* object, Room* room) : Creature("Mikel", "Young and beautiful man", 30, 2, object, coins, room)
+{
+}
 
 void Player::Look()const{
 	printf("%s \n %s \n", room_position->name.c_str(), room_position->description.c_str());

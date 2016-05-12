@@ -1,6 +1,8 @@
 #ifndef Zork_World
 #define Zork_World
 #include "Vector.h"
+
+class Zombie;
 class Room;
 class Exit;
 class Player;
@@ -11,10 +13,11 @@ public:
 	Vector <Room*> rooms;
 	Vector <Exit*> exits;
 	Vector <Player*> players;
+	Vector <Zombie*> zombie;
 //	Player* players = nullptr;	
 
 	void CreateWorld();
-	bool Command();
+	bool Update();
 
 	World();
 	

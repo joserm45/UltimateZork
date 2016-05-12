@@ -7,7 +7,7 @@ class Item;
 class Room;
 class World;
 enum dir;
-
+enum creature_type{ NPC, ZOMBIE, PLAYER };
 class Creature : public Entity
 {
 public:
@@ -15,6 +15,7 @@ public:
 	Creature(){}
 	Creature(char* name, char* description,int health, int attack, Item*, int coins, Room*);
 
+	creature_type type;
 	int health = 20;
 	int coins=100;
 	int attack = 2;

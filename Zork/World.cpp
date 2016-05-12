@@ -4,7 +4,7 @@
 
 
 #include "String.h"
-
+#include "Zombie.h"
 #include "Item.h"
 #include "World.h"
 #include "Player.h"
@@ -19,8 +19,7 @@ World::World(){
 
 
 //	Vector <Player*> players;
-	Player*	new_players = new Player;
-	players.push_back(new_players);
+
 	//rooms = new Room[11];
 //	players = new Player;
 	//exits = new Exit[22];
@@ -29,19 +28,23 @@ World::World(){
 
 
 void World::CreateWorld(){
-//	rooms = new Room;
+	//	rooms = new Room;
 
 	Item* sword1 = new Item("sword", "Sharppened");
-	
-	Item* gun= new Item("gun", "Can kill zombies!");
+
+	Item* gun = new Item("gun", "Can kill zombies!");
 	gun->atackweapon = 4;
 
 	Item* chest = new Item("chest", "Save items!");
-	
-	
+
+
 
 	Room* new_room = new Room("Reception Room:", "In the middle of the room there is a large broken counter. You can also see a lot of wires on the ground, as if it had been something strange.");
 	rooms.push_back(new_room);
+
+	Player*	new_players = new Player(NULL, rooms[0]);
+	players.push_back(new_players);
+
 
 	rooms[0]->items.push_back(sword1);
 	rooms[0]->items.push_back(gun);
@@ -72,8 +75,9 @@ void World::CreateWorld(){
 		 new_room = new Room("Terrace", "A big place with a landing symbol in the middle.");
 		 rooms.push_back(new_room);
 
+		 zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[0]));
 		
-		 players[0]->room_position = rooms[0];
+
 
 		// Player* new_player = new Player;
 	//	 players.push_back( rooms[0]);
@@ -273,7 +277,7 @@ void World::CreateWorld(){
 	Terrace->setExits(NULL, Living Room, NULL, NULL);*/
 }
 
-bool World::Command(){
+bool World::Update(){
 	char command[40];
 
 
@@ -300,7 +304,7 @@ bool World::Command(){
 	//}
 	system("cls");
 	
-
+	zombie[0]->Update(this);
 	//COMMAND LOOK DIRECTION.
 
 	if (Input[0] == "look" && Input.size()==1)

@@ -17,7 +17,7 @@ public:
 	Room* destiny;
 	bool openDoor = false;
 	dir direction;
-
+	char* Get_adress_char(dir);
 	Exit();
 	Exit(const char* name, const char* desc);
 	~Exit();

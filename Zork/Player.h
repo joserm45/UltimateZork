@@ -13,7 +13,9 @@ class World;
 class Player : public Creature
 {
 public:
-	
+	Player();
+	Player(Item*,Room*);
+
 	Item* equipped;
 	int max_slots;
 
