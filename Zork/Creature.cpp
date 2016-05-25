@@ -3,13 +3,19 @@
 #include "Exits.h"
 
 
-Creature::Creature(char* name_NPC, char* description_NPC, int health_1, int attack_1, Item* items_1, int coins_1, Room* position) : Entity(name_NPC, description_NPC) , health(health_1), attack(attack_1), coins(coins_1), room_position(position) 
+Creature::Creature(char* name_NPC, char* description_NPC, int health_1, int attack_1, Item* items_1, int coins_1, Room* position) : Entity(name_NPC, description_NPC), health(health_1), attack(attack_1), coins(coins_1), room_position(position)
 {
 	items.push_back(items_1);
 }
-void Creature::Attack()
+void Creature::Attack(World* world)
 {
+	/*for (int i = 0; i < 21; i++)
+	{
+		if (world->exits[i]->source == room_position && world->exits[i]->source == room_position)
+		{
 
+		}
+	}*/
 }
 void Creature::Move(World* world, dir adress)
 {
@@ -64,6 +70,7 @@ void Creature::Move(World* world, dir adress)
 		}
 		
 	}
+
 }
 Creature::~Creature()
 {

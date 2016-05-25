@@ -30,12 +30,12 @@ World::World(){
 void World::CreateWorld(){
 	//	rooms = new Room;
 
-	Item* sword1 = new Item("sword", "Sharppened");
+	Item* sword1 = new Item("Sword", "Sharppened");
+	sword1->atackweapon = 4;
+	Item* gun = new Item("Sun", "Can kill zombies!");
+	gun->atackweapon = 6;
 
-	Item* gun = new Item("gun", "Can kill zombies!");
-	gun->atackweapon = 4;
-
-	Item* chest = new Item("chest", "Save items!");
+	Item* chest = new Item("Chest", "Save items!");
 
 
 
@@ -49,8 +49,9 @@ void World::CreateWorld(){
 	rooms[0]->items.push_back(sword1);
 	rooms[0]->items.push_back(gun);
 	rooms[0]->items.push_back(chest);
-	 new_room = new Room("WC's", "A slight breathing is heard in the room. It seems that something scary this about to happen.");
-	 rooms.push_back(new_room);
+
+		 new_room = new Room("WC's", "A slight breathing is heard in the room. It seems that something scary this about to happen.");
+		 rooms.push_back(new_room);
 	
 	     new_room = new Room("Living Room", "You can see a lot of papers on the floor.");
 		 rooms.push_back(new_room);
@@ -75,7 +76,7 @@ void World::CreateWorld(){
 		 new_room = new Room("Terrace", "A big place with a landing symbol in the middle.");
 		 rooms.push_back(new_room);
 
-		 zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[0]));
+		 zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[0]));  //Creating zombie
 		
 
 
