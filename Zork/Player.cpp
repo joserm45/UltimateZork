@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "Creature.h"
-
+#include "Zombie.h"
 #include "Player.h"
 #include "World.h"
 #include "Rooms.h"
@@ -10,10 +10,11 @@
 
 Player:: Player() : Creature ("Mikel", "Young and beautiful man", 30,2,NULL,coins,NULL)
 {
-
+	type = PLAYER;
 }
 Player::Player(Item* object, Room* room) : Creature("Mikel", "Young and beautiful man", 30, 2, object, coins, room)
 {
+	type = PLAYER;
 }
 
 void Player::Look()const{
@@ -29,9 +30,12 @@ void Player::DisplayInv()const
 	if (items.size() == 0)
 	{
 		printf("You don't have any item!");
+		
 	}
 	for (unsigned int i = 0; i < items.size(); i++)
 		printf("%s\n", items[i]->name);
+
+	printf("You have %i coins\n", coins);
 }
 
 void Player::equiped(const char* to_equip)
@@ -40,8 +44,13 @@ void Player::equiped(const char* to_equip)
 
 	if (items[i]->name == to_equip)
 	{
-		equipped =* items.Pick(i);
+		if (equipped != NULL)
+		{
+			unequiped(equipped->name.c_str());
+		}
+		equipped = *items.Pick(i);
 		attack = items[i]->atackweapon ;
+
 			printf("You got the %s with %i atack damage: ", to_equip, attack);
 	}
 	else printf("You can't do this: ");
@@ -53,13 +62,18 @@ void Player::unequiped(const char* to_equip)
 	{
 		printf("You don't have any thing! ");
 	}
-	for (unsigned int i = 0; i < items.size(); i++)
 
-	if (room_position->items[i]->name == to_equip)
+	else if (equipped->name == to_equip)
 	{
+		
 		printf("You unequiped the '%s': ", to_equip);
 		room_position->items.push_back(equipped);
 		equipped = NULL;
+		attack = 2;
+	}
+	else
+	{
+		printf("You don't have the same item!");
 	}
 }
 
@@ -265,6 +279,74 @@ void Player::CloseDoor(World* world, dir adress){
 		}
 	}
 }
+void Player::Update(World* world)
+{
+	switch (state)
+	{
+
+	case PLAYER_IDLE:
+	{
+
+		break;
+	}
+		
+	case PLAYER_ATTACK:
+	{
+	    UpdateAttack(world);
+		break;
+	}
+		
+	default:
+		break;
+	}
+}
+
+void Player::Attack(World* world)
+{
+	if (state == PLAYER_IDLE)
+	{
+		for (unsigned int i = 0; i < world->zombie.size(); i++)
+		{
+			if (world->zombie[i]->room_position == room_position)
+			{
+				your_attack = true;
+				state = PLAYER_ATTACK;
+
+				zombie_to_attack = world->zombie[i];
+				zombie_to_attack->your_attack = false;  //ZOMBIE
+				zombie_to_attack->state = ATTACK;
+				break;
+			}
+		}
+
+		if (zombie_to_attack == NULL)
+		{
+			printf("You can't attack zombies, because there aren't any zombies!");
+		}
+
+	}
+	else
+		printf("You are already in combat!");
+}
+
+
+void Player::UpdateAttack(World* world)
+{
+	if (your_attack == true)
+	{
+		zombie_to_attack->health = zombie_to_attack->health - attack;
+		your_attack = false;
+		zombie_to_attack->your_attack = true;
+		printf("Player hit zombie, zombie health: %i\n", zombie_to_attack->health);
+		if (zombie_to_attack->health <= 0)
+		{
+			printf("You killed the zombie!\n");
+			zombie_to_attack->Die(world, this);
+		}
+	}
+}
+
+
 void Player::Help()const{
 	printf("You can move around the room with the keyboard keys (n/s/w/e) or with the words north, south, east , west.");
 	printf("Also you can write go and the words north,south,east,west. If you write look you can see our room, but if you write look north you will see the north room.\n ");

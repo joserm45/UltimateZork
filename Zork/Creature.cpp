@@ -5,18 +5,12 @@
 
 Creature::Creature(char* name_NPC, char* description_NPC, int health_1, int attack_1, Item* items_1, int coins_1, Room* position) : Entity(name_NPC, description_NPC), health(health_1), attack(attack_1), coins(coins_1), room_position(position)
 {
-	items.push_back(items_1);
-}
-void Creature::Attack(World* world)
-{
-	/*for (int i = 0; i < 21; i++)
+	if (items_1 != nullptr)
 	{
-		if (world->exits[i]->source == room_position && world->exits[i]->source == room_position)
-		{
-
-		}
-	}*/
+		items.push_back(items_1);
+	}
 }
+
 void Creature::Move(World* world, dir adress)
 {
 	int i = 0;
@@ -39,7 +33,9 @@ void Creature::Move(World* world, dir adress)
 				{
 					printf("Zombie has moved to:%s  \n", world->exits[i]->Get_adress_char(adress));
 				}
+
 				room_position = world->exits[i]->destiny;
+				break;
 			}
 			else
 			{
@@ -49,7 +45,7 @@ void Creature::Move(World* world, dir adress)
 				}
 				if (type == ZOMBIE)
 				{
-					printf("Zombie has smashed a door trying to going:%s  \n", world->exits[0]->Get_adress_char(adress));
+					printf("Zombie has smashed a door trying to go: %s  \n", world->exits[0]->Get_adress_char(adress));
 				}
 
 				break;
@@ -66,7 +62,7 @@ void Creature::Move(World* world, dir adress)
 		}
 		if (type == ZOMBIE)
 		{
-			printf("Zombie has smashed a wall trying to going:%s  \n", world->exits[0]->Get_adress_char(adress));
+			printf("Zombie has smashed a wall trying to go: %s  \n", world->exits[0]->Get_adress_char(adress));
 		}
 		
 	}

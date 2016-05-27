@@ -15,6 +15,7 @@ public:
 	Vector <Player*> players;
 	Vector <Zombie*> zombie;
 //	Player* players = nullptr;	
+	bool lose=false;
 
 	void CreateWorld();
 	bool Update();

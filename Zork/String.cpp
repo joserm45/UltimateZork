@@ -48,7 +48,7 @@ unsigned int mString::lenght() const
 
 void mString::operator = (const  mString& other)
 {
-	printf("\nCalling operaor =");
+	//printf("\nCalling operaor =");
 
 	if (capacity < other.capacity)
 	{

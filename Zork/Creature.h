@@ -22,7 +22,7 @@ public:
 	Vector <Item*> items;
 	Room* room_position = nullptr;
 	Room* room_zombie = nullptr;
-	void Attack(World* world);
+
 	void Move(World* world, dir adress);
 	
 	~Creature();
