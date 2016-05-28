@@ -31,7 +31,7 @@ void Creature::Move(World* world, dir adress)
 				}
 				if (type == ZOMBIE)
 				{
-					printf("Zombie has moved to:%s  \n", world->exits[i]->Get_adress_char(adress));
+					//printf("Zombie has moved to:%s  \n", world->exits[i]->Get_adress_char(adress));
 				}
 
 				room_position = world->exits[i]->destiny;
@@ -45,7 +45,7 @@ void Creature::Move(World* world, dir adress)
 				}
 				if (type == ZOMBIE)
 				{
-					printf("Zombie has smashed a door trying to go: %s  \n", world->exits[0]->Get_adress_char(adress));
+					//printf("Zombie has smashed a door trying to go: %s  \n", world->exits[0]->Get_adress_char(adress));
 				}
 
 				break;
@@ -62,7 +62,7 @@ void Creature::Move(World* world, dir adress)
 		}
 		if (type == ZOMBIE)
 		{
-			printf("Zombie has smashed a wall trying to go: %s  \n", world->exits[0]->Get_adress_char(adress));
+			//printf("Zombie has smashed a wall trying to go: %s  \n", world->exits[0]->Get_adress_char(adress));
 		}
 		
 	}

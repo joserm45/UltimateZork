@@ -167,7 +167,7 @@ void Player::Get(mString to_pick, mString to_from)
 
 	}
 	else
-		printf("You can't get items from there!");
+		printf("\nYou can't get items from there!");
 }
 
 void Player::Pick( const mString to_pick)
@@ -175,7 +175,7 @@ void Player::Pick( const mString to_pick)
 	bool found = false;
 	if (to_pick == "chest")
 	{
-		printf("You can't pick a chest!");
+		printf("\nYou can't pick a chest!");
 		
 	}
 	else
@@ -189,13 +189,13 @@ void Player::Pick( const mString to_pick)
 				items.push_back(room_position->items[i]);
 
 				room_position->items.Pick(i);
-				printf("You picked a %s: ", to_pick.c_str());
+				printf("\nYou picked a '%s'. ", to_pick.c_str());
 			}
 			if (found == true)
 				break;
 		}
 		if (found == false)
-			printf("This item don't exist or isn't there!");
+			printf("\nThis item don't exist or isn't there!");
 	}
 }
 
@@ -300,7 +300,25 @@ void Player::Update(World* world)
 		break;
 	}
 }
+void Player::SpecialAttack(World* world, const char* to_attack)
+{
+	if (to_attack == "attack")
+	{
+		int temp = 0;
+		for (unsigned int i = 0; i < world->zombie.size();i++)
+		{
 
+			if (world->zombie[i]->room_position == room_position)
+			{
+				temp++;
+			}
+		}
+		printf("\nYou kill %i zombies and you earned %i coins", temp,temp*100);
+		//60 second delay
+	}
+	else 
+		printf("\nI don't know this command!");
+}
 void Player::Attack(World* world)
 {
 	if (state == PLAYER_IDLE)

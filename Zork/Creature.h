@@ -21,7 +21,7 @@ public:
 	int attack = 2;
 	Vector <Item*> items;
 	Room* room_position = nullptr;
-	Room* room_zombie = nullptr;
+	//Room* room_zombie = nullptr;
 
 	void Move(World* world, dir adress);
 	

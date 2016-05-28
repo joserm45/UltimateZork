@@ -21,7 +21,6 @@ int main(){
 	{		
 		final = world->Update();
 	}
-
 	while (final == true);
 	
 	

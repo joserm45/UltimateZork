@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <Windows.h>
 
-
+#include "conio.h"
 #include "String.h"
 #include "Zombie.h"
 #include "Item.h"
@@ -304,270 +305,308 @@ void World::CreateWorld(){
 }
 
 bool World::Update(){
-	char command[40];
-
-
+	char command[50];
+	
+	//bool firsttimeinloop = true;
+	unsigned int currenttime = 0;
+	unsigned int initialtime = 0;
+	unsigned int charcommandnum = 0;
+	mString last_command;
 	fflush(stdin);
-
-
-	gets_s(command);
-
-	Vector <mString> Input;
-	mString str1 = command;
-
-	str1.tokenize(Input);
-	if (Input.size() == 0)
+	while (1)
 	{
-		printf("Write a command!\n");
-	//return true;
-	}
-	
-	
+		//Execute the code every X fractions of second (DELAY)
+		currenttime = GetTickCount();
+		/*if (currenttime >= (initialtime + 1000)){
+			printf("Hy.\n");
+			initialtime = currenttime;
+			}*/
+		if (_kbhit())
+		{
+			if (charcommandnum < (50 - 2))
+			{
+				command[charcommandnum] = _getch();
+				command[charcommandnum + 1] = '\0';
+				printf("String: %s\n", command); //Print the command with the delay
+				charcommandnum++;
+				if (command[charcommandnum - 1] == '\r') //when you press enter, print the command and then we clean.
+				{
+					printf("Your command is: %s\n", command);
+					command[charcommandnum] = '\0';
+					charcommandnum = 0;
+					last_command = command;
+				}
+			}
+			else
+			{
+				command[50 - 1] = '\0';
+			}
+		}
 
-//	strcpy_s(first, strtok_s(command, " ", &safe));
-//	if (strcmp(safe, "") != 0){
-	//	strcpy_s(second, strtok_s(safe, " ", &trash));
-	//}
-	else
-	{
-		system("cls");
+		//currenttime = GetTickCount();
+		Vector <mString> Input;
+		last_command = command;
 		
-
-		//COMMAND LOOK DIRECTION.
-
-		if (Input[0] == "look" && Input.size() == 1)
+		last_command.tokenize(Input);
+		if (Input.size() == NULL)
 		{
-			players[0]->Look();
+			printf("Write a command!\n");
+			//return true;
 		}
-		else if (Input[0] == "look" && Input.size() == 2)
+
+
+
+		//	strcpy_s(first, strtok_s(command, " ", &safe));
+		//	if (strcmp(safe, "") != 0){
+		//	strcpy_s(second, strtok_s(safe, " ", &trash));
+		//}
+		else
 		{
-			if (Input[1] == "north" || Input[1] == "n")
+			//COMMAND LOOK DIRECTION.
+
+			if (Input[0] == "look" && Input.size() == 1)
 			{
-				players[0]->LookCommand(this, north);
+				players[0]->Look();
 			}
-			else if (Input[1] == "south" || Input[1] == "s")
+			else if (Input[0] == "look" && Input.size() == 2)
 			{
-				players[0]->LookCommand(this, south);
+				if (Input[1] == "north" || Input[1] == "n")
+				{
+					players[0]->LookCommand(this, north);
+				}
+				else if (Input[1] == "south" || Input[1] == "s")
+				{
+					players[0]->LookCommand(this, south);
+				}
+				else if (Input[1] == "east" || Input[1] == "e")
+				{
+					players[0]->LookCommand(this, east);
+				}
+				else if (Input[1] == "west" || Input[1] == "w")
+				{
+					players[0]->LookCommand(this, west);
+				}
 			}
-			else if (Input[1] == "east" || Input[1] == "e")
+
+
+			//COMMANDS MOVEMENT
+
+			else if (Input[0] == "north" || Input[0] == "n")
 			{
-				players[0]->LookCommand(this, east);
-			}
-			else if (Input[1] == "west" || Input[1] == "w")
-			{
-				players[0]->LookCommand(this, west);
-			}
-		}
-
-
-		//COMMANDS MOVEMENT
-
-		else if (Input[0] == "north" || Input[0] == "n")
-		{
-			players[0]->Move(this, north);
-		}
-		else if (Input[0] == "south" || Input[0] == "s")
-		{
-			players[0]->Move(this, south);
-		}
-		else if (Input[0] == "east" || Input[0] == "e")
-
-		{
-			players[0]->Move(this, east);
-		}
-
-		else if (Input[0] == "west" || Input[0] == "w")
-		{
-			players[0]->Move(this, west);
-		}
-
-		//COMMANDS TO GO:
-
-		else if (Input.size() == 2 && Input[0] == "go")
-		{
-			if (Input[1] == "north" || Input[1] == "n")
 				players[0]->Move(this, north);
-
-			else if (Input[1] == "south" || Input[1] == "s")
+			}
+			else if (Input[0] == "south" || Input[0] == "s")
+			{
 				players[0]->Move(this, south);
+			}
+			else if (Input[0] == "east" || Input[0] == "e")
 
-			else if (Input[1] == "east" || Input[1] == "e")
+			{
 				players[0]->Move(this, east);
+			}
 
-			else if (Input[1] == "west" || Input[1] == "w")
+			else if (Input[0] == "west" || Input[0] == "w")
+			{
 				players[0]->Move(this, west);
-
-		}
-
-
-		//COMMAND OPEN DOOR
-
-		else if (Input[0] == "open" && Input.size() == 2)
-		{
-
-			if (Input[1] == "north" || Input[1] == "n")
-			{
-				players[0]->OpenDoor(this, north);
 			}
-			else if (Input[1] == "south" || Input[1] == "s")
+
+			//COMMANDS TO GO:
+
+			else if (Input.size() == 2 && Input[0] == "go")
 			{
-				players[0]->OpenDoor(this, south);
+				if (Input[1] == "north" || Input[1] == "n")
+					players[0]->Move(this, north);
+
+				else if (Input[1] == "south" || Input[1] == "s")
+					players[0]->Move(this, south);
+
+				else if (Input[1] == "east" || Input[1] == "e")
+					players[0]->Move(this, east);
+
+				else if (Input[1] == "west" || Input[1] == "w")
+					players[0]->Move(this, west);
+
 			}
-			else if (Input[1] == "east" || Input[1] == "e")
+
+
+			//COMMAND OPEN DOOR
+
+			else if (Input[0] == "open" && Input.size() == 2)
 			{
-				players[0]->OpenDoor(this, east);
+
+				if (Input[1] == "north" || Input[1] == "n")
+				{
+					players[0]->OpenDoor(this, north);
+				}
+				else if (Input[1] == "south" || Input[1] == "s")
+				{
+					players[0]->OpenDoor(this, south);
+				}
+				else if (Input[1] == "east" || Input[1] == "e")
+				{
+					players[0]->OpenDoor(this, east);
+				}
+				else if (Input[1] == "west" || Input[1] == "w")
+				{
+					players[0]->OpenDoor(this, west);
+				}
 			}
-			else if (Input[1] == "west" || Input[1] == "w")
+
+			//COMMAND CLOSE DOOR
+
+			else if (Input[0] == "close" && Input.size() == 2)
 			{
-				players[0]->OpenDoor(this, west);
+
+				if (Input[1] == "north" || Input[1] == "n")
+				{
+					players[0]->CloseDoor(this, north);
+				}
+				else if (Input[1] == "south" || Input[1] == "s")
+				{
+					players[0]->CloseDoor(this, south);
+				}
+				else if (Input[1] == "east" || Input[1] == "e")
+				{
+					players[0]->CloseDoor(this, east);
+				}
+				else if (Input[1] == "west" || Input[1] == "w")
+				{
+					players[0]->CloseDoor(this, west);
+				}
 			}
-		}
-
-		//COMMAND CLOSE DOOR
-
-		else if (Input[0] == "close" && Input.size() == 2)
-		{
-
-			if (Input[1] == "north" || Input[1] == "n")
+			//COMMAND ATTACK
+			else if (Input[0] == "attack" && Input.size() == 1) //ATTACK
 			{
-				players[0]->CloseDoor(this, north);
+				players[0]->Attack(this);
 			}
-			else if (Input[1] == "south" || Input[1] == "s")
+
+			//COMMAND SPECIAL ATTACK
+
+			else if (Input[0] == "special" && Input.size() == 2)
 			{
-				players[0]->CloseDoor(this, south);
+				//players[0]->SpecialAttack(this, Input[1].c_str);
 			}
-			else if (Input[1] == "east" || Input[1] == "e")
+			//COMMAND PICK
+
+			else if (Input[0] == "pick" && Input.size() == 2)
 			{
-				players[0]->CloseDoor(this, east);
+				players[0]->Pick(Input[1]);
 			}
-			else if (Input[1] == "west" || Input[1] == "w")
+
+			// COMAND DROP
+
+			else if (Input[0] == "drop" && Input.size() == 2)
 			{
-				players[0]->CloseDoor(this, west);
+				players[0]->Drop(Input[1].c_str());
+			}
+			//INVENTORY
+			else if (Input[0] == "inventory" || Input[0] == "inv" || Input[0] == "i" && Input.size() == 1)
+			{
+				players[0]->DisplayInv();
+			}
+			//EQUIP
+			else if (Input[0] == "equip"  && Input.size() == 2)
+			{
+				players[0]->equiped(Input[1].c_str());
+			}
+			//UNEQUIP
+			else if (Input[0] == "unequip"  && Input.size() == 2)
+			{
+				players[0]->unequiped(Input[1].c_str());
+			}
+
+			// PUT SWORD INTO BOX
+
+			else if (Input[0] == "put" && Input[2] == "into"  && Input.size() == 4)
+			{
+				players[0]->Put(Input[1], Input[3]);
+			}
+			// get SWORD from BOX
+
+			else if (Input[0] == "get" && Input[2] == "from"  && Input.size() == 4)
+			{
+				players[0]->Get(Input[1], Input[3]);
+			}
+			// COMMAND HELP
+
+			else if (Input[0] == "help" && Input.size() == 1)
+			{
+				players[0]->Help();
+			}
+
+			//QUIT GAMME
+			else if (Input[0] == "quit" && Input.size() == 1)
+			{
+				return false;
+			}
+			//NO ONE COMMAND
+
+			else
+			{
+				//printf("I don't understand that command. \n");
+			}
+
+		}
+		players[0]->Update(this);
+
+		for (unsigned int i = 0; i < zombie.size() && lose == false; i++)
+		{
+
+		//	printf("Zombie update numero: %i", i);
+			if (zombie[i]->Update(this, players[0]) == false)
+			{
+				zombie.Pick(i);
+				i--;
+			}
+
+		}
+		while (zombie.size() <= 2)
+		{
+			int random = rand() % 2;
+			int random_room = rand() % 9;
+
+			while (rooms[random_room] == players[0]->room_position)
+			{
+				random_room = rand() % 9;
+			}
+			switch (random)
+			{
+			case 0:
+			{
+					  zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room]));
+
+
+			}
+			case 1:
+			{
+					  Item* sword1 = new Item("Sword", "Sharppened");
+					  sword1->atackweapon = 4;
+					  zombie.push_back(new Zombie("Ricard", "A beautiful bad man", 10, 2, sword1, 100, rooms[random_room]));
+			}
+
+			case 2:
+			{
+					  zombie.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room]));
+			}
+			default:
+				break;
 			}
 		}
-		else if (Input[0] == "attack" && Input.size() == 1) //ATTACK
-		{
-			players[0]->Attack(this);
-		}
-		//COMMAND PICK
-
-		else if (Input[0] == "pick" && Input.size() == 2)
-		{
-			players[0]->Pick(Input[1]);
-		}
-
-		// COMAND DROP
-
-		else if (Input[0] == "drop" && Input.size() == 2)
-		{
-			players[0]->Drop(Input[1].c_str());
-		}
-		//INVENTORY
-		else if (Input[0] == "inventory" || Input[0] == "inv" || Input[0] == "i" && Input.size() == 1)
-		{
-			players[0]->DisplayInv();
-		}
-		//EQUIP
-		else if (Input[0] == "equip"  && Input.size() == 2)
-		{
-			players[0]->equiped(Input[1].c_str());
-		}
-		//UNEQUIP
-		else if (Input[0] == "unequip"  && Input.size() == 2)
-		{
-			players[0]->unequiped(Input[1].c_str());
-		}
-
-		// PUT SWORD INTO BOX
-
-		else if (Input[0] == "put" && Input[2] == "into"  && Input.size() == 4)
-		{
-			players[0]->Put(Input[1], Input[3]);
-		}
-		// get SWORD from BOX
-
-		else if (Input[0] == "get" && Input[2] == "from"  && Input.size() == 4)
-		{
-			players[0]->Get(Input[1], Input[3]);
-		}
-		// COMMAND HELP
-
-		else if (Input[0] == "help" && Input.size() == 1)
-		{
-			players[0]->Help();
-		}
-
-		//QUIT GAMME
-		else if (Input[0] == "quit" && Input.size() == 1)
+		if (lose == true)
 		{
 			return false;
 		}
-		//NO ONE COMMAND
-
-		else
-		{
-			printf("I don't understand that command. \n");
-		}
-
-	}
-	players[0]->Update(this);
-	
-	for (unsigned int i = 0; i < zombie.size() && lose == false; i++)
-	{
 		
-		printf("Zombie update numero: %i", i);
-		if (zombie[i]->Update(this, players[0]) == false)
-		{
-			zombie.Pick(i);
-			i--;
-		}
-		
-	}
-	while (zombie.size() <= 2)
-	{
-		int random = rand() % 2;
-		int random_room = rand() % 9;
-	
-		while (rooms[random_room] == players[0]->room_position)
-		{
-			random_room = rand() % 9;
-		}
-		switch (random)
-		{
-		case 0:
-		{
-				  zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room]));
-				 
-				  
-		}
-		case 1:
-		{
-				  Item* sword1 = new Item("Sword", "Sharppened");
-				  sword1->atackweapon = 4;
-				  zombie.push_back(new Zombie("Ricard", "A beautiful bad man", 10, 2, sword1, 100, rooms[random_room]));
-		}
-
-		case 2:
-		{
-				  zombie.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room]));
-		}
-		default:
-			break;
-		}
-	}
-	if (lose == true)
-	{
-		return false;
 	}
 	return true;
-	
 }
 
 
 
 
 
-World::~World(){
+World::~World()
+{
 
 //	delete[] rooms;
 //	delete  players;
