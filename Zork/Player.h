@@ -30,6 +30,7 @@ public:
 	void unequiped(const char* to_equip);
 	void DisplayInv()const;
 	void Look()const;
+	void Look(World*)const;
 	void Drop(const char* to_drop);
 	void Pick(const mString to_pick);
 	void LookCommand(World* world, dir adress);

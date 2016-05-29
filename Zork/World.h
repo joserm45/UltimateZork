@@ -1,6 +1,7 @@
 #ifndef Zork_World
 #define Zork_World
 #include "Vector.h"
+#include <Windows.h>
 
 class Zombie;
 class Room;
@@ -9,6 +10,7 @@ class Player;
 
 class World {
 public:
+	unsigned int initialtime = GetTickCount();
 
 	Vector <Room*> rooms;
 	Vector <Exit*> exits;

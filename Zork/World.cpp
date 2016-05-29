@@ -63,6 +63,9 @@ void World::CreateWorld(){
 	     new_room = new Room("Living Room", "You can see a lot of papers on the floor.");
 		 rooms.push_back(new_room);
 
+		 new_room = new Room("Control Room", "You can see a lot of radios and whires broken.");
+		 rooms.push_back(new_room);
+
 		 new_room = new Room("Window building", "After this jump are so exhausted need to repose for a moment.");
 		 rooms.push_back(new_room);
 
@@ -72,8 +75,8 @@ void World::CreateWorld(){
 		 new_room = new Room("Cave", "A barrier is colapsing the way, will need something strong to move it.");
 		 rooms.push_back(new_room);
 
-		 new_room = new Room("Final boss", "The Zombie king was waitting you, now he will make you pay with the death...");
-		 rooms.push_back(new_room);
+	//	 new_room = new Room("Final boss", "The Zombie king was waitting you, now he will make you pay with the death...");
+	//	 rooms.push_back(new_room);
 
 		 new_room = new Room("Disco room", "An innocent place to meet with people... All things are on the float even the top of a ventilation shaft");
 		 rooms.push_back(new_room);
@@ -83,6 +86,9 @@ void World::CreateWorld(){
 
 		 new_room = new Room("Terrace", "A big place with a landing symbol in the middle.");
 		 rooms.push_back(new_room);
+
+
+
 
 		 int random_room = rand() % 9;
 
@@ -131,7 +137,7 @@ void World::CreateWorld(){
 	exits[1]->source = rooms[0];
 	exits[1]->destiny = rooms[2];
 	exits[1]->direction = west;
-	exits[1]->openDoor = false;
+	exits[1]->openDoor = true;
 
 	
 
@@ -157,7 +163,7 @@ void World::CreateWorld(){
 	exits[4]->source = rooms[3];
 	exits[4]->destiny = rooms[1];
 	exits[4]->direction = south;
-	exits[4]->openDoor = false;
+	exits[4]->openDoor = true;
 
 	new_exit = new Exit("Hotel", "You need to do a big jump to arrive.");
 	exits.push_back(new_exit);
@@ -165,7 +171,7 @@ void World::CreateWorld(){
 	exits[5]->source = rooms[3];
 	exits[5]->destiny = rooms[4];
 	exits[5]->direction = east;
-	exits[5]->openDoor = false;
+	exits[5]->openDoor = false;////
 
 	new_exit = new Exit("Secret room", "You feel a frozen air coming from it.");
 	exits.push_back(new_exit);
@@ -189,7 +195,7 @@ void World::CreateWorld(){
 	exits[8]->source = rooms[5];
 	exits[8]->destiny = rooms[3];
 	exits[8]->direction = east;
-	exits[8]->openDoor = false;
+	exits[8]->openDoor = true;
 
 	new_exit = new Exit("Cave", "You can see a big barrier on the final.");
 	exits.push_back(new_exit);
@@ -197,13 +203,13 @@ void World::CreateWorld(){
 	exits[9]->source = rooms[5];
 	exits[9]->destiny = rooms[6];
 	exits[9]->direction = south;
-	exits[9]->openDoor = false;
+	exits[9]->openDoor = true;
 
 	new_exit = new Exit("Disco room", "It seems to have been unturned to search  something there...");
 	exits.push_back(new_exit);
 
 	exits[10]->source = rooms[5];
-	exits[10]->destiny = rooms[8];
+	exits[10]->destiny = rooms[7];
 	exits[10]->direction = west;
 	exits[10]->openDoor = true;
 
@@ -215,7 +221,7 @@ void World::CreateWorld(){
 	exits[11]->direction = north;
 	exits[11]->openDoor = true;
 
-	new_exit = new Exit("Forest", "A big shadow figure is moving in the distance...");
+	/*new_exit = new Exit("Forest", "A big shadow figure is moving in the distance...");
 	exits.push_back(new_exit);
 
 	exits[12]->source = rooms[6];
@@ -229,73 +235,73 @@ void World::CreateWorld(){
 	exits[13]->source = rooms[7];
 	exits[13]->destiny = rooms[6];
 	exits[13]->direction = north;
-	exits[13]->openDoor = true;
+	exits[13]->openDoor = true;*/
 
 	new_exit = new Exit("Secret room", "You feel a frozen air coming from it.");
 	exits.push_back(new_exit);
 
-	exits[14]->source = rooms[8];
-	exits[14]->destiny = rooms[5];
-	exits[14]->direction = east;
-	exits[14]->openDoor = true;
+	exits[12]->source = rooms[7];
+	exits[12]->destiny = rooms[5];
+	exits[12]->direction = east;
+	exits[12]->openDoor = true;
 
 	new_exit = new Exit("Bunker", "It looks like resistant...");
 	exits.push_back(new_exit);
 
-	exits[15]->source = rooms[8];
-	exits[15]->destiny = rooms[9];
-	exits[15]->direction = south;
-	exits[15]->openDoor = false;
+	exits[13]->source = rooms[7];
+	exits[13]->destiny = rooms[8];
+	exits[13]->direction = south;
+	exits[13]->openDoor = false;
 
 	new_exit = new Exit("Living room", "You don't see nothing strange.");
 	exits.push_back(new_exit);
 
-	exits[16]->source = rooms[8];
-	exits[16]->destiny = rooms[2];
-	exits[16]->direction = west;
+	exits[14]->source = rooms[7];
+	exits[14]->destiny = rooms[2];
+	exits[14]->direction = west;
+	exits[14]->openDoor = true;
+
+	new_exit = new Exit("Disco room", "It seems to have been unturned to search  something there...");
+	exits.push_back(new_exit);
+
+	exits[15]->source = rooms[8];
+	exits[15]->destiny = rooms[7];
+	exits[15]->direction = north;
+	exits[15]->openDoor = true;
+
+	new_exit = new Exit("Reception room", "It seems like a big room where you can find things...");
+	exits.push_back(new_exit);
+
+	exits[16]->source = rooms[2];
+	exits[16]->destiny = rooms[0];
+	exits[16]->direction = east;
 	exits[16]->openDoor = true;
 
 	new_exit = new Exit("Disco room", "It seems to have been unturned to search  something there...");
 	exits.push_back(new_exit);
 
-	exits[17]->source = rooms[9];
-	exits[17]->destiny = rooms[8];
+	exits[17]->source = rooms[2];
+	exits[17]->destiny = rooms[7];
 	exits[17]->direction = north;
-	exits[17]->openDoor = false;
-
-	new_exit = new Exit("Reception room", "It seems like a big room where you can find things...");
-	exits.push_back(new_exit);
-
-	exits[18]->source = rooms[2];
-	exits[18]->destiny = rooms[0];
-	exits[18]->direction = east;
-	exits[18]->openDoor = true;
-
-	new_exit = new Exit("Disco room", "It seems to have been unturned to search  something there...");
-	exits.push_back(new_exit);
-
-	exits[19]->source = rooms[2];
-	exits[19]->destiny = rooms[8];
-	exits[19]->direction = north;
-	exits[19]->openDoor = true;
+	exits[17]->openDoor = true;
 
 	new_exit = new Exit("Terrace", "It seems a good exit with an helicopter...");
 	exits.push_back(new_exit);
 
-	exits[20]->source = rooms[2];
-	exits[20]->destiny = rooms[10];
-	exits[20]->direction = west;
-	exits[20]->openDoor = false;
+	exits[18]->source = rooms[2];
+	exits[18]->destiny = rooms[9];
+	exits[18]->direction = west;
+	exits[18]->openDoor = false;
 
 	new_exit = new Exit("Living room", "You don't see nothing strange.");
 	exits.push_back(new_exit);
 
-	exits[21]->source = rooms[10];
-	exits[21]->destiny = rooms[2];
-	exits[21]->direction = south;
-	exits[21]->openDoor = true;
+	exits[19]->source = rooms[9];
+	exits[19]->destiny = rooms[2];
+	exits[19]->direction = south;
+	exits[19]->openDoor = true;
 
-	//21 Exits
+	//20 Exits
 
 
 	/*Reception Room -> (NULL, NULL, WC, Living room);
@@ -320,9 +326,11 @@ bool World::Update(){
 	unsigned int charcommandnum = 0;
 	mString last_command;
 	fflush(stdin);
+//	gets_s(command);
 	while (1)
 	{
 		//Execute the code every X fractions of second (DELAY)
+
 		currenttime = GetTickCount();
 		/*if (currenttime >= (initialtime + 1000)){
 			printf("Hy.\n");
@@ -335,6 +343,7 @@ bool World::Update(){
 				command[charcommandnum] = _getch();
 				command[charcommandnum + 1] = '\0';
 				system("cls");
+				players[0]->Look();
 				printf(" Write a comand to move(n/s/e/w):\n");
 				printf("String: %s\n", command); //Print the command with the delay
 				charcommandnum++;
@@ -357,6 +366,10 @@ bool World::Update(){
 		last_command = command;
 		
 		last_command.tokenize(Input);
+		
+	/*mString str1 = command;
+	Vector <mString> Input;         No time librery
+	str1.tokenize(Input);*/
 		if (Input.size() == NULL)
 		{
 			printf("Write a command!\n");
@@ -375,7 +388,7 @@ bool World::Update(){
 
 			if (Input[0] == "look" && Input.size() == 1)
 			{
-				players[0]->Look();
+				players[0]->Look(this);
 			}
 			else if (Input[0] == "look" && Input.size() == 2)
 			{
@@ -569,7 +582,7 @@ bool World::Update(){
 			}
 
 		}
-		while (zombie.size() <= 2)
+		while (zombie.size() <= 2) //look
 		{
 			int random = rand() % 2;
 			int random_room = rand() % 9;

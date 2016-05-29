@@ -19,9 +19,29 @@ Player::Player(Item* object, Room* room) : Creature("Mikel", "Young and beautifu
 
 void Player::Look()const{
 	printf("%s \n %s \n", room_position->name.c_str(), room_position->description.c_str());
+	
+	
+}
+
+void Player::Look(World* world)const{
+	printf("%s \n %s \n", room_position->name.c_str(), room_position->description.c_str());
 	for (unsigned int i = 0; i < room_position->items.size(); i++)
 	{
 		printf("%s\n %s\n", room_position->items[i]->name.c_str(), room_position->items[i]->description.c_str());
+	}
+	int temp = 0;
+	for (unsigned int i = 0; i < world->zombie.size(); i++)
+	{
+		if (world->zombie[i]->room_position == room_position)
+		{
+			temp++;
+			if (temp>1)
+			printf("\nYou see %i zombies called %s ", world->zombie[i]->name); //// HERE!
+
+			else 
+				printf("\nYou see %i zombie called %s ", world->zombie[i]->name);
+		}
+			
 	}
 }
 
@@ -230,7 +250,7 @@ void Player::LookCommand(World* world, dir adress)
 {
 	int i = 0;
 	bool look_dir=false;
-	for (i = 0; i < 21; i++){
+	for (i = 0; i <= 19; i++){
 		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress)
 		{
 
@@ -251,7 +271,7 @@ void Player::LookCommand(World* world, dir adress)
 
 void Player::OpenDoor(World* world, dir adress){
 	int i = 0;
-	for (i = 0; i < 21; i++){
+	for (i = 0; i <= 19; i++){
 		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress){
 			if (world->exits[i]->openDoor==false){
 				world->exits[i]->openDoor = true;
@@ -266,7 +286,7 @@ void Player::OpenDoor(World* world, dir adress){
 
 void Player::CloseDoor(World* world, dir adress){
 	int i = 0;
-	for (i = 0; i < 21; i++){
+	for (i = 0; i < 19; i++){
 		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress){
 			if (world->exits[i]->openDoor == true){
 				world->exits[i]->openDoor = false;

@@ -17,7 +17,6 @@ void Creature::Move(World* world, dir adress)
 	bool exitFound;
 
 
-	for (i = 0; i < 21; i++)
 	{
 		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress)
 		{
