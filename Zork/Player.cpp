@@ -23,26 +23,42 @@ void Player::Look()const{
 	
 }
 
-void Player::Look(World* world)const{
-	printf("%s \n %s \n", room_position->name.c_str(), room_position->description.c_str());
-	for (unsigned int i = 0; i < room_position->items.size(); i++)
+void Player::Look(World* world)const
+{
+	//printf("%s \n %s \n", room_position->name.c_str(), room_position->description.c_str());
+	if (room_position->items.size() == 0)
 	{
-		printf("%s\n %s\n", room_position->items[i]->name.c_str(), room_position->items[i]->description.c_str());
+		printf("You don't see nothing interesting.");
 	}
-	int temp = 0;
-	for (unsigned int i = 0; i < world->zombie.size(); i++)
+	else
 	{
-		if (world->zombie[i]->room_position == room_position)
+		for (unsigned int i = 0; i < room_position->items.size(); i++)
 		{
-			temp++;
-			if (temp>1)
-			printf("\nYou see %i zombies called %s ", world->zombie[i]->name); //// HERE!
-
-			else 
-				printf("\nYou see %i zombie called %s ", world->zombie[i]->name);
+			printf("You see a:%s\n Description:%s\n\n", room_position->items[i]->name.c_str(), room_position->items[i]->description.c_str());
 		}
-			
+		int temp = 0;
+		for (unsigned int i = 0; i < world->zombie.size(); i++)
+		{
+			if (world->zombie[i]->room_position == room_position)
+			{
+				temp++;
+
+			}
+
+		}
+	
+
+	if (temp > 1)
+	{
+		printf("\nYou see %i zombies.", temp); //// HERE!
+
 	}
+	if (temp == 1)
+	{
+		printf("\nYou see %i zombie ", temp);
+	}
+
+}
 }
 
 void Player::DisplayInv()const
