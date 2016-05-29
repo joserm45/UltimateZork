@@ -31,12 +31,18 @@ World::World(){
 void World::CreateWorld(){
 	//	rooms = new Room;
 
-	Item* sword1 = new Item("Sword", "Sharppened");
+	Item* sword1 = new Item("sword", "Sharppened");
 	sword1->atackweapon = 4;
-	Item* gun = new Item("Sun", "Can kill zombies!");
+	Item* gun = new Item("gun", "Can kill zombies!");
 	gun->atackweapon = 6;
 
-	Item* chest = new Item("Chest", "Save items!");
+	Item* hammer = new Item("hammer", "Perfect to break zombies heads!");
+	hammer->atackweapon = 3;
+
+	Item* knife = new Item("knife", "It's okay to defense!");
+	knife->atackweapon = 2;
+
+	Item* chest = new Item("chest", "Save items!");
 
 
 
@@ -93,9 +99,10 @@ void World::CreateWorld(){
 		 {
 			 random_room = rand() % 9;
 		 }
-		 Item* sword2 = new Item("Sword", "Sharppened");
-		 sword1->atackweapon = 4;
-		 zombie.push_back(new Zombie("Ricard", "A beautiful bad man", 10, 2, sword1, 100, rooms[0]));
+		 Item* shortgun = new Item("shortgun", "It seems very powerfull");
+		 sword1->atackweapon = 10;
+
+		 zombie.push_back(new Zombie("Ricard", "A beautiful bad man,with something strange", 10, 2, shortgun, 100, rooms[random_room]));
 
 		  random_room = rand() % 9;
 
@@ -327,6 +334,8 @@ bool World::Update(){
 			{
 				command[charcommandnum] = _getch();
 				command[charcommandnum + 1] = '\0';
+				system("cls");
+				printf(" Write a comand to move(n/s/e/w):\n");
 				printf("String: %s\n", command); //Print the command with the delay
 				charcommandnum++;
 				if (command[charcommandnum - 1] == '\r') //when you press enter, print the command and then we clean.
@@ -552,7 +561,7 @@ bool World::Update(){
 		for (unsigned int i = 0; i < zombie.size() && lose == false; i++)
 		{
 
-		//	printf("Zombie update numero: %i", i);
+			//printf("Zombie update numero: %i", i);
 			if (zombie[i]->Update(this, players[0]) == false)
 			{
 				zombie.Pick(i);
