@@ -1,7 +1,8 @@
 #include "Creature.h"
 #include "World.h"
 #include "Exits.h"
-
+#include "Zombie.h"
+#include "Player.h"
 
 Creature::Creature(char* name_NPC, char* description_NPC, int health_1, int attack_1, Item* items_1, int coins_1, Room* position) : Entity(name_NPC, description_NPC), health(health_1), attack(attack_1), coins(coins_1), room_position(position)
 {
@@ -31,10 +32,16 @@ void Creature::Move(World* world, dir adress)
 				}
 				if (type == ZOMBIE)
 				{
-					//printf("Zombie has moved to:%s  \n", world->exits[i]->Get_adress_char(adress));
+					//printf("\nZombie has moved to:%s  ", world->exits[i]->Get_adress_char(adress));
 				}
 
 				room_position = world->exits[i]->destiny;
+				/*for (unsigned int i = 0; i < world->zombie.size(); i++)
+				{
+					if (world->exits[i]->)          when zombie enter to the room
+				}*/
+				
+
 				break;
 			}
 			else
@@ -45,7 +52,7 @@ void Creature::Move(World* world, dir adress)
 				}
 				if (type == ZOMBIE)
 				{
-					//printf("Zombie has smashed a door trying to go: %s  \n", world->exits[0]->Get_adress_char(adress));
+					//printf("\nZombie has smashed a door trying to go: %s ", world->exits[0]->Get_adress_char(adress));
 				}
 
 				break;

@@ -336,21 +336,30 @@ void Player::Update(World* world)
 		break;
 	}
 }
-void Player::SpecialAttack(World* world, const char* to_attack)
+void Player::SpecialAttack(World* world,  const char* to_attack)
 {
-	if (to_attack == "attack")
+	if (to_attack != "attack")
 	{
-		int temp = 0;
-		for (unsigned int i = 0; i < world->zombie.size();i++)
+		
+		world->currenttime = GetTickCount();
+		if (world->currenttime >= (world->initialtime + 30000))
 		{
-
-			if (world->zombie[i]->room_position == room_position)
+			int temp = 0;
+			for (unsigned int i = 0; i < world->zombie.size(); i++)
 			{
-				temp++;
+
+				if (world->zombie[i]->room_position == room_position)
+				{
+					temp++;
+				}
 			}
+			printf("\nYou kill %i zombies and you earned %i coins. Now u have 30 seconds of delay!", temp, temp * 100);
+			//30 second delay
+			world->initialtime = world->currenttime;
 		}
-		printf("\nYou kill %i zombies and you earned %i coins", temp,temp*100);
-		//60 second delay
+		else
+			printf("\n You need to wait %i seconds to use:", (world->currenttime - world->initialtime + 30000) / 100);
+		//world->initialtime = GetTickCount();
 	}
 	else 
 		printf("\nI don't know this command!");
@@ -396,6 +405,7 @@ void Player::UpdateAttack(World* world)
 		{
 			printf("You killed the zombie!\n");
 			zombie_to_attack->Die(world, this);
+			state = PLAYER_ATTACK;
 		}
 	}
 }

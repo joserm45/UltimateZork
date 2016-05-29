@@ -108,7 +108,7 @@ void World::CreateWorld(){
 		 Item* shortgun = new Item("shortgun", "It seems very powerfull");
 		 sword1->atackweapon = 10;
 
-		 zombie.push_back(new Zombie("Ricard", "A beautiful bad man,with something strange", 10, 2, shortgun, 100, rooms[random_room]));
+		 zombie.push_back(new Zombie("Ricard", "A beautiful bad man,with something strange", 20, 3, shortgun, 100, rooms[0]));
 
 		  random_room = rand() % 9;
 
@@ -349,7 +349,7 @@ bool World::Update(){
 				//printf("%s\n", command); //Print the command 
 				charcommandnum++;
 
-				if (command[charcommandnum - 1] == '\b') //when you press delete, delete .
+				if (command[charcommandnum - 1] == '\b' && charcommandnum>1) //when you press delete, delete .
 				{
 					charcommandnum -= 2;
 					command[charcommandnum] = '\0';
@@ -524,7 +524,7 @@ bool World::Update(){
 
 				else if (Input[0] == "special" && Input.size() == 2)
 				{
-					//players[0]->SpecialAttack(this, Input[1].c_str);
+					players[0]->SpecialAttack(this, Input[1].c_str());
 				}
 				//COMMAND PICK
 
@@ -588,9 +588,12 @@ bool World::Update(){
 
 			}
 		}
+
 		players[0]->Update(this);
 
-		for (unsigned int i = 0; i < zombie.size() && lose == false; i++)
+		if (currenttime >= (initialtime + 1000))
+		{
+			for (unsigned int i = 0; i < zombie.size() && lose == false; i++)
 		{
 
 			//printf("Zombie update numero: %i", i);
@@ -599,8 +602,15 @@ bool World::Update(){
 				zombie.Pick(i);
 				i--;
 			}
-
+		/*	if (zombie[i]->room_position == players[0]->room_position)
+			{
+				zombie[i]->state = ATTACK;
+			}
+			*/
 		}
+			initialtime = currenttime;
+		}
+		
 		while (zombie.size() <= 2) //look
 		{
 			int random = rand() % 2;

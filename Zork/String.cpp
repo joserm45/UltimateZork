@@ -102,7 +102,7 @@ bool mString::operator == (const mString& other) const
 bool mString::operator == (const char* other) const
 {
 
-	return strcmp(buffer, other) == 0;
+	return strcmp(buffer, other ) == 0;
 }
 	
 void mString::tokenize( Vector <mString>& vec)

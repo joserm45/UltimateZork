@@ -11,7 +11,7 @@ class Player;
 class World {
 public:
 	unsigned int initialtime = GetTickCount();
-
+	unsigned int currenttime = GetTickCount();
 	Vector <Room*> rooms;
 	Vector <Exit*> exits;
 	Vector <Player*> players;

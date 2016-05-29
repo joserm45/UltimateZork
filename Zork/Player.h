@@ -37,7 +37,6 @@ public:
 	void OpenDoor(World* world, dir adress); //Look here! Zombis can destroy the door?
 	void CloseDoor(World* world, dir adress);
 	void Update(World*);
-	void SpecialAttack(World*, const char*);
 	void Attack(World*);
 	void UpdateAttack(World* world);
 	void Help()const;
