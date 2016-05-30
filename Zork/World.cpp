@@ -31,8 +31,8 @@ World::World(){
 void World::CreateWorld(){
 	//	rooms = new Room;
 
-	Item* sword1 = new Item("sword", "Sharppened");
-	sword1->atackweapon = 4;
+	Item* sword = new Item("sword", "Sharppened");
+	sword->atackweapon = 4;
 	Item* gun = new Item("gun", "Can kill zombies!");
 	gun->atackweapon = 6;
 
@@ -53,9 +53,10 @@ void World::CreateWorld(){
 	players.push_back(new_players);
 
 
-	rooms[0]->items.push_back(sword1);
+	rooms[0]->items.push_back(sword);
 	rooms[0]->items.push_back(gun);
 	rooms[0]->items.push_back(chest);
+	rooms[0]->items.push_back(hammer);
 
 		 new_room = new Room("WC's", "A slight breathing is heard in the room. It seems that something scary this about to happen.");
 		 rooms.push_back(new_room);
@@ -97,7 +98,7 @@ void World::CreateWorld(){
 			 random_room = rand() % 9;
 		 }
 
-		 zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room]));  
+		 zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[1],currenttime));  
 
 		 random_room = rand() % 9;
 
@@ -105,10 +106,10 @@ void World::CreateWorld(){
 		 {
 			 random_room = rand() % 9;
 		 }
-		 Item* shortgun = new Item("shortgun", "It seems very powerfull");
-		 sword1->atackweapon = 10;
+		 Item* shotgun = new Item("shotgun", "It seems very powerfull");
+		 shotgun->atackweapon = 10;
 
-		 zombie.push_back(new Zombie("Ricard", "A beautiful bad man,with something strange", 20, 3, shortgun, 100, rooms[0]));
+		 zombie.push_back(new Zombie("Ricard", "A beautiful bad man,with something strange", 20, 3, shotgun, 100, rooms[0],currenttime));
 
 		  random_room = rand() % 9;
 
@@ -117,7 +118,7 @@ void World::CreateWorld(){
 			 random_room = rand() % 9;
 		 }
 
-		 zombie.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room]));
+		zombie.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room],currenttime));
 
 		// Player* new_player = new Player;
 	//	 players.push_back( rooms[0]);
@@ -321,8 +322,8 @@ bool World::Update(){
 	char command[50];
 	int temp_command = 0;
 	//bool firsttimeinloop = true;
-	unsigned int currenttime = 0;
-	unsigned int initialtime = 0;
+	
+	
 	unsigned int charcommandnum = 0;
 	mString last_command;
 	fflush(stdin);
@@ -433,6 +434,7 @@ bool World::Update(){
 
 				else if (Input[0] == "north" || Input[0] == "n")
 				{
+					
 					players[0]->Move(this, north);
 				}
 				else if (Input[0] == "south" || Input[0] == "s")
@@ -517,14 +519,14 @@ bool World::Update(){
 				//COMMAND ATTACK
 				else if (Input[0] == "attack" && Input.size() == 1) //ATTACK
 				{
-					players[0]->Attack(this);
+					players[0]->Attack(this,currenttime);
 				}
 
 				//COMMAND SPECIAL ATTACK
 
-				else if (Input[0] == "special" && Input.size() == 2)
+				else if (Input[0] == "special" && Input[1] == "bomb" && Input.size() == 2)
 				{
-					players[0]->SpecialAttack(this, Input[1].c_str());
+					players[0]->SpecialAttack(this,currenttime);
 				}
 				//COMMAND PICK
 
@@ -553,6 +555,17 @@ bool World::Update(){
 				else if (Input[0] == "unequip"  && Input.size() == 2)
 				{
 					players[0]->unequiped(Input[1].c_str());
+				}
+				//BUY INVENTORY DIANA
+				else if (Input[0] == "buy" && Input[1] == "diana" && Input.size() == 2 || Input[0] == "buy" && Input[1] == "Diana" && Input.size() == 2)
+				{
+					players[0]->Buy(this);
+				}
+
+				//BUY FROM DIANA
+				else if (Input[0] == "buy" && Input[3] == "diana" && Input.size() == 4 || Input[0] == "buy" && Input[3] == "Diana" && Input.size() == 4)
+				{
+					//players[0]->BuyItem(this);
 				}
 
 				// PUT SWORD INTO BOX
@@ -589,18 +602,21 @@ bool World::Update(){
 			}
 		}
 
-		players[0]->Update(this);
+		players[0]->Update(this,currenttime);
 
-		if (currenttime >= (initialtime + 1000))
-		{
-			for (unsigned int i = 0; i < zombie.size() && lose == false; i++)
+		
+		for (unsigned int i = 0; i < zombie.size() && lose == false; i++)
 		{
 
 			//printf("Zombie update numero: %i", i);
-			if (zombie[i]->Update(this, players[0]) == false)
+			if (zombie[i]->Update(this, players[0],currenttime) == false)
 			{
+				Zombie* tmp = nullptr;
 				zombie.Pick(i);
 				i--;
+				delete tmp;
+				tmp = NULL;
+
 			}
 		/*	if (zombie[i]->room_position == players[0]->room_position)
 			{
@@ -608,8 +624,7 @@ bool World::Update(){
 			}
 			*/
 		}
-			initialtime = currenttime;
-		}
+			
 		
 		while (zombie.size() <= 2) //look
 		{
@@ -624,7 +639,7 @@ bool World::Update(){
 			{
 			case 0:
 			{
-					  zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room]));
+					  zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room], currenttime));
 
 
 			}
@@ -632,12 +647,12 @@ bool World::Update(){
 			{
 					  Item* sword1 = new Item("Sword", "Sharppened");
 					  sword1->atackweapon = 4;
-					  zombie.push_back(new Zombie("Ricard", "A beautiful bad man", 10, 2, sword1, 100, rooms[random_room]));
+					  zombie.push_back(new Zombie("Ricard", "A beautiful bad man", 10, 2, sword1, 100, rooms[random_room], currenttime));
 			}
 
 			case 2:
 			{
-					  zombie.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room]));
+					  zombie.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room], currenttime));
 			}
 			default:
 				break;

@@ -23,7 +23,7 @@ public:
 	Room* room_position = nullptr;
 	//Room* room_zombie = nullptr;
 
-	void Move(World* world, dir adress);
+	virtual void Move(World* world, dir adress);
 	
 	~Creature();
 };

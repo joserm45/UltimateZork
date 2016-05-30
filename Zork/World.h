@@ -3,10 +3,12 @@
 #include "Vector.h"
 #include <Windows.h>
 
+
 class Zombie;
 class Room;
 class Exit;
 class Player;
+class Npc;
 
 class World {
 public:
@@ -16,6 +18,7 @@ public:
 	Vector <Exit*> exits;
 	Vector <Player*> players;
 	Vector <Zombie*> zombie;
+	Vector <Npc*> npc;
 //	Player* players = nullptr;	
 	bool lose=false;
 

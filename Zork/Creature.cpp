@@ -16,7 +16,7 @@ void Creature::Move(World* world, dir adress)
 {
 	int i = 0;
 	bool exitFound;
-
+	
 
 	for (i = 0; i <= 19; i++)
 	{
@@ -29,10 +29,12 @@ void Creature::Move(World* world, dir adress)
 				if (type == PLAYER)
 				{
 					printf("%s \n %s \n", world->exits[i]->destiny->name.c_str(), world->exits[i]->destiny->description.c_str());
+					
 				}
 				if (type == ZOMBIE)
 				{
 					//printf("\nZombie has moved to:%s  ", world->exits[i]->Get_adress_char(adress));
+
 				}
 
 				room_position = world->exits[i]->destiny;

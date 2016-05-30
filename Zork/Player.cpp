@@ -72,24 +72,35 @@ void Player::DisplayInv()const
 		printf("%s\n", items[i]->name);
 
 	printf("You have %i coins\n", coins);
+	printf("You have %i health\n", health);
+
 }
 
 void Player::equiped(const char* to_equip)
 {
-	for (unsigned int i =0; i < items.size();i++)
-
-	if (items[i]->name == to_equip)
+	bool found_equp = false;
+	for (unsigned int i = 0; i < items.size(); i++)
 	{
-		if (equipped != NULL)
+		if (items[i]->name == to_equip)
 		{
-			unequiped(equipped->name.c_str());
+			if (equipped != NULL)
+			{
+				unequiped(equipped->name.c_str());
+			}
+			equipped = *items.Pick(i);
+		
+			printf("You got the %s. You have %i + (%i) atack damage:\n", to_equip, attack, equipped->atackweapon);
+			attack = equipped->atackweapon + attack ;
+			found_equp = true;
 		}
-		equipped = *items.Pick(i);
-		attack = items[i]->atackweapon ;
 
-			printf("You got the %s with %i atack damage: ", to_equip, attack);
 	}
-	else printf("You can't do this: ");
+	if (found_equp == false)
+	{
+		printf("You don't have '%s' in your inventory!:\n ",to_equip);
+	}
+
+	
 }
 
 void Player::unequiped(const char* to_equip)
@@ -158,6 +169,19 @@ void Player::Put(mString to_put, mString to_into)
 	else
 		printf("You can't put this!");
 }
+
+void Player::Move(World* world, dir adress)
+{
+	if (state == PLAYER_ATTACK)
+	{
+		state = PLAYER_IDLE;
+		zombie_to_attack->state = IDLE;
+		zombie_to_attack = NULL;
+	}
+	
+	Creature::Move(world, adress);
+}
+
 void Player::Get(mString to_pick, mString to_from)
 {
 	bool found = false;
@@ -315,7 +339,7 @@ void Player::CloseDoor(World* world, dir adress){
 		}
 	}
 }
-void Player::Update(World* world)
+void Player::Update(World* world,int currentTime)
 {
 	switch (state)
 	{
@@ -328,7 +352,7 @@ void Player::Update(World* world)
 		
 	case PLAYER_ATTACK:
 	{
-	    UpdateAttack(world);
+	    UpdateAttack(world,currentTime);
 		break;
 	}
 		
@@ -336,80 +360,102 @@ void Player::Update(World* world)
 		break;
 	}
 }
-void Player::SpecialAttack(World* world,  const char* to_attack)
-{
-	if (to_attack != "attack")
-	{
+void Player::SpecialAttack(World* world,int time)
+{		
 		
-		world->currenttime = GetTickCount();
-		if (world->currenttime >= (world->initialtime + 30000))
+		if (time-special_attack_time >= 30000)
 		{
-			int temp = 0;
+			special_attack_time = time;
+			printf("You use a BIG BOOOM!\n\n");
 			for (unsigned int i = 0; i < world->zombie.size(); i++)
 			{
 
 				if (world->zombie[i]->room_position == room_position)
 				{
-					temp++;
+					world->zombie[i]->Die(world,this);
 				}
 			}
-			printf("\nYou kill %i zombies and you earned %i coins. Now u have 30 seconds of delay!", temp, temp * 100);
+		
 			//30 second delay
+			state = PLAYER_IDLE;
 			world->initialtime = world->currenttime;
 		}
 		else
-			printf("\n You need to wait %i seconds to use:", (world->currenttime - world->initialtime + 30000) / 100);
+			printf(" You need to wait %i seconds to use:\n", (30000-(time-special_attack_time )) / 1000);
 		//world->initialtime = GetTickCount();
-	}
-	else 
-		printf("\nI don't know this command!");
 }
-void Player::Attack(World* world)
-{
-	if (state == PLAYER_IDLE)
-	{
-		for (unsigned int i = 0; i < world->zombie.size(); i++)
-		{
-			if (world->zombie[i]->room_position == room_position)
-			{
-				your_attack = true;
-				state = PLAYER_ATTACK;
 
-				zombie_to_attack = world->zombie[i];
-				zombie_to_attack->your_attack = false;  //ZOMBIE
-				zombie_to_attack->state = ATTACK;
-				break;
+
+void Player::Attack(World* world,int currentTime)
+{
+	startTurnTime = currentTime;
+	startTurnTime -= 1000;
+		if (state == PLAYER_IDLE)
+		{
+			for (unsigned int i = 0; i < world->zombie.size(); i++)
+			{
+				if (world->zombie[i]->room_position == room_position)
+				{
+					your_attack = true;
+					state = PLAYER_ATTACK;
+
+					zombie_to_attack = world->zombie[i];
+					zombie_to_attack->your_attack = false;  //ZOMBIE
+					zombie_to_attack->state = ATTACK;
+					break;
+				}
+			}
+
+			if (zombie_to_attack == NULL)
+			{
+				printf("You can't attack zombies, because there aren't any zombies!\n");
+			}
+
+		}
+		else
+			printf("You are already in combat!\n");
+	
+}
+
+
+void Player::UpdateAttack(World* world,int currentTime)
+{
+	if (currentTime - startTurnTime >= 1000)
+	{
+		if (your_attack == true)
+		{
+			if (zombie_to_attack->health <= attack)
+			{
+				zombie_to_attack->health = 0;
+			}
+			else
+			{
+				zombie_to_attack->health = zombie_to_attack->health - attack;
+				zombie_to_attack->your_attack = true;
+				zombie_to_attack->startTimeZombie = currentTime;
+			}
+
+			your_attack = false;
+
+
+			printf("Player hit zombie, zombie health: %i\n", zombie_to_attack->health);
+			if (zombie_to_attack->health <= 0)
+			{
+				printf("You killed the zombie!\n");
+				zombie_to_attack->Die(world, this);
+				state = PLAYER_IDLE;
+				zombie_to_attack = NULL;
 			}
 		}
-
-		if (zombie_to_attack == NULL)
-		{
-			printf("You can't attack zombies, because there aren't any zombies!");
-		}
-
 	}
-	else
-		printf("You are already in combat!");
 }
 
-
-void Player::UpdateAttack(World* world)
+void Player::Buy(World* world)
 {
-	if (your_attack == true)
-	{
-		zombie_to_attack->health = zombie_to_attack->health - attack;
-		your_attack = false;
-		zombie_to_attack->your_attack = true;
-		printf("Player hit zombie, zombie health: %i\n", zombie_to_attack->health);
-		if (zombie_to_attack->health <= 0)
-		{
-			printf("You killed the zombie!\n");
-			zombie_to_attack->Die(world, this);
-			state = PLAYER_ATTACK;
-		}
-	}
+
 }
 
+//BuyItem
 
 void Player::Help()const{
 	printf("You can move around the room with the keyboard keys (n/s/w/e) or with the words north, south, east , west.");
