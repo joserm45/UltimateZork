@@ -62,9 +62,7 @@ void Npc::SellToPlayer(const char* to_sell, Player* player)
 				if (tmp == "vaccine" && player->cured==false)
 				{
 					player->cured = true;
-					printf("Now you have immunity 
-						
-						zombie bite!\n");
+					printf("Now you have immunity from zombie bite!\n");
 
 				}
 				break;

@@ -142,10 +142,7 @@ void World::CreateWorld(){
 		// Player* new_player = new Player;
 	//	 players.push_back( rooms[0]);
 
-	Exit* new_exit = new Exit( "WC's", "A terrifyng noise comes 
-		
-		
-		that direction...");
+	Exit* new_exit = new Exit( "WC's", "A terrifyng noise comes from that direction...");
 	exits.push_back(new_exit);
 
 	exits[0]->source = rooms[0];
