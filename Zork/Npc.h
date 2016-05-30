@@ -12,6 +12,7 @@ public:
 	Npc(char* name, char* description, int health, int attack, Item*, int coins, Room*);
 	
 	void DisplayInventory()const;
+	void BuyFromPlayer(const char*, Player*);
 	void SellToPlayer(const char*, Player*);
 
 	~Npc();
