@@ -16,10 +16,11 @@ public:
 	
 	Vector <Item*> items;
 	int atackweapon = 3;
+	int price = 0;
 	void Look()const;
 
 	Item();
-	Item(const char* name, const char* desc);
+	Item(const char* name, const char* desc,int price);
 	~Item();
 };
 

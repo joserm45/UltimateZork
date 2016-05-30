@@ -96,6 +96,7 @@ void Zombie::Attack(World* world, Player* player, int currentTime)
 
 		player->state = PLAYER_ATTACK;
 		state = ATTACK;
+		
 		player->zombie_to_attack = this;
 		your_attack = true;
 		player->your_attack = false;
@@ -109,6 +110,12 @@ void Zombie::UpdateAttack(World* world, Player* player,int currentTime)
 	{
 		if (your_attack == true)
 		{
+			if (player->infected == false)
+			{
+				player->infected = true;
+				player->infected_time = currentTime;
+			}
+
 			if (player->health <= attack)
 			{
 				player->health = 0;

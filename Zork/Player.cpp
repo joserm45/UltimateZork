@@ -6,29 +6,35 @@
 #include "Rooms.h"
 #include "Entity.h"
 #include "Exits.h"
+#include "Npc.h"
 #include "Item.h"
 
-Player:: Player() : Creature ("Mikel", "Young and beautiful man", 30,2,NULL,coins,NULL)
+Player:: Player() : Creature ("Mikel", "Young and beautiful man", 50,2,NULL,coins,NULL)
 {
 	type = PLAYER;
 }
-Player::Player(Item* object, Room* room) : Creature("Mikel", "Young and beautiful man", 30, 2, object, coins, room)
+Player::Player(Item* object, Room* room) : Creature("Mikel", "Young and beautiful man", 50, 2, object, coins, room)
 {
 	type = PLAYER;
 }
 
 void Player::Look()const{
 	printf("%s \n %s \n", room_position->name.c_str(), room_position->description.c_str());
+
 	
 	
 }
 
 void Player::Look(World* world)const
 {
+	if (world->npc[0]->room_position == room_position)
+	{
+		printf("You see a beautiful lady called Diana.\n");
+	}
 	//printf("%s \n %s \n", room_position->name.c_str(), room_position->description.c_str());
 	if (room_position->items.size() == 0)
 	{
-		printf("You don't see nothing interesting.");
+		printf("You don't see nothing interesting.\n");
 	}
 	else
 	{
@@ -339,8 +345,25 @@ void Player::CloseDoor(World* world, dir adress){
 		}
 	}
 }
-void Player::Update(World* world,int currentTime)
+bool Player::Update(World* world,int currentTime)
 {
+	if (world->rooms[7] == room_position )
+	{
+		if (InBunker == false)
+		{
+			InBunker = true;
+			if (cured == true)
+			{
+				printf("You have made it to the bunker with the cure!\n\n You WIN!\n");
+				return false;
+			}
+			else
+				printf("You have made it to the bunker but you don't have the cure!\n");
+		}
+		
+	}
+	else
+		InBunker = false;
 	switch (state)
 	{
 
@@ -359,6 +382,22 @@ void Player::Update(World* world,int currentTime)
 	default:
 		break;
 	}
+	if (infected == true && cured==false)
+	{
+		if (currentTime - infected_time > 5000)
+		{
+			infected_time = currentTime;
+			health--;
+			printf("You are poisoned, you lose 1 health point\n");
+			if (health <= 0)
+			{
+				printf("You lose!!\n");
+				return false;
+			}
+			
+		}
+	}
+	return true;
 }
 void Player::SpecialAttack(World* world,int time)
 {		
@@ -385,7 +424,24 @@ void Player::SpecialAttack(World* world,int time)
 		//world->initialtime = GetTickCount();
 }
 
-
+void Player::MoveClosestZombies(World* world, int time)
+{
+	for (unsigned int i = 0; i < world->exits.size(); i++)
+	{
+		if (world->exits[i]->destiny == room_position)
+		{
+			for (unsigned int z = 0; z < world->zombie.size(); z++)
+			{
+				if (world->exits[i]->source == world->zombie[z]->room_position)
+				{
+					world->zombie[z]->Move(world,world->exits[i]->direction,this);
+					world->zombie[z]->startMoveTime = time;
+				}
+			}
+		}
+	}
+	
+}
 void Player::Attack(World* world,int currentTime)
 {
 	startTurnTime = currentTime;
@@ -424,6 +480,11 @@ void Player::UpdateAttack(World* world,int currentTime)
 	{
 		if (your_attack == true)
 		{
+			if (equipped->name == "gun" || equipped->name == "shotgun")
+			{
+				printf("You shot a zombie with your gun. It made a loud noise\n");
+				MoveClosestZombies(world, currentTime);
+			}
 			if (zombie_to_attack->health <= attack)
 			{
 				zombie_to_attack->health = 0;
@@ -461,4 +522,17 @@ void Player::Help()const{
 	printf("You can move around the room with the keyboard keys (n/s/w/e) or with the words north, south, east , west.");
 	printf("Also you can write go and the words north,south,east,west. If you write look you can see our room, but if you write look north you will see the north room.\n ");
 	printf("To finish the commands you can close and open the doors with the same method of the command look, and quit the game pressing the 'q'.\n ");
+}
+Player::~Player()
+{
+	for (unsigned int i = 0; i < items.size(); i++)
+	{
+		delete items[i];
+	}
+	items.clear();
+	if (equipped)
+	{
+		delete equipped;
+		equipped = NULL;
+	}
 }

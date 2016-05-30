@@ -24,7 +24,12 @@ public:
 	Zombie* zombie_to_attack=nullptr;
 	int startTurnTime = 0;
 	int special_attack_time = -30000;
+	int infected_time=0;
 	bool your_attack;
+	bool infected=false;
+	bool cured=false;
+	bool Update(World*, int);
+	bool InBunker=false;
 
 	void Move(World* world, dir adress);
 	void Get(mString to_pick, mString to_pick2);
@@ -39,12 +44,14 @@ public:
 	void LookCommand(World* world, dir adress);
 	void OpenDoor(World* world, dir adress); //Look here! Zombis can destroy the door?
 	void CloseDoor(World* world, dir adress);
-	void Update(World*,int);
+
 	void SpecialAttack(World*,int);
+	void MoveClosestZombies(World*,int);
 	void Attack(World*,int);
 	void UpdateAttack(World* world,int currentTime);
 	void Buy(World* world);
 	void Help()const;
+	~Player();
 };
 
 

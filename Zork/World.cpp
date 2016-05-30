@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <string>
 #include <Windows.h>
 
 #include "conio.h"
@@ -9,6 +10,7 @@
 #include "Item.h"
 #include "World.h"
 #include "Player.h"
+#include "Npc.h"
 #include "Rooms.h"
 #include "Exits.h"
 #include "Entity.h"
@@ -31,18 +33,18 @@ World::World(){
 void World::CreateWorld(){
 	//	rooms = new Room;
 
-	Item* sword = new Item("sword", "Sharppened");
+	Item* sword = new Item("sword", "Sharppened",150);
 	sword->atackweapon = 4;
-	Item* gun = new Item("gun", "Can kill zombies!");
+	Item* gun = new Item("gun", "Can kill zombies!",300);
 	gun->atackweapon = 6;
 
-	Item* hammer = new Item("hammer", "Perfect to break zombies heads!");
+	Item* hammer = new Item("hammer", "Perfect to break zombies heads!",60);
 	hammer->atackweapon = 3;
 
-	Item* knife = new Item("knife", "It's okay to defense!");
+	Item* knife = new Item("knife", "It's okay to defense!",30);
 	knife->atackweapon = 2;
 
-	Item* chest = new Item("chest", "Save items!");
+	Item* chest = new Item("chest", "Save items!",0);
 
 
 
@@ -60,6 +62,23 @@ void World::CreateWorld(){
 
 		 new_room = new Room("WC's", "A slight breathing is heard in the room. It seems that something scary this about to happen.");
 		 rooms.push_back(new_room);
+
+		 Npc* new_npc = new Npc("Diana", "Can trade items!", 10, 10, NULL, 0, rooms[1]);
+		 npc.push_back(new_npc);
+		 Item* sword2 = new Item("sword", "Sharppened", 150);
+		 Item* gun2 = new Item("gun", "Can kill zombies!", 300);
+		 Item* hammer2 = new Item("hammer", "Perfect to break zombies heads!", 60);
+		 Item* knife2 = new Item("knife", "It's okay to defense!", 30);
+		 Item* shotgun2 = new Item("shotgun", "It seems very powerfull", 400);
+		 Item* vaccine = new Item("vaccine", "It cures you from zombie bite", 350);
+
+		 new_npc->items.push_back(knife2);
+		 new_npc->items.push_back(hammer2);
+		 new_npc->items.push_back(sword2);
+		 new_npc->items.push_back(gun2);
+		 new_npc->items.push_back(shotgun2);
+		 new_npc->items.push_back(vaccine);
+
 	
 	     new_room = new Room("Living Room", "You can see a lot of papers on the floor.");
 		 rooms.push_back(new_room);
@@ -98,7 +117,7 @@ void World::CreateWorld(){
 			 random_room = rand() % 9;
 		 }
 
-		 zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[1],currenttime));  
+		 zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room],currenttime));  
 
 		 random_room = rand() % 9;
 
@@ -106,10 +125,10 @@ void World::CreateWorld(){
 		 {
 			 random_room = rand() % 9;
 		 }
-		 Item* shotgun = new Item("shotgun", "It seems very powerfull");
+		 Item* shotgun = new Item("shotgun", "It seems very powerfull",400);
 		 shotgun->atackweapon = 10;
 
-		 zombie.push_back(new Zombie("Ricard", "A beautiful bad man,with something strange", 20, 3, shotgun, 100, rooms[0],currenttime));
+		 zombie.push_back(new Zombie("Ricard", "A beautiful bad man,with something strange", 20, 3, shotgun, 100, rooms[random_room],currenttime));
 
 		  random_room = rand() % 9;
 
@@ -559,13 +578,49 @@ bool World::Update(){
 				//BUY INVENTORY DIANA
 				else if (Input[0] == "buy" && Input[1] == "diana" && Input.size() == 2 || Input[0] == "buy" && Input[1] == "Diana" && Input.size() == 2)
 				{
-					players[0]->Buy(this);
+					npc[0]->DisplayInventory();
 				}
 
 				//BUY FROM DIANA
-				else if (Input[0] == "buy" && Input[3] == "diana" && Input.size() == 4 || Input[0] == "buy" && Input[3] == "Diana" && Input.size() == 4)
+				else if ((Input.size() == 4 && Input[0] == "buy" && Input[2] == "from" && Input[3] == "diana") || (Input.size() == 4 && Input[2] == "from" && Input[0] == "buy" && Input[3] == "Diana"))
 				{
-					//players[0]->BuyItem(this);
+					if (players[0]->room_position == npc[0]->room_position)
+					{
+						npc[0]->SellToPlayer(Input[1].c_str(), players[0]);
+					}
+					else
+						printf("There is no NPC called Diana in the room!");
+					
+				}
+				//SELL FROM DIANA
+				else if ((Input.size() == 4 && Input[0] == "sell" && Input[2] == "to" && Input[3] == "diana") || (Input.size() == 4 && Input[2] == "to" && Input[0] == "sell" && Input[3] == "Diana"))
+				{
+					if (players[0]->room_position == npc[0]->room_position)
+					{
+						npc[0]->BuyFromPlayer(Input[1].c_str(), players[0]);
+					}
+					else
+						printf("There is no NPC called Diana in the room!");
+				}
+				//DEBUG
+				else if ((Input.size() == 2 && Input[0] == "free" && Input[1] == "coins" ))
+				{
+					players[0]->coins += 1000;
+					printf("You get 1000 coins!\n");
+				}
+				//TELEPORT
+				else if ((Input.size() == 3 && Input[0] == "teleport" && Input[1] == "room"))
+				{
+					int room_num = std::stoi(Input[2].c_str());
+					if (room_num >= 0 && room_num <= rooms.size() - 1)
+					{
+						players[0]->room_position = rooms[room_num];
+						system("cls");
+						players[0]->Look();
+						printf("\nYou have been teleported!\n");
+					}
+					else printf("The room doesn't exist.\n");
+				
 				}
 
 				// PUT SWORD INTO BOX
@@ -602,8 +657,10 @@ bool World::Update(){
 			}
 		}
 
-		players[0]->Update(this,currenttime);
-
+		if (players[0]->Update(this, currenttime) == false)
+		{
+			lose = true;
+		}
 		
 		for (unsigned int i = 0; i < zombie.size() && lose == false; i++)
 		{
@@ -645,7 +702,7 @@ bool World::Update(){
 			}
 			case 1:
 			{
-					  Item* sword1 = new Item("Sword", "Sharppened");
+					  Item* sword1 = new Item("Sword", "Sharppened",150);
 					  sword1->atackweapon = 4;
 					  zombie.push_back(new Zombie("Ricard", "A beautiful bad man", 10, 2, sword1, 100, rooms[random_room], currenttime));
 			}
@@ -673,7 +730,31 @@ bool World::Update(){
 
 World::~World()
 {
-
+	for (unsigned int i = 0; i < rooms.size(); i++)
+	{
+		delete rooms[i];
+	}
+	rooms.clear();
+	for (unsigned int i = 0; i < players.size(); i++)
+	{
+		delete players[i];
+	}
+	players.clear();
+	for (unsigned int i = 0; i < exits.size(); i++)
+	{
+		delete exits[i];
+	}
+	exits.clear();
+	for (unsigned int i = 0; i < zombie.size(); i++)
+	{
+		delete zombie[i];
+	}
+	zombie.clear();
+	for (unsigned int i = 0; i < npc.size(); i++)
+	{
+		delete npc[i];
+	}
+	npc.clear();
 //	delete[] rooms;
 //	delete  players;
 //	delete[] exits;
