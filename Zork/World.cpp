@@ -36,7 +36,7 @@ void World::CreateWorld(){
 	Item* sword = new Item("sword", "Sharppened",150);
 	sword->atackweapon = 4;
 	Item* gun = new Item("gun", "Can kill zombies!",300);
-	gun->atackweapon = 6;
+	gun->atackweapon = 8;
 
 	Item* hammer = new Item("hammer", "Perfect to break zombies heads!",60);
 	hammer->atackweapon = 3;

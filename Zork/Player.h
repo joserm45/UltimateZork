@@ -18,7 +18,7 @@ public:
 	Player();
 	Player(Item*,Room*);
 
-	Item* equipped;
+	Item* equipped=nullptr;
 	int max_slots;
 	player_state state;
 	Zombie* zombie_to_attack=nullptr;

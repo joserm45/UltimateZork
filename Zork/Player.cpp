@@ -71,7 +71,7 @@ void Player::DisplayInv()const
 {
 	if (items.size() == 0)
 	{
-		printf("You don't have any item!");
+		printf("You don't have any item!\n");
 		
 	}
 	for (unsigned int i = 0; i < items.size(); i++)
@@ -113,20 +113,20 @@ void Player::unequiped(const char* to_equip)
 {
 	if (equipped == NULL)
 	{
-		printf("You don't have any thing! ");
+		printf("You don't have any thing!\n");
 	}
 
 	else if (equipped->name == to_equip)
 	{
 		
-		printf("You unequiped the '%s': ", to_equip);
+		printf("You unequiped the '%s':\n", to_equip);
 		room_position->items.push_back(equipped);
 		equipped = NULL;
 		attack = 2;
 	}
 	else
 	{
-		printf("You don't have the same item!");
+		printf("You don't have the same item!\n");
 	}
 }
 
@@ -150,7 +150,7 @@ void Player::Put(mString to_put, mString to_into)
 
 		if (found == false)
 		{
-			printf("There is no item '%s' in the room: ", to_into.c_str());
+			printf("There is no item '%s' in the room:\n", to_into.c_str());
 			return;
 		}
 
@@ -165,7 +165,7 @@ void Player::Put(mString to_put, mString to_into)
 		}
 		if (found2 == false)
 		{
-			printf("There is no item '%s' in the room : ", to_put.c_str());
+			printf("There is no item '%s' in the room:\n ", to_put.c_str());
 			return;
 		}
 		printf("You put '%s into '%s'", to_put.c_str(), to_into.c_str());
@@ -173,7 +173,7 @@ void Player::Put(mString to_put, mString to_into)
 		items.Pick(temp2);
 	}
 	else
-		printf("You can't put this!");
+		printf("You can't put this!\n");
 }
 
 void Player::Move(World* world, dir adress)
@@ -208,7 +208,7 @@ void Player::Get(mString to_pick, mString to_from)
 
 		if (found == false)
 		{
-			printf("There is no item '%s' in the room: ", to_from.c_str());
+			printf("\nThere is no item '%s' in the room: ", to_from.c_str());
 			return;
 		}
 
@@ -224,10 +224,10 @@ void Player::Get(mString to_pick, mString to_from)
 		}
 		if (found2 == false)
 		{
-			printf("There is no item '%s' in the room : ", to_pick.c_str());
+			printf("\nThere is no item '%s' in the room : ", to_pick.c_str());
 			return;
 		}
-		printf("You get '%s from '%s'", to_pick.c_str(), to_from.c_str());
+		printf("\nYou get '%s from '%s'", to_pick.c_str(), to_from.c_str());
 		items.push_back(room_position->items[temp]->items[temp2]);
 		room_position->items[temp]->items.Pick(temp2);
 
@@ -261,7 +261,7 @@ void Player::Pick( const mString to_pick)
 				break;
 		}
 		if (found == false)
-			printf("\nThis item don't exist or isn't there!");
+			printf("This item don't exist or isn't there!\n");
 	}
 }
 
@@ -279,13 +279,13 @@ void Player::Drop(const char* to_drop)
 			room_position->items.push_back(items[i]);
 
 			items.Pick(i);
-			printf("You dropped the %s: ", to_drop);
+			printf("You dropped the %s:\n", to_drop);
 		}
 		if (found == true)
 			break;
 	}
 	if (found == false)
-		printf("This item don't exist or isn't there!");
+		printf("This item don't exist or isn't there!\n");
 }
 
 
@@ -347,7 +347,7 @@ void Player::CloseDoor(World* world, dir adress){
 }
 bool Player::Update(World* world,int currentTime)
 {
-	if (world->rooms[7] == room_position )
+	if (world->rooms[8] == room_position )
 	{
 		if (InBunker == false)
 		{
@@ -480,11 +480,14 @@ void Player::UpdateAttack(World* world,int currentTime)
 	{
 		if (your_attack == true)
 		{
-			if (equipped->name == "gun" || equipped->name == "shotgun")
+			if ((equipped != NULL  && equipped->name == "gun") || (equipped != NULL && equipped->name == "shotgun"))
 			{
-				printf("You shot a zombie with your gun. It made a loud noise\n");
+				printf("\nYou shot a zombie with your gun. It made a loud noise\n");
 				MoveClosestZombies(world, currentTime);
 			}
+			/*else
+				printf("Player hit zombie, zombie health: %i\n", zombie_to_attack->health);
+			*/
 			if (zombie_to_attack->health <= attack)
 			{
 				zombie_to_attack->health = 0;
