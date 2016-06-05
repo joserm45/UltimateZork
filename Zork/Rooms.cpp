@@ -4,9 +4,10 @@
 
 Room::Room(){}
 
-Room::Room(const char* names, const char* descrip) : Entity(names,descrip)
+Room::Room(const char* names, const char* descrip,int new_index) : Entity(names,descrip)
 {
-	
+	index = new_index;
+	type = ROOM;
 }
 Room::~Room()
 {

@@ -27,10 +27,20 @@ void Player::Look()const{
 
 void Player::Look(World* world)const
 {
-	if (world->npc[0]->room_position == room_position)
-	{
-		printf("You see a beautiful lady called Diana.\n");
-	}
+	
+		for (unsigned int i = 0; i < world->entity_list.size(); i++)
+		{
+			if (world->entity_list[i]->type == NPC)
+			{
+			Npc* tmp = ((Npc*)world->entity_list[i]);
+			if (tmp->room_position->index == room_position->index)
+			{
+				printf("You see a beautiful lady called Diana.\n");
+			}
+			break;
+			}
+		}
+	
 	//printf("%s \n %s \n", room_position->name.c_str(), room_position->description.c_str());
 	if (room_position->items.size() == 0)
 	{
@@ -43,28 +53,31 @@ void Player::Look(World* world)const
 			printf("You see a:%s\n Description:%s\n\n", room_position->items[i]->name.c_str(), room_position->items[i]->description.c_str());
 		}
 		int temp = 0;
-		for (unsigned int i = 0; i < world->zombie.size(); i++)
+		for (unsigned int i = 0; i < world->entity_list.size(); i++)
 		{
-			if (world->zombie[i]->room_position == room_position)
+			if (world->entity_list[i]->type == ZOMBIE)
 			{
-				temp++;
+				Zombie* tmp = ((Zombie*)world->entity_list[i]);
+				if (tmp->room_position->index == room_position->index)
+				{
+					temp++;
 
+				}
 			}
-
 		}
 	
 
-	if (temp > 1)
-	{
-		printf("\nYou see %i zombies.", temp); //// HERE!
+		if (temp > 1)
+		{
+			printf("\nYou see %i zombies.", temp); //// HERE!
+
+		}
+		if (temp == 1)
+		{
+			printf("\nYou see %i zombie ", temp);
+		}
 
 	}
-	if (temp == 1)
-	{
-		printf("\nYou see %i zombie ", temp);
-	}
-
-}
 }
 
 void Player::DisplayInv()const
@@ -296,18 +309,22 @@ void Player::LookCommand(World* world, dir adress)
 {
 	int i = 0;
 	bool look_dir=false;
-	for (i = 0; i <= 19; i++){
-		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress)
+	for (i = 0; i < world->entity_list.size(); i++)
+	{
+		if (world->entity_list[i]->type == EXIT)
 		{
+			Exit* tmp = ((Exit*)world->entity_list[i]);
+			if (tmp->source == room_position->index && tmp->direction == adress)
+			{
 
-			look_dir = true;
+				look_dir = true;
 
 
-			printf("%s \n %s \n ", world->exits[i]->name.c_str(), world->exits[i]->description.c_str());
+				printf("%s \n %s \n ", tmp->name.c_str(), tmp->description.c_str());
 
+			}
 		}
-				
-		}
+	}
 	if (look_dir=false)
 	printf("There is a wall there.\n");
 }
@@ -317,14 +334,20 @@ void Player::LookCommand(World* world, dir adress)
 
 void Player::OpenDoor(World* world, dir adress){
 	int i = 0;
-	for (i = 0; i <= 19; i++){
-		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress){
-			if (world->exits[i]->openDoor==false){
-				world->exits[i]->openDoor = true;
-				printf("You opened the door.\n");
-			}
-			else{
-				printf("The door is already opened.\n");
+	for (i = 0; i < world->entity_list.size(); i++)
+	{
+		if (world->entity_list[i]->type == EXIT)
+		{
+			Exit* tmp = ((Exit*)world->entity_list[i]);
+			if (tmp->source == room_position->index && tmp->direction == adress)
+			{
+				if (tmp->openDoor == false){
+					tmp->openDoor = true;
+					printf("You opened the door.\n");
+				}
+				else{
+					printf("The door is already opened.\n");
+				}
 			}
 		}
 	}
@@ -332,22 +355,28 @@ void Player::OpenDoor(World* world, dir adress){
 
 void Player::CloseDoor(World* world, dir adress){
 	int i = 0;
-	for (i = 0; i < 19; i++){
-		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress){
-			if (world->exits[i]->openDoor == true){
-				world->exits[i]->openDoor = false;
-				printf("The door is closed.\n");
+	for (i = 0; i < world->entity_list.size(); i++)
+	{
+		if (world->entity_list[i]->type == EXIT)
+		{
+			Exit* tmp = ((Exit*)world->entity_list[i]);
+			if (tmp->source == room_position->index && tmp->direction == adress)
+			{
+				if (tmp->openDoor == true){
+					tmp->openDoor = false;
+					printf("The door is closed.\n");
 
-			}
-			else{
-				printf("The door is already closed.\n");
+				}
+				else{
+					printf("The door is already closed.\n");
+				}
 			}
 		}
 	}
 }
 bool Player::Update(World* world,int currentTime)
 {
-	if (world->rooms[8] == room_position )
+	if (room_position->index == 8 )
 	{
 		if (InBunker == false)
 		{
@@ -406,18 +435,21 @@ void Player::SpecialAttack(World* world,int time)
 		{
 			special_attack_time = time;
 			printf("You use a BIG BOOOM!\n\n");
-			for (unsigned int i = 0; i < world->zombie.size(); i++)
+			for (unsigned int i = 0; i < world->entity_list.size(); i++)
 			{
-
-				if (world->zombie[i]->room_position == room_position)
+				if (world->entity_list[i]->type == ZOMBIE)
 				{
-					world->zombie[i]->Die(world,this);
+					Zombie* tmp = (Zombie*)world->entity_list[i];
+					if (tmp->room_position->index == room_position->index)
+					{
+						tmp->Die(world, this);
+					}
 				}
 			}
 		
 			//30 second delay
 			state = PLAYER_IDLE;
-			world->initialtime = world->currenttime;
+			special_attack_time = time;
 		}
 		else
 			printf(" You need to wait %i seconds to use:\n", (30000-(time-special_attack_time )) / 1000);
@@ -426,16 +458,24 @@ void Player::SpecialAttack(World* world,int time)
 
 void Player::MoveClosestZombies(World* world, int time)
 {
-	for (unsigned int i = 0; i < world->exits.size(); i++)
+	for (unsigned int i = 0; i <  world->entity_list.size() ; i++)
 	{
-		if (world->exits[i]->destiny == room_position)
+		if (world->entity_list[i]->type == EXIT)
 		{
-			for (unsigned int z = 0; z < world->zombie.size(); z++)
+			Exit* tmp = ((Exit*)world->entity_list[i]);
+			if (tmp->destiny == room_position->index)
 			{
-				if (world->exits[i]->source == world->zombie[z]->room_position)
+				for (unsigned int z = 0; z < world->entity_list.size(); z++)
 				{
-					world->zombie[z]->Move(world,world->exits[i]->direction,this);
-					world->zombie[z]->startMoveTime = time;
+					if (world->entity_list[i]->type == ZOMBIE)
+					{
+						Zombie* tmp2 = (Zombie*)world->entity_list[z];
+						if (tmp->source == tmp2->room_position->index)
+						{
+							tmp2->Move(world, tmp->direction, this);
+							tmp2->startMoveTime = time;
+						}
+					}
 				}
 			}
 		}
@@ -448,17 +488,21 @@ void Player::Attack(World* world,int currentTime)
 	startTurnTime -= 1000;
 		if (state == PLAYER_IDLE)
 		{
-			for (unsigned int i = 0; i < world->zombie.size(); i++)
+			for (unsigned int i = 0; i < world->entity_list.size(); i++)
 			{
-				if (world->zombie[i]->room_position == room_position)
+				if (world->entity_list[i]->type == ZOMBIE)
 				{
-					your_attack = true;
-					state = PLAYER_ATTACK;
+					Zombie* tmp = (Zombie*)world->entity_list[i];
+					if (tmp->room_position->index == room_position->index)
+					{
+						your_attack = true;
+						state = PLAYER_ATTACK;
 
-					zombie_to_attack = world->zombie[i];
-					zombie_to_attack->your_attack = false;  //ZOMBIE
-					zombie_to_attack->state = ATTACK;
-					break;
+						zombie_to_attack = tmp;
+						zombie_to_attack->your_attack = false;  //ZOMBIE
+						zombie_to_attack->state = ATTACK;
+						break;
+					}
 				}
 			}
 

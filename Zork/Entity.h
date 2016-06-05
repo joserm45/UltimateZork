@@ -5,12 +5,15 @@
 
 #include "String.h"
 
+enum dir{ north, south, east, west };
+enum entity_type { PLAYER, ZOMBIE, NPC, ROOM, EXIT, ITEM };
 class Entity{
 
 public:
-
+	entity_type type;
     mString name;
 	mString description;
+//	Vector <Item*> items;
 
 public:
 

@@ -15,54 +15,62 @@ Creature::Creature(char* name_NPC, char* description_NPC, int health_1, int atta
 void Creature::Move(World* world, dir adress)
 {
 	int i = 0;
-	bool exitFound;
+	bool exitFound=false;
 	
 
-	for (i = 0; i <= 19; i++)
+	for (i = 0; i < world->entity_list.size() ; i++)
 	{
-		if (world->exits[i]->source == room_position && world->exits[i]->direction == adress)
+		if (world->entity_list[i]->type == EXIT)
 		{
-			exitFound = true;
 
-			if (world->exits[i]->openDoor == true)
+			Exit* tmp = ((Exit*)world->entity_list[i]);
+
+			if (tmp->source == room_position->index && tmp->direction == adress)
 			{
-				if (type == PLAYER)
-				{
-					printf("%s \n %s \n", world->exits[i]->destiny->name.c_str(), world->exits[i]->destiny->description.c_str());
-					
-				}
-				if (type == ZOMBIE)
-				{
-					//printf("\nZombie has moved to:%s  ", world->exits[i]->Get_adress_char(adress));
+				exitFound = true;
 
-				}
-
-				room_position = world->exits[i]->destiny;
-				/*for (unsigned int i = 0; i < world->zombie.size(); i++)
+				if (tmp->openDoor == true)
 				{
-					if (world->exits[i]->)          when zombie enter to the room
-				}*/
+					room_position = world->Value_to_room(tmp->destiny);
+					if (type == PLAYER)
+					{
+						printf("%s \n %s \n", room_position->name.c_str(), room_position->description.c_str());
+
+					}
+					if (type == ZOMBIE)
+					{
+						//printf("\nZombie has moved to:%s  ", world->exits[i]->Get_adress_char(adress));
+
+					}
+
 				
+					/*for (unsigned int i = 0; i < world->zombie.size(); i++)
+					{
+					if (world->exits[i]->)          when zombie enter to the room
+					}*/
 
-				break;
-			}
-			else
-			{
-				if (type == PLAYER)
-				{
-					printf("The door is closed...\n");
-				}
-				if (type == ZOMBIE)
-				{
-					//printf("\nZombie has smashed a door trying to go: %s ", world->exits[0]->Get_adress_char(adress));
-				}
 
-				break;
+					break;
+				}
+				else
+				{
+					if (type == PLAYER)
+					{
+						printf("The door is closed...\n");
+					}
+					if (type == ZOMBIE)
+					{
+						//printf("\nZombie has smashed a door trying to go: %s ", world->exits[0]->Get_adress_char(adress));
+					}
+
+					break;
+				}
 			}
+
+			exitFound = false;
 		}
-
-		exitFound = false;
 	}
+
 	if (exitFound == false)
 	{
 		if (type == PLAYER)

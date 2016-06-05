@@ -19,7 +19,7 @@
 
 World::World(){
 
-
+	
 
 //	Vector <Player*> players;
 
@@ -29,6 +29,26 @@ World::World(){
 	//player -> player = this;
 }
 
+char* World::Get_adress_char(dir direction)
+{
+	switch (direction)
+	{
+	case(north) :
+		return "NORTH";
+		break;
+	case(south) :
+		return "SOUTH";
+		break;
+	case(west) :
+		return "WEST";
+		break;
+	case(east) :
+		return "EAST";
+		break;
+	default:
+		break;
+	}
+}
 
 void World::CreateWorld(){
 	//	rooms = new Room;
@@ -47,29 +67,38 @@ void World::CreateWorld(){
 	Item* chest = new Item("chest", "Save items!",0);
 
 
+	//push_back((new Room("Reception Room:", "In the middle of the room there is a large broken counter. You can also see a lot of wires on the ground, as if it had been something strange.")));
+	Room* new_room = new Room("Reception Room:", "In the middle of the room there is a large broken counter. You can also see a lot of wires on the ground, as if it had been something strange.",0);
+	entity_list.push_back(new_room);
 
-	Room* new_room = new Room("Reception Room:", "In the middle of the room there is a large broken counter. You can also see a lot of wires on the ground, as if it had been something strange.");
-	rooms.push_back(new_room);
+	new_room->items.push_back(sword);
+	new_room->items.push_back(gun);
+	new_room->items.push_back(chest);
+	new_room->items.push_back(hammer);
 
-	Player*	new_players = new Player(NULL, rooms[0]);
-	players.push_back(new_players);
+	player = new Player(NULL, new_room);
+	
 
+		 new_room = new Room("WC's", "A slight breathing is heard in the room. It seems that something scary this about to happen.",1);
+		 entity_list.push_back(new_room);
 
-	rooms[0]->items.push_back(sword);
-	rooms[0]->items.push_back(gun);
-	rooms[0]->items.push_back(chest);
-	rooms[0]->items.push_back(hammer);
-
-		 new_room = new Room("WC's", "A slight breathing is heard in the room. It seems that something scary this about to happen.");
-		 rooms.push_back(new_room);
-
-		 Npc* new_npc = new Npc("Diana", "Can trade items!", 10, 10, NULL, 0, rooms[1]);
-		 npc.push_back(new_npc);
+		 Npc* new_npc = new Npc("Diana", "Can trade items!", 10, 10, NULL, 0, new_room);
+		 entity_list.push_back(new_npc);
 		 Item* sword2 = new Item("sword", "Sharppened", 150);
+		 sword2->atackweapon = 4;
+
 		 Item* gun2 = new Item("gun", "Can kill zombies!", 300);
+		 gun2->atackweapon = 8;
+
 		 Item* hammer2 = new Item("hammer", "Perfect to break zombies heads!", 60);
+		 hammer2->atackweapon = 3;
+
 		 Item* knife2 = new Item("knife", "It's okay to defense!", 30);
+		 knife2->atackweapon = 2;
+
 		 Item* shotgun2 = new Item("shotgun", "It seems very powerfull", 400);
+		 shotgun2->atackweapon = 10;
+
 		 Item* vaccine = new Item("vaccine", "It cures you from zombie bite", 350);
 
 		 new_npc->items.push_back(knife2);
@@ -80,246 +109,280 @@ void World::CreateWorld(){
 		 new_npc->items.push_back(vaccine);
 
 	
-	     new_room = new Room("Living Room", "You can see a lot of papers on the floor.");
-		 rooms.push_back(new_room);
+	     new_room = new Room("Living Room", "You can see a lot of papers on the floor.",2);
+		 entity_list.push_back(new_room);
 
-		 new_room = new Room("Control Room", "You can see a lot of radios and whires broken.");
-		 rooms.push_back(new_room);
+		 new_room = new Room("Control Room", "You can see a lot of radios and whires broken.",3);
+		 entity_list.push_back(new_room);
 
-		 new_room = new Room("Window building", "After this jump are so exhausted need to repose for a moment.");
-		 rooms.push_back(new_room);
+		 new_room = new Room("Window building", "After this jump are so exhausted need to repose for a moment.",4);
+		 entity_list.push_back(new_room);
 
-		 new_room = new Room("Secret room", "You didn't see nothing interesting but a big air comes frome some part...");
-		 rooms.push_back(new_room);
+		 new_room = new Room("Secret room", "You didn't see nothing interesting but a big air comes frome some part...",5);
+		 entity_list.push_back(new_room);
 
-		 new_room = new Room("Cave", "A barrier is colapsing the way, will need something strong to move it.");
-		 rooms.push_back(new_room);
+		 new_room = new Room("Cave", "A barrier is colapsing the way, will need something strong to move it.",6);
+		 entity_list.push_back(new_room);
 
 	//	 new_room = new Room("Final boss", "The Zombie king was waitting you, now he will make you pay with the death...");
 	//	 rooms.push_back(new_room);
 
-		 new_room = new Room("Disco room", "An innocent place to meet with people... All things are on the float even the top of a ventilation shaft");
-		 rooms.push_back(new_room);
+		 new_room = new Room("Disco room", "An innocent place to meet with people... All things are on the float even the top of a ventilation shaft",7);
+		 entity_list.push_back(new_room);
 
-		 new_room = new Room("Bunker", "It seems a good place to endure, but you will not survive with out food.");
-		 rooms.push_back(new_room);
+		 new_room = new Room("Bunker", "It seems a good place to endure, but you will not survive with out food.",8);
+		 entity_list.push_back(new_room);
 
-		 new_room = new Room("Terrace", "A big place with a landing symbol in the middle.");
-		 rooms.push_back(new_room);
+		 new_room = new Room("Terrace", "A big place with a landing symbol in the middle.",9);
+		 entity_list.push_back(new_room);
 
 
 
 
 		 int random_room = rand() % 9;
 
-		 while (rooms[random_room] == players[0]->room_position)
+		 while (random_room == player->room_position->index)
 		 {
 			 random_room = rand() % 9;
 		 }
+		 for (unsigned int i = 0; i < entity_list.size(); i++)
+		 {
+			 if (entity_list[i]->type == ROOM)
+			 {
+				 Room* tmp = (Room*)entity_list[i];
+				 if (random_room == tmp->index)
+				 {
 
-		 zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room],currenttime));  
-
+					 entity_list.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, tmp, currenttime));
+					 break;
+				 }
+			 }
+		 }
 		 random_room = rand() % 9;
-
-		 while (rooms[random_room] == players[0]->room_position)
+		
+		 while (random_room == player->room_position->index)
 		 {
 			 random_room = rand() % 9;
 		 }
-		 Item* shotgun = new Item("shotgun", "It seems very powerfull",400);
-		 shotgun->atackweapon = 10;
+		 for (unsigned int i = 0; i < entity_list.size(); i++)
+		 {
+			 if (entity_list[i]->type == ROOM)
+			 {
+				 Room* tmp = (Room*)entity_list[i];
+				 if (random_room == ((Room*)entity_list[i])->index)
+				 {
+					 Item* shotgun = new Item("shotgun", "It seems very powerfull", 400);
+					 shotgun->atackweapon = 10;
+					 entity_list.push_back(new Zombie("Ricard", "A beautiful bad man, with something strange", 20, 3, shotgun, 100, tmp, currenttime));
+					 break;
+				 }
+			 }
+		 }
+		
 
-		 zombie.push_back(new Zombie("Ricard", "A beautiful bad man,with something strange", 20, 3, shotgun, 100, rooms[random_room],currenttime));
+		 //zombie.push_back(new Zombie("Ricard", "A beautiful bad man,with something strange", 20, 3, shotgun, 100, rooms[random_room],currenttime));
 
 		  random_room = rand() % 9;
 
-		 while (rooms[random_room] == players[0]->room_position)
+		 while (random_room == player->room_position->index)
 		 {
 			 random_room = rand() % 9;
 		 }
-
-		zombie.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room],currenttime));
+		 for (unsigned int i = 0; i < entity_list.size(); i++)
+		 {
+			 if (entity_list[i]->type == ROOM)
+			 {
+				 Room* tmp = (Room*)entity_list[i];
+				 if (random_room == ((Room*)entity_list[i])->index)
+				 {
+					 entity_list.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, tmp, currenttime));
+					 break;
+				 }
+			 }
+		 }
+		//zombie.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room],currenttime));
 
 		// Player* new_player = new Player;
 	//	 players.push_back( rooms[0]);
 
 	Exit* new_exit = new Exit( "WC's", "A terrifyng noise comes from that direction...");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[0]->source = rooms[0];
-	exits[0]->destiny = rooms[1];
-	exits[0]->direction = east;
-	exits[0]->openDoor = false;
+	new_exit->source = 0;
+	new_exit->destiny = 1;
+	new_exit->direction = east;
+	new_exit->openDoor = false;
 
 
 	new_exit = new Exit("Living room", "You don't see nothing strange.");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[1]->source = rooms[0];
-	exits[1]->destiny = rooms[2];
-	exits[1]->direction = west;
-	exits[1]->openDoor = true;
+	new_exit->source = 0;
+	new_exit->destiny = 2;
+	new_exit->direction = west;
+	new_exit->openDoor = true;
 
 	
 
 	new_exit = new Exit("Control Room", "Only see rubish around the floor.");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[2]->source = rooms[1];
-	exits[2]->destiny = rooms[3];
-	exits[2]->direction = east;
-	exits[2]->openDoor = true;
+	new_exit->source = 1;
+	new_exit->destiny = 3;
+	new_exit->direction = east;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Reception room", "It seems like a big room where you can find things...");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[3]->source = rooms[1];
-	exits[3]->destiny = rooms[0];
-	exits[3]->direction = west;
-	exits[3]->openDoor = true;
+	new_exit->source = 1;
+	new_exit->destiny = 0;
+	new_exit->direction = west;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("WC's", "A terrifyng noise comes from that direction...");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[4]->source = rooms[3];
-	exits[4]->destiny = rooms[1];
-	exits[4]->direction = south;
-	exits[4]->openDoor = true;
+	new_exit->source = 3;
+	new_exit->destiny = 1;
+	new_exit->direction = south;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Hotel", "You need to do a big jump to arrive.");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[5]->source = rooms[3];
-	exits[5]->destiny = rooms[4];
-	exits[5]->direction = east;
-	exits[5]->openDoor = false;////
+	new_exit->source = 3;
+	new_exit->destiny = 4;
+	new_exit->direction = east;
+	new_exit->openDoor = false;////
 
 	new_exit = new Exit("Secret room", "You feel a frozen air coming from it.");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[6]->source = rooms[3];
-	exits[6]->destiny = rooms[5];
-	exits[6]->direction = north;
-	exits[6]->openDoor = true;
-
-	new_exit = new Exit("Control room", "Only see rubish around the floor.");
-	exits.push_back(new_exit);
-
-	exits[7]->source = rooms[4];
-	exits[7]->destiny = rooms[3];
-	exits[7]->direction = west;
-	exits[7]->openDoor = true;
+	new_exit->source = 3;
+	new_exit->destiny =5;
+	new_exit->direction = north;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Control room", "Only see rubish around the floor.");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[8]->source = rooms[5];
-	exits[8]->destiny = rooms[3];
-	exits[8]->direction = east;
-	exits[8]->openDoor = true;
+	new_exit->source = 4;
+	new_exit->destiny = 3;
+	new_exit->direction = west;
+	new_exit->openDoor = true;
+
+	new_exit = new Exit("Control room", "Only see rubish around the floor.");
+	entity_list.push_back(new_exit);
+
+	new_exit->source = 5;
+	new_exit->destiny = 3;
+	new_exit->direction = east;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Cave", "You can see a big barrier on the final.");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[9]->source = rooms[5];
-	exits[9]->destiny = rooms[6];
-	exits[9]->direction = south;
-	exits[9]->openDoor = true;
+	new_exit->source = 5;
+	new_exit->destiny = 6;
+	new_exit->direction = south;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Disco room", "It seems to have been unturned to search  something there...");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[10]->source = rooms[5];
-	exits[10]->destiny = rooms[7];
-	exits[10]->direction = west;
-	exits[10]->openDoor = true;
+	new_exit->source = 5;
+	new_exit->destiny = 7;
+	new_exit->direction = west;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Secret room", "You feel a frozen air coming from it.");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[11]->source = rooms[6];
-	exits[11]->destiny = rooms[5];
-	exits[11]->direction = north;
-	exits[11]->openDoor = true;
+	new_exit->source = 6;
+	new_exit->destiny = 5;
+	new_exit->direction = north;
+	new_exit->openDoor = true;
 
 	/*new_exit = new Exit("Forest", "A big shadow figure is moving in the distance...");
 	exits.push_back(new_exit);
 
-	exits[12]->source = rooms[6];
-	exits[12]->destiny = rooms[7];
-	exits[12]->direction = south;
-	exits[12]->openDoor = true;
+	new_exit->source = rooms[6];
+	new_exit->destiny = rooms[7];
+	new_exit->direction = south;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Cave", "You can see a big barrier on the final.");
 	exits.push_back(new_exit);
 
-	exits[13]->source = rooms[7];
-	exits[13]->destiny = rooms[6];
-	exits[13]->direction = north;
-	exits[13]->openDoor = true;*/
+	new_exit->source = rooms[7];
+	new_exit->destiny = rooms[6];
+	new_exit->direction = north;
+	new_exit->openDoor = true;*/
 
 	new_exit = new Exit("Secret room", "You feel a frozen air coming from it.");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[12]->source = rooms[7];
-	exits[12]->destiny = rooms[5];
-	exits[12]->direction = east;
-	exits[12]->openDoor = true;
+	new_exit->source = 7;
+	new_exit->destiny = 5;
+	new_exit->direction = east;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Bunker", "It looks like resistant...");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[13]->source = rooms[7];
-	exits[13]->destiny = rooms[8];
-	exits[13]->direction = south;
-	exits[13]->openDoor = false;
+	new_exit->source = 7;
+	new_exit->destiny = 8;
+	new_exit->direction = south;
+	new_exit->openDoor = false;
 
 	new_exit = new Exit("Living room", "You don't see nothing strange.");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[14]->source = rooms[7];
-	exits[14]->destiny = rooms[2];
-	exits[14]->direction = west;
-	exits[14]->openDoor = true;
+	new_exit->source = 7;
+	new_exit->destiny =2;
+	new_exit->direction = west;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Disco room", "It seems to have been unturned to search  something there...");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[15]->source = rooms[8];
-	exits[15]->destiny = rooms[7];
-	exits[15]->direction = north;
-	exits[15]->openDoor = true;
+	new_exit->source = 8;
+	new_exit->destiny = 7;
+	new_exit->direction = north;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Reception room", "It seems like a big room where you can find things...");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[16]->source = rooms[2];
-	exits[16]->destiny = rooms[0];
-	exits[16]->direction = east;
-	exits[16]->openDoor = true;
+	new_exit->source = 2;
+	new_exit->destiny = 0;
+	new_exit->direction = east;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Disco room", "It seems to have been unturned to search  something there...");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[17]->source = rooms[2];
-	exits[17]->destiny = rooms[7];
-	exits[17]->direction = north;
-	exits[17]->openDoor = true;
+	new_exit->source = 2;
+	new_exit->destiny = 7;
+	new_exit->direction = north;
+	new_exit->openDoor = true;
 
 	new_exit = new Exit("Terrace", "It seems a good exit with an helicopter...");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[18]->source = rooms[2];
-	exits[18]->destiny = rooms[9];
-	exits[18]->direction = west;
-	exits[18]->openDoor = false;
+	new_exit->source = 2;
+	new_exit->destiny = 9;
+	new_exit->direction = west;
+	new_exit->openDoor = false;
 
 	new_exit = new Exit("Living room", "You don't see nothing strange.");
-	exits.push_back(new_exit);
+	entity_list.push_back(new_exit);
 
-	exits[19]->source = rooms[9];
-	exits[19]->destiny = rooms[2];
-	exits[19]->direction = south;
-	exits[19]->openDoor = true;
+	new_exit->source = 9;
+	new_exit->destiny = 2;
+	new_exit->direction = south;
+	new_exit->openDoor = true;
 
 	//20 Exits
 
@@ -337,16 +400,17 @@ void World::CreateWorld(){
 	Terrace->setExits(NULL, Living Room, NULL, NULL);*/
 }
 
-bool World::Update(){
+bool World::Update()
+{
 	char command[50];
 	int temp_command = 0;
 	//bool firsttimeinloop = true;
-	
-	
+
+
 	unsigned int charcommandnum = 0;
 	mString last_command;
 	fflush(stdin);
-//	gets_s(command);
+	//	gets_s(command);
 	while (1)
 	{
 		temp_command = 0;
@@ -364,7 +428,7 @@ bool World::Update(){
 				command[charcommandnum] = _getch();
 				command[charcommandnum + 1] = '\0';
 				system("cls");
-				players[0]->Look();
+				player->Look();
 				printf(" Write a comand:\n");
 				//printf("%s\n", command); //Print the command 
 				charcommandnum++;
@@ -373,8 +437,8 @@ bool World::Update(){
 				{
 					charcommandnum -= 2;
 					command[charcommandnum] = '\0';
-				//	printf("Your command is: %s\n\n", command);
-					
+					//	printf("Your command is: %s\n\n", command);
+
 					/*last_command = command;
 					temp_command++;*/
 				}
@@ -383,12 +447,12 @@ bool World::Update(){
 				{
 					//system("cls");
 					printf("Your command is: %s\n\n", command);
-					command[charcommandnum-1] = '\0';
+					command[charcommandnum - 1] = '\0';
 					charcommandnum = 0;
 					last_command = command;
 					temp_command++;
 				}
-			
+
 			}
 			else
 			{
@@ -399,7 +463,7 @@ bool World::Update(){
 
 		currenttime = GetTickCount();
 		Vector <mString> Input;
-		
+
 		if (temp_command >= 1)
 		{
 
@@ -426,25 +490,25 @@ bool World::Update(){
 
 				if (Input[0] == "look" && Input.size() == 1)
 				{
-					players[0]->Look(this);
+					player->Look(this);
 				}
 				else if (Input[0] == "look" && Input.size() == 2)
 				{
 					if (Input[1] == "north" || Input[1] == "n")
 					{
-						players[0]->LookCommand(this, north);
+						player->LookCommand(this, north);
 					}
 					else if (Input[1] == "south" || Input[1] == "s")
 					{
-						players[0]->LookCommand(this, south);
+						player->LookCommand(this, south);
 					}
 					else if (Input[1] == "east" || Input[1] == "e")
 					{
-						players[0]->LookCommand(this, east);
+						player->LookCommand(this, east);
 					}
 					else if (Input[1] == "west" || Input[1] == "w")
 					{
-						players[0]->LookCommand(this, west);
+						player->LookCommand(this, west);
 					}
 				}
 
@@ -453,22 +517,22 @@ bool World::Update(){
 
 				else if (Input[0] == "north" || Input[0] == "n")
 				{
-					
-					players[0]->Move(this, north);
+
+					player->Move(this, north);
 				}
 				else if (Input[0] == "south" || Input[0] == "s")
 				{
-					players[0]->Move(this, south);
+					player->Move(this, south);
 				}
 				else if (Input[0] == "east" || Input[0] == "e")
 
 				{
-					players[0]->Move(this, east);
+					player->Move(this, east);
 				}
 
 				else if (Input[0] == "west" || Input[0] == "w")
 				{
-					players[0]->Move(this, west);
+					player->Move(this, west);
 				}
 
 				//COMMANDS TO GO:
@@ -476,16 +540,16 @@ bool World::Update(){
 				else if (Input.size() == 2 && Input[0] == "go")
 				{
 					if (Input[1] == "north" || Input[1] == "n")
-						players[0]->Move(this, north);
+						player->Move(this, north);
 
 					else if (Input[1] == "south" || Input[1] == "s")
-						players[0]->Move(this, south);
+						player->Move(this, south);
 
 					else if (Input[1] == "east" || Input[1] == "e")
-						players[0]->Move(this, east);
+						player->Move(this, east);
 
 					else if (Input[1] == "west" || Input[1] == "w")
-						players[0]->Move(this, west);
+						player->Move(this, west);
 
 				}
 
@@ -497,19 +561,19 @@ bool World::Update(){
 
 					if (Input[1] == "north" || Input[1] == "n")
 					{
-						players[0]->OpenDoor(this, north);
+						player->OpenDoor(this, north);
 					}
 					else if (Input[1] == "south" || Input[1] == "s")
 					{
-						players[0]->OpenDoor(this, south);
+						player->OpenDoor(this, south);
 					}
 					else if (Input[1] == "east" || Input[1] == "e")
 					{
-						players[0]->OpenDoor(this, east);
+						player->OpenDoor(this, east);
 					}
 					else if (Input[1] == "west" || Input[1] == "w")
 					{
-						players[0]->OpenDoor(this, west);
+						player->OpenDoor(this, west);
 					}
 				}
 
@@ -520,126 +584,177 @@ bool World::Update(){
 
 					if (Input[1] == "north" || Input[1] == "n")
 					{
-						players[0]->CloseDoor(this, north);
+						player->CloseDoor(this, north);
 					}
 					else if (Input[1] == "south" || Input[1] == "s")
 					{
-						players[0]->CloseDoor(this, south);
+						player->CloseDoor(this, south);
 					}
 					else if (Input[1] == "east" || Input[1] == "e")
 					{
-						players[0]->CloseDoor(this, east);
+						player->CloseDoor(this, east);
 					}
 					else if (Input[1] == "west" || Input[1] == "w")
 					{
-						players[0]->CloseDoor(this, west);
+						player->CloseDoor(this, west);
 					}
 				}
 				//COMMAND ATTACK
 				else if (Input[0] == "attack" && Input.size() == 1) //ATTACK
 				{
-					players[0]->Attack(this,currenttime);
+					player->Attack(this, currenttime);
 				}
 
 				//COMMAND SPECIAL ATTACK
 
 				else if (Input[0] == "special" && Input[1] == "bomb" && Input.size() == 2)
 				{
-					players[0]->SpecialAttack(this,currenttime);
+					player->SpecialAttack(this, currenttime);
 				}
 				//COMMAND PICK
 
 				else if (Input[0] == "pick" && Input.size() == 2)
 				{
-					players[0]->Pick(Input[1]);
+					player->Pick(Input[1]);
 				}
 
 				// COMAND DROP
 
 				else if (Input[0] == "drop" && Input.size() == 2)
 				{
-					players[0]->Drop(Input[1].c_str());
+					player->Drop(Input[1].c_str());
 				}
 				//INVENTORY
 				else if (Input[0] == "inventory" || Input[0] == "inv" || Input[0] == "i" && Input.size() == 1)
 				{
-					players[0]->DisplayInv();
+					player->DisplayInv();
 				}
 				//EQUIP
 				else if (Input[0] == "equip"  && Input.size() == 2)
 				{
-					players[0]->equiped(Input[1].c_str());
+					player->equiped(Input[1].c_str());
 				}
 				//UNEQUIP
 				else if (Input[0] == "unequip"  && Input.size() == 2)
 				{
-					players[0]->unequiped(Input[1].c_str());
+					player->unequiped(Input[1].c_str());
 				}
 				//BUY INVENTORY DIANA
 				else if (Input[0] == "buy" && Input[1] == "diana" && Input.size() == 2 || Input[0] == "buy" && Input[1] == "Diana" && Input.size() == 2)
 				{
-					npc[0]->DisplayInventory();
+					for (unsigned int i = 0; i < entity_list.size(); i++)
+					{
+						if (entity_list[i]->type == NPC)
+						{
+							Npc* tmp = ((Npc*)entity_list[i]);
+							if (tmp->room_position->index == player->room_position->index)
+							{
+								tmp->DisplayInventory();
+								break;
+							}
+							
+						}
+					}
+
 				}
 
 				//BUY FROM DIANA
 				else if ((Input.size() == 4 && Input[0] == "buy" && Input[2] == "from" && Input[3] == "diana") || (Input.size() == 4 && Input[2] == "from" && Input[0] == "buy" && Input[3] == "Diana"))
 				{
-					if (players[0]->room_position == npc[0]->room_position)
+					bool found = false;
+					for (unsigned int i = 0; i < entity_list.size(); i++)
 					{
-						npc[0]->SellToPlayer(Input[1].c_str(), players[0]);
+						if (entity_list[i]->type == NPC)
+						{
+							Npc* tmp = ((Npc*)entity_list[i]);
+							if (tmp->room_position->index == player->room_position->index)
+							{
+								tmp->SellToPlayer(Input[1].c_str(), player);
+								found = true;
+								break;
+							}
+							
+						}
 					}
-					else
+					if (found == false)
+					{
 						printf("There is no NPC called Diana in the room!");
-					
+					}
 				}
 				//SELL FROM DIANA
 				else if ((Input.size() == 4 && Input[0] == "sell" && Input[2] == "to" && Input[3] == "diana") || (Input.size() == 4 && Input[2] == "to" && Input[0] == "sell" && Input[3] == "Diana"))
 				{
-					if (players[0]->room_position == npc[0]->room_position)
+					bool found = false;
+					for (unsigned int i = 0; i < entity_list.size(); i++)
 					{
-						npc[0]->BuyFromPlayer(Input[1].c_str(), players[0]);
+						if (entity_list[i]->type == NPC)
+						{
+							Npc* tmp = ((Npc*)entity_list[i]);
+							if (tmp->room_position->index == player->room_position->index)
+							{
+								tmp->BuyFromPlayer(Input[1].c_str(), player);
+								found = true;
+								break;
+							}
+						}
+						
 					}
-					else
+					if (found == false)
+					{
 						printf("There is no NPC called Diana in the room!");
+					}
 				}
 				//DEBUG
-				else if ((Input.size() == 2 && Input[0] == "free" && Input[1] == "coins" ))
+				else if ((Input.size() == 2 && Input[0] == "free" && Input[1] == "coins"))
 				{
-					players[0]->coins += 1000;
+					player->coins += 1000;
 					printf("You get 1000 coins!\n");
 				}
 				//TELEPORT
 				else if ((Input.size() == 3 && Input[0] == "teleport" && Input[1] == "room"))
 				{
 					int room_num = std::stoi(Input[2].c_str());
-					if (room_num >= 0 && room_num <= rooms.size() - 1)
+					bool found = false;
+					for (unsigned int i = 0; i < entity_list.size(); i++)
 					{
-						players[0]->room_position = rooms[room_num];
+						if (entity_list[i]->type == ROOM)
+						{
+							if (((Room*)entity_list[i])->index == room_num)
+							{
+								player->room_position = ((Room*)entity_list[i]);
+								found = true;
+								break;
+							}
+						}
+					}
+					if (found == true)
+					{
 						system("cls");
-						players[0]->Look();
+						player->Look();
 						printf("\nYou have been teleported!\n");
 					}
+
 					else printf("The room doesn't exist.\n");
-				
+
 				}
 
 				// PUT SWORD INTO BOX
 
 				else if (Input[0] == "put" && Input[2] == "into"  && Input.size() == 4)
 				{
-					players[0]->Put(Input[1], Input[3]);
+					player->Put(Input[1], Input[3]);
 				}
 				// get SWORD from BOX
 
 				else if (Input[0] == "get" && Input[2] == "from"  && Input.size() == 4)
 				{
-					players[0]->Get(Input[1], Input[3]);
+					player->Get(Input[1], Input[3]);
 				}
 				// COMMAND HELP
 
 				else if (Input[0] == "help" && Input.size() == 1)
 				{
-					players[0]->Help();
+					player->Help();
 				}
 
 				//QUIT GAMME
@@ -657,104 +772,136 @@ bool World::Update(){
 			}
 		}
 
-		if (players[0]->Update(this, currenttime) == false)
+		if (player->Update(this, currenttime) == false)
 		{
 			lose = true;
 		}
-		
-		for (unsigned int i = 0; i < zombie.size() && lose == false; i++)
+
+		for (unsigned int i = 0; i < entity_list.size() && lose == false; i++)
 		{
-
-			//printf("Zombie update numero: %i", i);
-			if (zombie[i]->Update(this, players[0],currenttime) == false)
+			if (entity_list[i]->type == ZOMBIE)
 			{
-				Zombie* tmp = nullptr;
-				zombie.Pick(i);
-				i--;
-				delete tmp;
-				tmp = NULL;
+				Zombie* tmp = ((Zombie*)entity_list[i]);
+				//printf("Zombie update numero: %i", i);
+				if (tmp->type == ZOMBIE && tmp->Update(this, player, currenttime) == false)
+				{
 
+					entity_list.Pick(i);
+					i--;
+					delete tmp;
+					tmp = NULL;
+
+					Creating_zombie();
+				}
 			}
-		/*	if (zombie[i]->room_position == players[0]->room_position)
-			{
+			/*	if (zombie[i]->room_position == player->room_position)
+				{
 				zombie[i]->state = ATTACK;
-			}
-			*/
-		}
-			
-		
-		while (zombie.size() <= 2) //look
-		{
-			int random = rand() % 2;
-			int random_room = rand() % 9;
-
-			while (rooms[random_room] == players[0]->room_position)
-			{
-				random_room = rand() % 9;
-			}
-			switch (random)
-			{
-			case 0:
-			{
-					  zombie.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room], currenttime));
-
-
-			}
-			case 1:
-			{
-					  Item* sword1 = new Item("Sword", "Sharppened",150);
-					  sword1->atackweapon = 4;
-					  zombie.push_back(new Zombie("Ricard", "A beautiful bad man", 10, 2, sword1, 100, rooms[random_room], currenttime));
-			}
-
-			case 2:
-			{
-					  zombie.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, rooms[random_room], currenttime));
-			}
-			default:
-				break;
-			}
+				}
+				*/
 		}
 		if (lose == true)
 		{
 			return false;
 		}
-		
+
 	}
 	return true;
 }
 
+Room* World::Value_to_room(int value)
+{
+	for (unsigned int i = 0; i < entity_list.size(); i++)
+	{
+		if (entity_list[i]->type == ROOM)
+		{
+			if (((Room*)entity_list[i])->index == value)
+			{
+				return ((Room*)entity_list[i]);
+				break;
+			}
+		}		
+	}
+	return NULL;
+}
+
+void World::Creating_zombie()
+{
+	int random = rand() % 2;
+	int random_room = rand() % 9;
+
+	while (random_room == player->room_position->index)
+	{
+		random_room = rand() % 9;
+	}
+	switch (random)
+	{
+	case 0:
+	{
+			  for (unsigned int i = 0; i < entity_list.size(); i++)
+			  {
+				  if (entity_list[i]->type == ROOM)
+				  {
+					  if (((Room*)entity_list[i])->index == random_room)
+					  {
+						  entity_list.push_back(new Zombie("Josep", "A beautiful bad man", 10, 2, NULL, 100, ((Room*)entity_list[i]), currenttime));
+					  }
+				  }
+			  }
 
 
+	}
+	case 1:
+	{
+			  for (unsigned int i = 0; i < entity_list.size(); i++)
+			  {
+				  if (entity_list[i]->type == ROOM)
+				  {
+					  if (((Room*)entity_list[i])->index == random_room)
+					  {
+						  Item* sword1 = new Item("Sword", "Sharppened", 150);
+						  sword1->atackweapon = 4;
+						  entity_list.push_back(new Zombie("Ricard", "A beautiful bad man", 10, 2, sword1, 100, ((Room*)entity_list[i]), currenttime));
+					  }
+				  }
+			  }
+			  /* Item* sword1 = new Item("Sword", "Sharppened", 150);
+			   sword1->atackweapon = 4;
+			   entity_list.push_back(new Zombie("Ricard", "A beautiful bad man", 10, 2, sword1, 100, random_room, currenttime));*/
+	}
 
+	case 2:
+	{
+			  for (unsigned int i = 0; i < entity_list.size(); i++)
+			  {
+				  if (entity_list[i]->type == ROOM)
+				  {
+					  if (((Room*)entity_list[i])->index == random_room)
+					  {
+						  entity_list.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, ((Room*)entity_list[i]), currenttime));
+					  }
+				  }
+			  }
 
+			  // entity_list.push_back(new Zombie("Jordi", "A beautiful bad man", 10, 2, NULL, 100, random_room, currenttime));
+	}
+	default:
+		break;
+	}
+
+}
 World::~World()
 {
-	for (unsigned int i = 0; i < rooms.size(); i++)
+	/*for (unsigned int i = 0; i < entity_list.size(); i++)
 	{
-		delete rooms[i];
-	}
-	rooms.clear();
-	for (unsigned int i = 0; i < players.size(); i++)
-	{
-		delete players[i];
-	}
-	players.clear();
-	for (unsigned int i = 0; i < exits.size(); i++)
-	{
-		delete exits[i];
-	}
-	exits.clear();
-	for (unsigned int i = 0; i < zombie.size(); i++)
-	{
-		delete zombie[i];
-	}
-	zombie.clear();
-	for (unsigned int i = 0; i < npc.size(); i++)
-	{
-		delete npc[i];
-	}
-	npc.clear();
+		if (entity_list[i]!=NULL)
+		delete entity_list[i];
+	}*/
+	
+	
+	delete player;
+	
+	entity_list.clear();
 //	delete[] rooms;
 //	delete  players;
 //	delete[] exits;

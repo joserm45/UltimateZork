@@ -68,7 +68,8 @@ void Zombie::Move(World *world, dir direction, Player* player)
 		{
 			direction = static_cast<dir>(dir_num - 1);
 		}
-		printf("A zombie has entered to room comming from %s!\n", world->exits[0]->Get_adress_char(direction));
+		
+		printf("A zombie has entered to room comming from %s!\n", world->Get_adress_char(direction));
 	}
 }
 void Zombie::Die(World* world, Player* player)

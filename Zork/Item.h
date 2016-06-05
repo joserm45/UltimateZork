@@ -15,7 +15,7 @@ class Item : public Entity{
 public:
 	
 	Vector <Item*> items;
-	int atackweapon = 3;
+	int atackweapon = 4;
 	int price = 0;
 	void Look()const;
 

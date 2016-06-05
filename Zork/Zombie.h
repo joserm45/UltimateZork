@@ -11,7 +11,9 @@ public:
 	zombie_state state;
 	int startTimeZombie=0;
 	int startMoveTime = 0;
+
 	Zombie(char* name, char* description, int health, int attack, Item*, int coins, Room*,int );
+
 	bool your_attack;
 	void Move(World*,dir, Player*);
 	void Die(World* world, Player* player);

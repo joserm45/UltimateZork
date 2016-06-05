@@ -11,10 +11,10 @@ class Room: public Entity{
 public:
 
 	Vector <Item*> items;
-
+	int index;
 	Room();
 	
-	Room(const char* name, const char* desc);
+	Room(const char* name, const char* desc,int index);
 
 	~Room();
 };
